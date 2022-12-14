@@ -3,13 +3,14 @@ package com.example.commerce.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Data
 public class User {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "mail", unique = true)
@@ -37,7 +38,7 @@ public class User {
     private Integer countryId;
 
     @Column(name = "created_time")
-    private LocalDateTime createdTime;
+    private Date createdTime;
 
     @Column(name = "role")
     private String role;
@@ -58,8 +59,34 @@ public class User {
     private String oneTimePassword;
 
     @Column(name = "otp_requested_time")
-    private LocalDateTime otpRequestedTime;
+    private Date otpRequestedTime;
+
+    @Column(name = "verification_code")
+    private String verificationCode;
+
+    @Column(name = "verification_code_expiry")
+    private Date verificationCodeExpiry;
 
     @Column(name = "deleted")
     private Boolean deleted;
+
+    public User create(String password, String role, String verificationCode) {
+        this.password = password;
+        this.role = role;
+        this.verificationCode = verificationCode;
+        this.verificationCodeExpiry = new Date();
+        return this;
+    }
+
+    public User updateVerificationCodeExpiry() {
+        this.verificationCodeExpiry = new Date();
+        return this;
+    }
+
+    public User veryficationCode() {
+        this.enabled = true;
+        this.verificationCode = null;
+        this.verificationCodeExpiry = null;
+        return this;
+    }
 }
