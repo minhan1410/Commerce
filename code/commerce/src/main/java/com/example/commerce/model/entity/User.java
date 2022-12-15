@@ -1,5 +1,8 @@
 package com.example.commerce.model.entity;
 
+import com.example.commerce.constants.Provider;
+import com.example.commerce.constants.Role;
+import com.example.commerce.model.CustomOAuth2User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -40,14 +43,16 @@ public class User {
     @Column(name = "created_time")
     private Date createdTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "role")
-    private String role;
+    private Role role;
 
     @Column(name = "enabled")
     private Boolean enabled;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")
-    private String authProvider;
+    private Provider authProvider;
 
     @Column(name = "postal_code")
     private Integer postalCode;
@@ -70,11 +75,21 @@ public class User {
     @Column(name = "deleted")
     private Boolean deleted;
 
-    public User create(String password, String role, String verificationCode) {
+    public User createUserLocal(String password, String verificationCode) {
         this.password = password;
-        this.role = role;
+        this.role = Role.USER;
+        this.authProvider = Provider.LOCAL;
         this.verificationCode = verificationCode;
         this.verificationCodeExpiry = new Date();
+        return this;
+    }
+
+    public User createUserProvider(CustomOAuth2User oAuth2User, String provider) {
+        this.mail = oAuth2User.getEmail();
+        this.name = oAuth2User.getName();
+        this.role = Role.USER;
+        this.authProvider = Provider.valueOf(provider.toUpperCase());
+        this.enabled = true;
         return this;
     }
 

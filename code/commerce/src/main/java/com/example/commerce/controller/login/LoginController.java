@@ -18,7 +18,7 @@ import javax.validation.Valid;
 public class LoginController {
     private final UserService userService;
 
-    @GetMapping("/login")
+    @GetMapping(value = {"/", "/login"})
     public String login(Model model) {
         model.addAttribute("user", new UserDTO());
         return "login/login";
@@ -32,9 +32,7 @@ public class LoginController {
 
     @GetMapping("/verify")
     public String veryficationCode(@RequestParam(name = "code") String code, Model model, HttpServletRequest request) {
-        if (userService.veryficationCode(code, model, request.getLocale())) {
-            return "redirect:/home";
-        }
+        userService.veryficationCode(code, model, request.getLocale());
         return "redirect:/login";
     }
 }

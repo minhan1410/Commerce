@@ -1,5 +1,6 @@
 package com.example.commerce.service.impl;
 
+import com.example.commerce.model.CustomOAuth2User;
 import com.example.commerce.model.CustomUserDetails;
 import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.model.entity.User;
@@ -17,6 +18,10 @@ import org.springframework.context.MessageSource;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
+import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -29,7 +34,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl extends DefaultOAuth2UserService implements UserService {
     private final UserRepository userRepository;
     private final MessageSource messageSource;
     private final ModelMapper mapper;
@@ -37,10 +42,15 @@ public class UserServiceImpl implements UserService {
     private final MailService mailService;
     private final Scheduler scheduler;
 
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return new CustomUserDetails(userRepository.findByMail(username).orElseThrow(() -> new UsernameNotFoundException(username)));
+    }
+
+    @Override
+    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
+        OAuth2User user = super.loadUser(userRequest);
+        return new CustomOAuth2User(user);
     }
 
     @Override
@@ -52,9 +62,7 @@ public class UserServiceImpl implements UserService {
             return;
         }
         String verificationCode = RandomString.make(20);
-        User user = findMail.isPresent() && findMail.get().getVerificationCodeExpiry() != null
-                ? mapper.map(userDTO, User.class).create(passwordEncoder.encode(userDTO.getPassword()), "ROLE_USER", verificationCode)
-                : findMail.get().updateVerificationCodeExpiry();
+        User user = findMail.isPresent() && findMail.get().getVerificationCodeExpiry() != null ? findMail.get().updateVerificationCodeExpiry() : mapper.map(userDTO, User.class).createUserLocal(passwordEncoder.encode(userDTO.getPassword()), verificationCode);
         userRepository.save(user);
 
 //        send email
@@ -71,19 +79,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Boolean veryficationCode(String code, Model model, Locale locale) {
+    public Boolean createUserProvider(CustomOAuth2User oAuth2User, String provider) {
+        Optional<User> findMail = userRepository.findByMail(oAuth2User.getEmail());
+        if (findMail.isPresent()) {
+            return false;
+        }
+        userRepository.save(new User().createUserProvider(oAuth2User, provider));
+        return true;
+    }
+
+    @Override
+    @Transactional
+    public void veryficationCode(String code, Model model, Locale locale) {
         Optional<User> findCode = userRepository.findByVerificationCode(code);
         if (findCode.isEmpty()) {
             //        model.addAttribute("mess", messageSource.getMessage("signUpSuccess", null, "default message", locale));
-            return false;
+            return;
         }
         User user = findCode.get();
         if (System.currentTimeMillis() > user.getVerificationCodeExpiry().getTime() + 300000L) { // wa 5p k xac thuc
 //        model.addAttribute("mess", messageSource.getMessage("signUpSuccess", null, "default message", locale));
-            return false;
+            return;
         }
         userRepository.save(user.veryficationCode());
         model.addAttribute("mess", messageSource.getMessage("signUpSuccess", null, "default message", locale));
-        return true;
     }
 }
