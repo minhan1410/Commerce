@@ -19,6 +19,6 @@ public class BlogTag {
     @Column(name = "tag_id")
     private Integer tagId;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
 }

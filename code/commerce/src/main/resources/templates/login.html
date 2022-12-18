@@ -61,6 +61,9 @@
                 <button class="g-recaptcha btn btn-primary" data-sitekey="6LfjhogeAAAAAALrESQQ95hwKHI5epNzvQKFCM-v"
                         data-callback="onSubmit" data-action="submit" th:text="#{signIn}">Đăng nhập
                 </button> <!--class="btn solid" -->
+                <div class="">
+                    <input type="checkbox" name="remember-me"/> Remember Me
+                </div>
                 <p class="social-text" th:text="#{signInOauth2}">Or Sign in with social platforms</p>
                 <div class="social-media">
                     <a th:href="@{/oauth2/authorization/google}" class="social-icon"> <i class="fab fa-google"></i></a>
@@ -87,15 +90,6 @@
                                                        th:field="*{password}"/>
                 </div>
                 <input type="submit" class="btn" th:value="#{signUp}"/>
-                <p class="social-text" th:text="#{signUpOauth2}">Or Sign up with social platforms</p>
-                <!--                <div class="social-media">-->
-                <!--                    <a href="#" class="social-icon"> <i class="fab fa-facebook-f"></i>-->
-                <!--                    </a> <a href="#" class="social-icon"> <i class="fab fa-twitter"></i>-->
-                <!--                </a> <a href="#" class="social-icon"> <i class="fab fa-google"></i>-->
-                <!--                </a> <a href="#" class="social-icon"> <i-->
-                <!--                        class="fab fa-linkedin-in"></i>-->
-                <!--                </a>-->
-                <!--                </div>-->
             </form>
         </div>
     </div>

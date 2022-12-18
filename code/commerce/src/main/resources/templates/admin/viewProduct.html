@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Quản lí sản phẩm</title>
+
+<!-- Latest compiled and minified CSS -->
+<link th:rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"></link>
+<!-- jQuery library -->
+<script
+	th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+<!-- Popper JS -->
+<script
+	th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+
+<link rel="stylesheet" th:href="@{/css/viewproduct.css}"></link>
+
+</head>
+<body>
+	<div th:replace="/admin/header :: header"></div>
+	<div class="container">
+		<h2>
+			<b>Danh sách sản phẩm</b>
+		</h2>
+		<form style="margin : 5px" th:action="@{/admin/product}">
+			<a class="btn btn-warning" th:href="@{/admin/product/new}">Thêm
+				sản phẩm</b>
+			</a> <input type="text" id="keyword" placeholder="Tìm kiếm"
+				 name="keyword" th:value="${keyword}">
+			<button type="submit" class="btn btn-primary">Tìm kiếm</button>
+			
+			<label>Category</label>
+			<select name = "category" th:value="${category}">
+				<option value="">Choose an option</option>
+				<th:block th:each="cate: ${listCategories}">
+					<option th:text="${cate.type}" th:value="${cate.type}"></option>
+				</th:block>
+			</select>
+		</form>
+		<table
+			class="table table-bordered table-striped table-responsive-stack"
+			id="tableOne">
+			<thead class="thead-dark">
+				<tr>
+					<th>Id</th>
+					<th>Image</th>
+					<th>Image1</th>
+					<th>Image2</th>
+					<th>Name</th>
+					<th>Price</th>
+					<th>Category</th>
+					<th>Description</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="p : ${products}">
+					<tr><td><span th:text="${p.id}"></span></td>
+						<td><img style="width: 100px; height: 120px;"
+							th:src="@{${p.mainImagePath}}" alt="IMG-LOGO"></td>
+						<td><img style="width: 100px; height: 120px;"
+							th:src="@{${p.hoverImagePath}}" alt="IMG-LOGO"></td>
+						<td><img style="width: 100px; height: 120px;"
+							th:src="@{${p.subImagePath}}" alt="IMG-LOGO"></td>
+						<td><a th:text="${p.name}"></a></td>
+						<td><span th:text="'$'+ ${p.price}"></span></td>
+						<td><span th:text="${p.category.type}"></span></td>
+						<td><span th:text="${p.description}"></span></td>
+						<td><div class="btn-group">
+								<a th:href="@{'/admin/product/edit/' + ${p.id}}" class="btn btn-success">Sửa</a> <a class="btn btn-danger"
+									th:href="@{'/admin/product/delete/' + ${p.id}}">Xóa</a>
+							</div></td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li class="page-item"><a class="page-link" th:href="@{'/admin/product?page=' + ${page - 1} + '&size=5&keyword='+${keyword}}">Previous</a></li>
+				<li class="page-item"><a th:href="@{'/admin/product?page=' + ${page} + '&size=5'}"
+				th:text="${page}" >1</a></li>
+				<li class="page-item"><a class="page-link" th:href="@{'/admin/product?page=' + ${page + 1} + '&size=5&keyword='+${keyword}}+ '&category=' + ${category}">Next</a></li>
+			</ul>
+		</nav>
+	</div>
+	<div th:replace="/admin/footer :: footer"></div>
+	
+	<script th:src="@{/js/person.js}"></script>
+</body>
+</html>

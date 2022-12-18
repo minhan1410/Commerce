@@ -1,0 +1,12 @@
+
+<div th:replace="/admin/header :: header"></div>
+	<H1><b>Thêm mục blog</b></H1>
+	<form class="form-inline" th:action="@{/admin/categoriesforblog/edit}" th:object=${categoriesForBlogDTO} method="post"> 
+		 <input type="hidden" class="form-control mb-2 mr-sm-2" name="id" th:field="*{id}" > 
+		 <label for="pwd" class="mr-sm-2">Type:</label> 
+		 <input type="text" th:field ="*{type}"
+			class="form-control mb-2 mr-sm-2" placeholder="Nhập thể loại"
+			id="pwd" name = "type">
+		<button style="height: 38px;" type="submit" class="btn btn-primary mb-2">Submit</button>
+	</form>
+<div th:replace="/admin/footer :: footer"></div>

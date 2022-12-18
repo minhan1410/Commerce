@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Coupon {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "code")
@@ -18,6 +19,6 @@ public class Coupon {
     @Column(name = "discount")
     private Integer discount;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
 }

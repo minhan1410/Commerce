@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class CategoriesDTO {
-    private Long idCate;
+    private Long id;
     private String type;
     private Boolean deleted;
 }

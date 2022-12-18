@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class CartItems {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "product_id")
@@ -21,6 +22,6 @@ public class CartItems {
     @Column(name = "quantity")
     private Integer quantity;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
 }

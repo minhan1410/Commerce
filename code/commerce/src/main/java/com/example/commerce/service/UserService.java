@@ -1,6 +1,6 @@
 package com.example.commerce.service;
 
-import com.example.commerce.model.CustomOAuth2User;
+import com.example.commerce.model.custom.CustomOAuth2User;
 import com.example.commerce.model.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.ui.Model;

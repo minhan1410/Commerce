@@ -2,7 +2,7 @@ package com.example.commerce.model.entity;
 
 import com.example.commerce.constants.Provider;
 import com.example.commerce.constants.Role;
-import com.example.commerce.model.CustomOAuth2User;
+import com.example.commerce.model.custom.CustomOAuth2User;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -72,7 +72,7 @@ public class User {
     @Column(name = "verification_code_expiry")
     private Date verificationCodeExpiry;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
 
     public User createUserLocal(String password, String verificationCode) {
@@ -81,6 +81,7 @@ public class User {
         this.authProvider = Provider.LOCAL;
         this.verificationCode = verificationCode;
         this.verificationCodeExpiry = new Date();
+        this.avatar = "https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png";
         return this;
     }
 
@@ -90,6 +91,7 @@ public class User {
         this.role = Role.USER;
         this.authProvider = Provider.valueOf(provider.toUpperCase());
         this.enabled = true;
+        this.avatar = provider.equals("facebook") ? oAuth2User.getAvatarFb() : oAuth2User.getAvatarGoogle();
         return this;
     }
 

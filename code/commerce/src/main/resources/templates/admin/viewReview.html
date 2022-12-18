@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Quản lí Blog</title>
+
+<!-- Latest compiled and minified CSS -->
+<link th:rel="stylesheet"
+	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"></link>
+<!-- jQuery library -->
+<script
+	th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+<!-- Popper JS -->
+<script
+	th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
+
+<!-- Latest compiled JavaScript -->
+<script
+	th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+
+<link rel="stylesheet" th:href="@{/css/viewperson.css}"></link>
+
+<script th:src="@{/js/person.js}"></script>
+
+</head>
+<body>
+	<div th:replace="/admin/header :: header"></div>
+	<div class="container">
+		<h2>
+			<b>Danh sách Comment</b>
+		</h2>
+		<form style="margin : 5px" th:action="@{/admin/review}">
+			</a> <input type="text" id="keyword" placeholder="Tìm kiếm"
+				 name="keyword" th:value="${keyword}">
+			<button type="submit" class="btn btn-primary">Tìm kiếm</button>
+			
+			<!-- <label>Category</label>
+			<select name = "category" th:value="${categoriesForBlogDTO}">
+				<option value="">Choose an option</option>
+				<th:block th:each="cate: ${categoryForBlog}">
+					<option th:text="${cate.type}" th:value="${cate.id}"></option>
+				</th:block>
+			</select> -->
+		</form>
+		<table
+			class="table table-bordered table-striped table-responsive-stack"
+			id="tableOne">
+			<thead class="thead-dark">
+				<tr>
+					<th>Id</th>
+					<th>Review</th>
+					<th>Star Number</th>
+					<th>Time</th>
+					<th>User</th>
+					<th>Product</th>
+					<th>Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				<th:block th:each="r : ${reviews}">
+					<tr>
+						<td><a th:text="${r.id}"></a></td>
+						<td><span th:text="${r.review}"></span></td>
+						<td><span th:text="${r.starNumber}"></span></td>
+						<td><span th:text="${r.reviewDate}"></span></td>
+						<td><span th:text="${r.userDTO.name}"></span></td>
+						<td><span th:text="${r.productDTO.name}"></span></td>
+						<td><div class="btn-group">
+								<a class="btn btn-danger" th:href="@{'/admin/review/delete/' + ${r.id}}">Xóa</a>
+							</div>
+						</td>
+					</tr>
+				</th:block>
+			</tbody>
+		</table>
+		<!-- <nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<li class="page-item"><a class="page-link" >Previous</a></li>
+				<li class="page-item"><a th:href="@{'/admin/product?page=' + ${page} + '&size=5'}"
+				th:text="${page}" >1</a></li>
+				<li class="page-item"><a class="page-link" >Next</a></li>
+			</ul>
+		</nav> -->
+	</div>
+	<div th:replace="/admin/footer :: footer"></div>
+	<!-- /.container -->
+</body>
+</html>
