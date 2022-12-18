@@ -1,6 +1,6 @@
 package com.example.commerce.service;
 
-import com.example.commerce.model.CustomOAuth2User;
+import com.example.commerce.model.custom.CustomOAuth2User;
 import com.example.commerce.model.dto.UserDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.ui.Model;
@@ -13,4 +13,6 @@ public interface UserService extends UserDetailsService {
     Boolean createUserProvider(CustomOAuth2User oAuth2User, String provider);
 
     void veryficationCode(String code, Model model, Locale locale);
+
+    void getCurrentUser(Model model);
 }

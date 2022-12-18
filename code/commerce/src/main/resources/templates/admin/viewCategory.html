@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Categories</title>
+
+    <!-- Latest compiled and minified CSS -->
+    <link th:rel="stylesheet"
+          th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"></link>
+
+    <!-- jQuery library -->
+    <script
+            th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+
+    <!-- Popper JS -->
+    <script
+            th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script
+            th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+
+    <link rel="stylesheet" th:href="@{/css/viewperson.css}"></link>
+
+    <script th:src="@{/js/person.js}"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+
+    <style>
+
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+            text-align: center;
+            font-size: 18px;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        th, td {
+            padding: 10px;
+        }
+
+        table#alter tr:nth-child(even) {
+            background-color: #eee;
+        }
+
+        table#alter tr:nth-child(odd) {
+            background-color: #fff;
+        }
+
+        table#alter th {
+            color: white;
+            background-color: gray;
+        }
+    </style>
+
+</head>
+<body>
+<div th:replace="/admin/header :: header"></div>
+
+<div class="container">
+    <h2><b>Danh mục sản phẩm</b></h2>
+    <form th:action="@{/search-categories}">
+        <input type="text" id="keyword" placeholder="Danh mục"
+               required="required" name="keyword">
+        <button style="margin : 5px" type="submit" class="btn btn-primary">Tìm kiếm</button>
+        <a class="btn btn-warning" th:href="@{/admin/categories/add}">Thêm danh mục</a>
+    </form>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Type</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="cate : ${categories}">
+            <tr>
+                <td th:text="${cate.id}"></td>
+                <td th:text="${cate.type}"></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-success"
+                           th:href="@{'/admin/categories/update/' + ${cate.id}}">Edit</a>
+                        <a class="btn btn-danger" th:href="@{'/admin/categories/delete/' + ${cate.id}}">Dele</a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+
+<div class="container">
+    <h2><b>Danh mục bài viết</b></h2>
+    <form th:action="@{/search-categories}">
+        <input type="text" id="keyword" placeholder="Danh mục"
+               required="required" name="keyword">
+        <button style="margin : 5px" type="submit" class="btn btn-primary">Tìm kiếm</button>
+        <a class="btn btn-warning" th:href="@{/admin/categoriesforblog/new}">Thêm danh mục</a>
+    </form>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Type</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="c : ${categoriesForBlog}">
+            <tr>
+                <td th:text="${c.id}"></td>
+                <td th:text="${c.type}"></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-success"
+                           th:href="@{'/admin/categories/update?id=' + ${c.id}}">Edit</a> <a
+                            class="btn btn-danger"
+                            th:href="@{'/admin/categoriesforblog/delete/' + ${c.id}}">Dele</a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+
+<div th:replace="/admin/footer :: footer"></div>
+</body>
+</html>

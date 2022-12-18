@@ -6,6 +6,7 @@ import lombok.Data;
 public class CouponDTO {
     private Long id;
     private String code;
-    private Boolean deleted;
+    private Boolean deleted = false;
+
     private Integer discount;
 }

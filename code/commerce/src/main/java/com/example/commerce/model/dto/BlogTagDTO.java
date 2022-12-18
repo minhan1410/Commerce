@@ -7,6 +7,7 @@ import lombok.Data;
 public class BlogTagDTO {
     private Long id;
     private Long blogId;
-    private Boolean deleted;
+    private Boolean deleted = false;
+
     private Integer tagId;
 }

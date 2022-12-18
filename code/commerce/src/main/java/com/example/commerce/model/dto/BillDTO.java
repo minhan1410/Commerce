@@ -3,6 +3,7 @@ package com.example.commerce.model.dto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+
 @Data
 public class BillDTO {
     private Long id;
@@ -12,5 +13,6 @@ public class BillDTO {
     private Long buyerId;
     private String status;
     private String pay;
-    private Boolean deleted;
+    private Boolean deleted = false;
+
 }

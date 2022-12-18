@@ -1,4 +1,4 @@
-package com.example.commerce.model;
+package com.example.commerce.model.custom;
 
 import com.example.commerce.model.entity.User;
 import lombok.AllArgsConstructor;

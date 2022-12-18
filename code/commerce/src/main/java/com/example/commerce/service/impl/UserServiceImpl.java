@@ -1,7 +1,8 @@
 package com.example.commerce.service.impl;
 
-import com.example.commerce.model.CustomOAuth2User;
-import com.example.commerce.model.CustomUserDetails;
+import com.example.commerce.constants.Provider;
+import com.example.commerce.model.custom.CustomOAuth2User;
+import com.example.commerce.model.custom.CustomUserDetails;
 import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.model.entity.User;
 import com.example.commerce.repository.UserRepository;
@@ -15,6 +16,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,9 +28,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -50,7 +49,8 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User user = super.loadUser(userRequest);
-        return new CustomOAuth2User(user);
+        String username = user.getAttribute("email");
+        return new CustomOAuth2User(user, userRepository.findByMail(username).orElseThrow(() -> new UsernameNotFoundException(username)));
     }
 
     @Override
@@ -66,9 +66,8 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         userRepository.save(user);
 
 //        send email
-        ZonedDateTime dateTime = ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Asia/Saigon"));
         JobDetail jobDetail = mailService.buildJobDetailRegister(userDTO.getName(), userDTO.getMail(), url + "/verify?code=" + verificationCode);
-        Trigger trigger = mailService.buildJobTriggerRegister(jobDetail, dateTime);
+        Trigger trigger = mailService.buildJobTriggerRegister(jobDetail);
         try {
             scheduler.scheduleJob(jobDetail, trigger);
             model.addAttribute("mess", messageSource.getMessage("verificationCode", null, "default message", locale));
@@ -81,10 +80,12 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     @Transactional
     public Boolean createUserProvider(CustomOAuth2User oAuth2User, String provider) {
         Optional<User> findMail = userRepository.findByMail(oAuth2User.getEmail());
-        if (findMail.isPresent()) {
+        if (Boolean.TRUE.equals(findMail.isPresent() && findMail.get().getEnabled()) && !findMail.get().getAuthProvider().equals(Provider.valueOf(provider.toUpperCase()))) {
             return false;
         }
-        userRepository.save(new User().createUserProvider(oAuth2User, provider));
+        if (findMail.isEmpty()) {
+            userRepository.save(new User().createUserProvider(oAuth2User, provider));
+        }
         return true;
     }
 
@@ -93,15 +94,25 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     public void veryficationCode(String code, Model model, Locale locale) {
         Optional<User> findCode = userRepository.findByVerificationCode(code);
         if (findCode.isEmpty()) {
-            //        model.addAttribute("mess", messageSource.getMessage("signUpSuccess", null, "default message", locale));
+            model.addAttribute("mess", messageSource.getMessage("Code k ton tai", null, "default message", locale));
             return;
         }
         User user = findCode.get();
         if (System.currentTimeMillis() > user.getVerificationCodeExpiry().getTime() + 300000L) { // wa 5p k xac thuc
-//        model.addAttribute("mess", messageSource.getMessage("signUpSuccess", null, "default message", locale));
+            model.addAttribute("Qua thoi gin xac thuc", messageSource.getMessage("signUpSuccess", null, "default message", locale));
             return;
         }
         userRepository.save(user.veryficationCode());
         model.addAttribute("mess", messageSource.getMessage("signUpSuccess", null, "default message", locale));
+    }
+
+    @Override
+    public void getCurrentUser(Model model) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = principal instanceof String ? new User()
+                : principal instanceof CustomUserDetails ? ((CustomUserDetails) principal).getUser()
+                : ((CustomOAuth2User) principal).getUser();
+        model.addAttribute("id", user.getId());
+        model.addAttribute("user", user);
     }
 }

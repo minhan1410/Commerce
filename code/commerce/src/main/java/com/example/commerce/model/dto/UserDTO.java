@@ -23,5 +23,6 @@ public class UserDTO {
     private String avatar;
     private String oneTimePassword;
     private LocalDateTime otpRequestedTime;
-    private Boolean deleted;
+    private Boolean deleted = false;
+
 }

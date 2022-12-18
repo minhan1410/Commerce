@@ -12,6 +12,8 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.HashMap;
@@ -56,12 +58,12 @@ public class MailServiceImpl extends QuartzJobBean implements MailService {
     }
 
     @Override
-    public Trigger buildJobTriggerRegister(JobDetail jobDetail, ZonedDateTime startAt) {
+    public Trigger buildJobTriggerRegister(JobDetail jobDetail) {
         return TriggerBuilder.newTrigger()
                 .forJob(jobDetail)
                 .withIdentity(jobDetail.getKey().getName(), "email-triggers")
                 .withDescription("Send Email Trigger")
-                .startAt(Date.from(startAt.toInstant()))
+                .startAt(Date.from(ZonedDateTime.of(LocalDateTime.now(), ZoneId.of("Asia/Saigon")).toInstant()))
                 .withSchedule(SimpleScheduleBuilder.simpleSchedule().withMisfireHandlingInstructionFireNow())
                 .build();
     }

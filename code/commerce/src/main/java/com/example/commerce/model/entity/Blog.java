@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class Blog {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "title")
@@ -33,6 +34,6 @@ public class Blog {
     @Column(name = "image")
     private String image;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
 }

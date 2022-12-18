@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 public class Review {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "review")
@@ -28,6 +29,6 @@ public class Review {
     @Column(name = "product_id")
     private Long productId;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
 }

@@ -12,5 +12,6 @@ public class BlogDTO {
     private Integer createdDay;
     private String createdMonth;
     private String image;
-    private Boolean deleted;
+    private Boolean deleted = false;
+
 }

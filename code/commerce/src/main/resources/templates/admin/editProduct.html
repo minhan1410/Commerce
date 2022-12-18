@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>ADD Product</title>
+</head>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet"
+      th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}">
+<body>
+<div th:replace="/admin/header :: header"></div>
+<div class="container text-center">
+    <div>
+        <H1>
+            <b>Sửa sản phẩm</b>
+        </H1>
+    </div>
+    <form style="max-width: 600px; margin: 0 auto;"
+          th:action="@{/admin/product/update}" th:object="${product}"
+          method="post" enctype="multipart/form-data">
+        <div class="m-3">
+            <!------ Image 1 --------->
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Ảnh 1:</label>
+                <div class="col-sm-8">
+                    <input th:field="*{imageMain}" type="file" id="fileImage1" name="primaryImage"
+                           accept="image/png,image/jpeg"/>
+                    <p><img style="height:200px; width:200px;" id="thumbnail1" alt="Image Preview"
+                            th:src="@{${product.imgMain}}"></p>
+                </div>
+            </div>
+
+            <!------- Image 2 --------->
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Ảnh 2:</label>
+                <div class="col-sm-8">
+                    <input th:field="*{imageHover}" type="file" id="fileImage2" name="img_sub1" class="fileImage"
+                           accept="image/png,image/jpeg"/>
+                    <p><img style="height:200px; width:200px;" id="thumbnail2" alt="Image Preview"
+                            th:src="@{${product.imgHover}}"></p>
+                </div>
+            </div>
+
+            <!------- Image 3 --------->
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Ảnh 3:</label>
+                <div class="col-sm-8">
+                    <input th:field="*{imageSub}" type="file" id="fileImage3" name="img_sub1" class="fileImage"
+                           accept="image/png,image/jpeg"/>
+                    <p><img style="height:200px; width:200px;" id="thumbnail3" alt="Image Preview"
+                            th:src="@{${product.imgSub}}"></p>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <div class="col-sm-8">
+                    <input type="hidden" class="form-control mb-2 mr-sm-2"
+                           placeholder="Id" id="1" th:field="*{id}" name="id">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Name:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control mb-2 mr-sm-2"
+                           placeholder="Nhập tên sản phẩm" id="1" th:field="*{name}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="4" class="col-form-label col-sm-4">Danh mục:</label>
+                <div class="col-sm-8">
+                    <select th:field="*{categoriesId}" class="form-control" required>
+                        <th:block th:each="cate: ${listCategories}">
+                            <option th:text="${cate.type}" th:value="${cate.id}"></option>
+                        </th:block>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Weight:</label>
+                <div class="col-sm-8">
+                    <input type="number" step="any" class="form-control mb-2 mr-sm-2"
+                           placeholder="Nhập cân nặng sản phẩm" id="2" th:field="*{weight}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Length:</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control mb-2 mr-sm-2"
+                           placeholder="Nhập chiều dài phẩm" id="3" th:field="*{length}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">width:</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control mb-2 mr-sm-2"
+                           placeholder="Nhập chiều rộng sản phẩm" id="4" th:field="*{width}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Height:</label>
+                <div class="col-sm-8">
+                    <input type="number" class="form-control mb-2 mr-sm-2"
+                           placeholder="Nhập chiều cao sản phẩm" id="5" th:field="*{height}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Material:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control mb-2 mr-sm-2"
+                           placeholder="Nhập chất liệu sản phẩm" id="6" th:field="*{material}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Colors:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control mb-2 mr-sm-2"
+                           placeholder="Nhập danh sách màu sản phẩm" id="6" th:field="*{colors}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="1" class="col-form-label col-sm-4">Sizes:</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control mb-2 mr-sm-2"
+                           placeholder="Nhập danh sách size sản phẩm" id="7" th:field="*{sizes}">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="3" class="col-form-label col-sm-4">Mô tả:</label>
+                <div class="col-sm-8">
+						<textarea type="text" class="form-control mb-2 mr-sm-2"
+                                  placeholder="Nhập mô tả" id="8" th:field="*{description}"></textarea>
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="2" class="col-form-label col-sm-4">Giá:</label>
+                <div class="col-sm-8">
+                    <input type="number" step="any" class="form-control mb-2 mr-sm-2"
+                           placeholder="Nhập giá phẩm" id="9" th:field="*{price}">
+                </div>
+            </div>
+
+            <div class="text-center p-3">
+                <button style="height: 38px;" type="submit"
+                        class="btn btn-primary mb-2">Save
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="/admin/footer :: footer"></div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#fileImage1').change(function () {
+            showImageThumbnail1(this);
+        });
+
+        $('#fileImage2').change(function () {
+            showImageThumbnail2(this);
+        });
+
+        $('#fileImage3').change(function () {
+            showImageThumbnail3(this);
+        });
+
+    });
+
+    function showImageThumbnail1(fileInput) {
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#thumbnail1').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    $(document).ready(function () {
+        $('#fileImage2').change(function () {
+            showImageThumbnail(this);
+        });
+    });
+
+    function showImageThumbnail2(fileInput) {
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#thumbnail2').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    $(document).ready(function () {
+        $('#fileImage3').change(function () {
+            showImageThumbnail(this);
+        });
+    });
+
+    function showImageThumbnail3(fileInput) {
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#thumbnail3').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+</script>
+</body>
+</html>

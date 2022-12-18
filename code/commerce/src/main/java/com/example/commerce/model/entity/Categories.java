@@ -1,5 +1,6 @@
 package com.example.commerce.model.entity;
 
+import com.example.commerce.model.dto.CategoriesDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -9,12 +10,18 @@ import javax.persistence.*;
 @Data
 public class Categories {
     @Id
-    @Column(name = "id_cate")
-    private Long idCate;
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
     @Column(name = "type")
     private String type;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
+
+    public Categories update(CategoriesDTO dto) {
+        this.type = dto.getType();
+        return this;
+    }
 }

@@ -10,6 +10,7 @@ import javax.persistence.*;
 public class CommentBlog {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "comment")
@@ -24,6 +25,6 @@ public class CommentBlog {
     @Column(name = "blog_id")
     private Long blogId;
 
-    @Column(name = "deleted")
+    @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class TagDTO {
     private Long id;
-    private Boolean deleted;
+    private Boolean deleted = false;
+
     private String type;
 }

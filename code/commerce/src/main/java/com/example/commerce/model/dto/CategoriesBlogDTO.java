@@ -7,5 +7,6 @@ import lombok.Data;
 public class CategoriesBlogDTO {
     private Long id;
     private String type;
-    private Boolean deleted;
+    private Boolean deleted = false;
+
 }
