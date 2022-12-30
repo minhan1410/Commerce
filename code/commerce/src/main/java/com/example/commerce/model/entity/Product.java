@@ -37,7 +37,6 @@ public class Product {
 
     @Column(name = "img_sub")
     private String imgSub;
-
     @Column(name = "weight")
     private Double weight;
 

@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import java.util.List;
 
 public interface CategoriesService {
+
     List<CategoriesDTO> getAll();
 
     CategoriesDTO getById(Long id, Model model);
