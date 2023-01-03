@@ -14,7 +14,7 @@ public class Categories {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "type")
+    @Column(name = "type", unique = true)
     private String type;
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
@@ -22,6 +22,11 @@ public class Categories {
 
     public Categories update(CategoriesDTO dto) {
         this.type = dto.getType();
+        return this;
+    }
+
+    public Categories delete() {
+        this.deleted = true;
         return this;
     }
 }

@@ -19,6 +19,9 @@
           th:action="@{/admin/product/update}" th:object="${product}"
           method="post" enctype="multipart/form-data">
         <div class="m-3">
+            <div th:if="${err}">
+                <p style="color : red; text-align: center" th:text="${err}"></p><br>
+            </div>
             <!------ Image 1 --------->
             <div class="form-group row">
                 <label for="1" class="col-form-label col-sm-4">Ảnh 1:</label>

@@ -28,13 +28,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<ProductDTO> getByCategory(Long categoryID) {
+        return productRepository.getByCategoriesIdAndDeleted(categoryID, false).stream()
+                .map(product -> mapper.map(product, ProductDTO.class)).toList();
+    }
+
+    @Override
     public ProductDTO getById(Long id, Model model) {
-        Optional<Product> findById = productRepository.findByIdAndDeleted(id, false);
-        if (findById.isEmpty()) {
-            model.addAttribute("err", "k ton tai");
-            return null;
-        }
-        return mapper.map(findById.get(), ProductDTO.class);
+        return mapper.map(getId(id, model), ProductDTO.class);
     }
 
     public Product getId(Long id, Model model) {
@@ -49,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO getByName(String name, Model model) {
         Optional<Product> findByName = productRepository.findByNameAndDeleted(name, false);
         if (findByName.isPresent()) {
-            model.addAttribute("err", "da ton tai");
+            model.addAttribute("err", "ten da ton tai");
             return mapper.map(findByName.get(), ProductDTO.class);
         }
         return null;
@@ -60,9 +61,7 @@ public class ProductServiceImpl implements ProductService {
     public String add(ProductDTO productDTO, Model model) {
         ProductDTO getByName = getByName(productDTO.getName(), model);
         if (getByName != null) return "/admin/addProduct";
-        productDTO.setImgMain(cloudinaryService.uploadImage(productDTO.getImageMain()));
-        productDTO.setImgHover(cloudinaryService.uploadImage(productDTO.getImageHover()));
-        productDTO.setImgSub(cloudinaryService.uploadImage(productDTO.getImageSub()));
+        cloudinaryService.uploadImageProduct(productDTO);
         productRepository.save(mapper.map(productDTO, Product.class));
         return "redirect:/admin/product";
     }
@@ -73,8 +72,8 @@ public class ProductServiceImpl implements ProductService {
         ProductDTO getById = getById(productDTO.getId(), model);
         if (getById == null || !Objects.equals(getByName(productDTO.getName(), model).getId(), productDTO.getId()))
             return "/admin/editProduct";
-        cloudinaryService.deleteImage(productDTO, getById);
-        cloudinaryService.uploadImage(productDTO);
+        cloudinaryService.deleteImageProduct(productDTO, getById);
+        cloudinaryService.uploadImageProduct(productDTO);
         productRepository.save(mapper.map(getById, Product.class).update(productDTO));
         return "redirect:/admin/product";
     }
@@ -82,11 +81,16 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public String delete(Long id, Model model) {
-        ProductDTO getId = getById(id, model);
+        Product getId = getId(id, model).delete();
         if (getId != null) {
-            getId.setDeleted(true);
             productRepository.save(mapper.map(getId, Product.class));
         }
         return "redirect:/admin/product";
+    }
+
+    @Override
+    @Transactional
+    public void deletes(List<ProductDTO> productDTOS, Model model) {
+        productDTOS.forEach(productDTO -> delete(productDTO.getId(), model));
     }
 }

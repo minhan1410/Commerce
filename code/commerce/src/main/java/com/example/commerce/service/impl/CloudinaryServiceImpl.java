@@ -55,7 +55,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     }
 
     @Override
-    public void uploadImage(ProductDTO dto) {
+    public void uploadImageProduct(ProductDTO dto) {
         String main = uploadImage(dto.getImageMain());
         String hover = uploadImage(dto.getImageHover());
         String sub = uploadImage(dto.getImageSub());
@@ -71,7 +71,7 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     }
 
     @Override
-    public void deleteImage(ProductDTO dto, ProductDTO getById) {
+    public void deleteImageProduct(ProductDTO dto, ProductDTO getById) {
         if (!dto.getImageMain().isEmpty()) {
             deleteImage(getById.getImgMain());
         }

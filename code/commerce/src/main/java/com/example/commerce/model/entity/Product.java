@@ -17,7 +17,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true)
     private String name;
 
     @Column(name = "price")
@@ -82,6 +82,11 @@ public class Product {
         this.sizes = dto.getSizes();
         this.description = dto.getDescription();
         this.price = dto.getPrice();
+        return this;
+    }
+
+    public Product delete() {
+        this.deleted = true;
         return this;
     }
 }

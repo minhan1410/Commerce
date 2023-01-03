@@ -62,14 +62,16 @@
 
 <div class="container">
     <h2><b>Danh mục sản phẩm</b></h2>
-    <form th:action="@{/search-categories}">
-        <input type="text" id="keyword" placeholder="Danh mục"
-               required="required" name="keyword">
-        <button style="margin : 5px" type="submit" class="btn btn-primary">Tìm kiếm</button>
-        <a class="btn btn-warning" th:href="@{/admin/categories/add}">Thêm danh mục</a>
-    </form>
+    <a class="btn btn-warning mb-2" th:href="@{/admin/categories/add}">Thêm danh mục</a>
 
-    <table class="table table-striped">
+    <!--    <form th:action="@{/search-categories}">-->
+    <!--        <input type="text" id="keyword" placeholder="Danh mục"-->
+    <!--               required="required" name="keyword">-->
+    <!--        <button style="margin : 5px" type="submit" class="btn btn-primary">Tìm kiếm</button>-->
+    <!--        <a class="btn btn-warning" th:href="@{/admin/categories/add}">Thêm danh mục</a>-->
+    <!--    </form>-->
+
+    <table class="table table-striped" id="tableOne">
         <thead>
         <tr>
             <th>Id</th>
@@ -78,9 +80,9 @@
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="cate : ${categories}">
+        <th:block th:each="cate, iState : ${categories}">
             <tr>
-                <td th:text="${cate.id}"></td>
+                <td th:text="${iState.index + 1}"></td>
                 <td th:text="${cate.type}"></td>
                 <td>
                     <div class="btn-group">
@@ -131,5 +133,26 @@
 </div>
 
 <div th:replace="/admin/footer :: footer"></div>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#tableOne").DataTable({
+            'columnDefs': [
+                {
+                    'searchable': false,
+                    'targets': [2] // cac truong k cho search
+                    // see https://datatables.net/reference/option/columns.searchable
+                },
+                {
+                    'orderable': false,
+                    'targets': [2] // cac truong k cho filter
+                },
+            ]
+        });
+    });
+</script>
 </body>
 </html>

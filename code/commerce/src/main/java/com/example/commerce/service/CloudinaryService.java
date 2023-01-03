@@ -8,7 +8,7 @@ public interface CloudinaryService {
 
     void deleteImage(String url);
 
-    void uploadImage(ProductDTO dto);
+    void uploadImageProduct(ProductDTO dto);
 
-    void deleteImage(ProductDTO dto, ProductDTO getById);
+    void deleteImageProduct(ProductDTO dto, ProductDTO getById);
 }

@@ -4,6 +4,7 @@ import com.example.commerce.model.dto.CategoriesDTO;
 import com.example.commerce.model.entity.Categories;
 import com.example.commerce.repository.CategoriesRepository;
 import com.example.commerce.service.CategoriesService;
+import com.example.commerce.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class CategoriesServiceImpl implements CategoriesService {
     private final CategoriesRepository categoriesRepository;
     private final ModelMapper mapper;
+    private final ProductService productService;
 
     @Override
     public List<CategoriesDTO> getAll() {
@@ -76,9 +78,10 @@ public class CategoriesServiceImpl implements CategoriesService {
         CategoriesDTO getId = getById(id, model);
         if (getId != null) {
             getId.setDeleted(true);
-            categoriesRepository.save(mapper.map(getId, Categories.class));
+            categoriesRepository.save(mapper.map(getId, Categories.class).delete());
+//            delete product
+            productService.deletes(productService.getByCategory(id), model);
         }
-//        delete product
         return "redirect:/admin/categories";
     }
 
