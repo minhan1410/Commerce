@@ -17,4 +17,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> getByCategoriesIdAndDeleted(Long categoriesId, Boolean deleted);
 
+    List<Product> findByNameContainingIgnoreCaseAndDeleted(String name, Boolean deleted);
+
 }

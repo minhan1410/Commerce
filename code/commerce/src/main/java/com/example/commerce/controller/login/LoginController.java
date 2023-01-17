@@ -17,7 +17,7 @@ public class LoginController {
     private final UserService userService;
     private final MessageSource messageSource;
 
-    @GetMapping(value = {"/", "/login"})
+    @GetMapping("/login")
     public String login(@RequestParam(name = "err", required = false) String err, Model model, HttpServletRequest request) {
         model.addAttribute("user", new UserDTO());
         if (!ValueConstants.DEFAULT_NONE.equals(err)) {

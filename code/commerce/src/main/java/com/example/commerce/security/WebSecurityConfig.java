@@ -35,7 +35,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/login/**", "/sign-up/**", "/oauth/**", "/verify", "/home").permitAll()
+                .antMatchers("/", "/home", "/search", "/login/**", "/sign-up/**", "/oauth/**", "/verify", "/product-detail").permitAll()
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").usernameParameter("mail").defaultSuccessUrl("/home").permitAll()
@@ -55,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) {
-        web.ignoring().antMatchers("/css/**", "/js/**", "/images/**", "/fonts/**" /*"/resources/**"*/);
+        web.ignoring().antMatchers("/css/**", "/fonts/**", "/images/**", "/js/**", "/vendor/**");
     }
 
     @Bean

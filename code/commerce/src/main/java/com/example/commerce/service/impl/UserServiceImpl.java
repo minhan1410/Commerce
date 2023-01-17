@@ -16,6 +16,7 @@ import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.Trigger;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -108,11 +109,24 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     @Override
     public void getCurrentUser(Model model) {
-        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = principal instanceof String ? new User()
+        User user = getCurrentUser();
+        boolean isPresent = user != null;
+        model.addAttribute("id", isPresent ? user.getId() : null);
+        model.addAttribute("user", isPresent ? user : null);
+    }
+
+    @Override
+    public User getCurrentUser() {
+        Optional<Authentication> authentication = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
+        if (authentication.isEmpty()) return null;
+        Object principal = authentication.get().getPrincipal();
+        return principal instanceof String ? new User()
                 : principal instanceof CustomUserDetails ? ((CustomUserDetails) principal).getUser()
                 : ((CustomOAuth2User) principal).getUser();
-        model.addAttribute("id", user.getId());
-        model.addAttribute("user", user);
+    }
+
+    @Override
+    public UserDTO getById(Long id) {
+        return mapper.map(userRepository.getById(id), UserDTO.class);
     }
 }

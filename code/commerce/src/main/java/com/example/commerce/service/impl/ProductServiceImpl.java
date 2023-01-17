@@ -81,9 +81,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public String delete(Long id, Model model) {
-        Product getId = getId(id, model).delete();
+        Product getId = getId(id, model);
         if (getId != null) {
-            productRepository.save(mapper.map(getId, Product.class));
+            productRepository.save(mapper.map(getId, Product.class).delete());
         }
         return "redirect:/admin/product";
     }
@@ -92,5 +92,11 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public void deletes(List<ProductDTO> productDTOS, Model model) {
         productDTOS.forEach(productDTO -> delete(productDTO.getId(), model));
+    }
+
+    @Override
+    public List<ProductDTO> searchProduct(String name) {
+        return productRepository.findByNameContainingIgnoreCaseAndDeleted(name, false).stream()
+                .map(product -> mapper.map(product, ProductDTO.class)).toList();
     }
 }

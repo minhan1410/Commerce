@@ -188,6 +188,23 @@
         }
     });
 
+    // $('#search-product').on("keyup", function () {
+    //     const value = $(this).val().toLowerCase();
+    //     let products = $("#products");
+    //     let product = $(".product");
+    //     const clone = products.clone();
+    //     let block2 = $(".block2");
+    //     if (value) {
+    //         const names = $(".block2-txt-child1 a");
+    //         for (let i = 0; i < names.length; i++) {
+    //             if (!names[i].innerText.toLowerCase().includes(value)) {
+    //                 product[i].remove()
+    //             }
+    //         }
+    //     } else {
+    //         products = clone;
+    //     }
+    // });
 
     /*==================================================================
     [ Cart ]*/

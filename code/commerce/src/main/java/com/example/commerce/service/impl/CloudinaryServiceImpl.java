@@ -2,6 +2,7 @@ package com.example.commerce.service.impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.example.commerce.model.dto.BlogDTO;
 import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.service.CloudinaryService;
 import lombok.RequiredArgsConstructor;
@@ -80,6 +81,21 @@ public class CloudinaryServiceImpl implements CloudinaryService {
         }
         if (!dto.getImageSub().isEmpty()) {
             deleteImage(getById.getImgSub());
+        }
+    }
+
+    @Override
+    public void uploadImageBlog(BlogDTO dto) {
+        String img = uploadImage(dto.getImg());
+        if (Objects.nonNull(img)) {
+            dto.setImage(img);
+        }
+    }
+
+    @Override
+    public void deleteImageBlog(BlogDTO dto, BlogDTO getById) {
+        if (!dto.getImg().isEmpty()) {
+            deleteImage(getById.getImage());
         }
     }
 }

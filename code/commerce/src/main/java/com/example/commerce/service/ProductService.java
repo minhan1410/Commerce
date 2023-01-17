@@ -19,4 +19,6 @@ public interface ProductService {
     String delete(Long id, Model model);
 
     void deletes(List<ProductDTO> productDTOS, Model model);
+
+    List<ProductDTO> searchProduct(String name);
 }
