@@ -18,13 +18,10 @@ public class ProductDTO {
     private String imgMain;
     private String imgHover;
     private String imgSub;
-    private Double weight;
-    private Long length;
-    private Long width;
-    private Long height;
     private String material;
-    private String colors;
-    private String sizes;
+    private String color;
+    private String size;
+    private Integer quantity;
     private Boolean deleted = false;
     @NotNull(message = "imageMain not null")
     private MultipartFile imageMain;

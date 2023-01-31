@@ -20,7 +20,7 @@ public class HomeController {
     @GetMapping(value = {"/", "/home"})
     public String home(Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("products", productService.getAll());
+        model.addAttribute("products", productService.getAllDistinctName());
         model.addAttribute("categoriesService", categoriesService);
         return "index";
     }

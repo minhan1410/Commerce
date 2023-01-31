@@ -55,7 +55,9 @@
             <th>Name</th>
             <th>Price</th>
             <th>Category</th>
-            <th>Description</th>
+            <th>Size</th>
+            <th>Color</th>
+            <th>Quantity</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -72,12 +74,14 @@
                 <td><a th:text="${p.name}"></a></td>
                 <td><span th:text="'$'+ ${p.price}"></span></td>
                 <td><span th:text="${categoriesService.getById(p.categoriesId).type}"></span></td>
-                <td><span th:text="${p.description}"></span></td>
+                <td><span th:text="${p.size}"></span></td>
+                <td><span th:text="${p.color}"></span></td>
+                <td><span th:text="${p.quantity}"></span></td>
                 <td>
                     <div class="btn-group">
-                        <a th:href="@{'/admin/product/update/' + ${p.id}}" class="btn btn-success">Sửa</a> <a
-                            class="btn btn-danger"
-                            th:href="@{'/admin/product/delete/' + ${p.id}}">Xóa</a>
+                        <a th:href="@{'/admin/product/update/' + ${p.id}}" class="btn btn-success">Sửa</a>
+                        <a th:href="@{'/admin/product/delete/' + ${p.id}}" class="btn btn-danger">Xóa</a>
+                        <a th:href="@{'/admin/product/duplicate/' + ${p.id}}" class="btn btn-warning">Duplicate</a>
                     </div>
                 </td>
             </tr>
@@ -107,12 +111,12 @@
             'columnDefs': [
                 {
                     'searchable': false,
-                    'targets': [0, 1, 2, 3, 5, 6, 8] // cac truong k cho search
+                    'targets': [0, 1, 2, 3, 5, 6, 8, 9, 10] // cac truong k cho search
                     // see https://datatables.net/reference/option/columns.searchable
                 },
                 {
                     'orderable': false,
-                    'targets': [1, 2, 3, 4, 7, 8] // cac truong k cho filter
+                    'targets': [1, 2, 3, 4, 10] // cac truong k cho filter
                 },
             ]
         });

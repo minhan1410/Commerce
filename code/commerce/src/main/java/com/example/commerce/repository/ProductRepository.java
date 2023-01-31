@@ -13,6 +13,16 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> getByDeleted(Boolean deleted);
 
+    List<Product> getByNameAndDeleted(String name, Boolean deleted);
+
+    List<Product> getByNameAndQuantityGreaterThanAndDeleted(String name, Integer quantity, Boolean deleted);
+
+    List<Product> getByNameAndColorNotLikeAndDeleted(String name, String color, Boolean deleted);
+
+    List<Product> getByNameAndColorAndDeleted(String name, String color, Boolean deleted);
+
+    List<Product> getByNameAndColorAndQuantityGreaterThanAndDeleted(String name, String color, Integer quantity, Boolean deleted);
+
     Optional<Product> findByNameAndDeleted(String name, Boolean deleted);
 
     List<Product> getByCategoriesIdAndDeleted(Long categoriesId, Boolean deleted);

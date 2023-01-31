@@ -1,8 +1,10 @@
 package com.example.commerce.service.impl;
 
+import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.model.dto.ReviewDTO;
 import com.example.commerce.model.entity.Review;
 import com.example.commerce.repository.ReviewRepository;
+import com.example.commerce.service.ProductService;
 import com.example.commerce.service.ReviewService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ModelMapper mapper;
     private final ReviewRepository reviewRepository;
     private final UserService userService;
+    private final ProductService productService;
 
     @Override
     public List<ReviewDTO> getAll() {
@@ -53,8 +56,12 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     public String add(ReviewDTO dto, Model model) {
         dto.setReviewerId(userService.getCurrentUser().getId());
-        dto.setProductId(dto.getProductId());
-        reviewRepository.save(mapper.map(dto, Review.class));
+//        dto.setProductId(dto.getProductId());
+        for (ProductDTO productDTO : productService.getRelated(productService.getById(dto.getProductId(), model).getName())) {
+            dto.setProductId(productDTO.getId());
+            reviewRepository.save(mapper.map(dto, Review.class));
+        }
+
         return "redirect:/product-detail?id=" + dto.getProductId();
     }
 

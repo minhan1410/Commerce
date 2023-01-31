@@ -12,8 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
+import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
@@ -22,9 +25,43 @@ public class ProductServiceImpl implements ProductService {
     private final ModelMapper mapper;
     private final CloudinaryService cloudinaryService;
 
+    public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
+        Set<Object> seen = ConcurrentHashMap.newKeySet();
+        return t -> seen.add(keyExtractor.apply(t));
+    }
+
     @Override
     public List<ProductDTO> getAll() {
         return productRepository.getByDeleted(false).stream().map(product -> mapper.map(product, ProductDTO.class)).toList();
+    }
+
+    @Override
+    public List<ProductDTO> getAllDistinctName() {
+        return productRepository.getByDeleted(false).stream().filter(distinctByKey(Product::getName))
+                .map(product -> mapper.map(product, ProductDTO.class)).toList();
+    }
+
+    @Override
+    public List<ProductDTO> getRelated(String name) {
+        return productRepository.getByNameAndQuantityGreaterThanAndDeleted(name, 0, false).stream()
+                .map(product -> mapper.map(product, ProductDTO.class)).toList();
+    }
+
+    @Override
+    public List<ProductDTO> getRelatedDistinctNameAndSize(String name) {
+        return getRelated(name).stream().filter(distinctByKey(ProductDTO::getSize)).filter(distinctByKey(ProductDTO::getColor))
+                .map(product -> mapper.map(product, ProductDTO.class)).toList();
+    }
+
+    @Override
+    public List<ProductDTO> getAllDistinctColor(String name, String color) {
+        return getRelated(name).stream().filter(distinctByKey(ProductDTO::getColor)).toList();
+    }
+
+    @Override
+    public List<ProductDTO> getSizesByColor(String name, String color) {
+        return productRepository.getByNameAndColorAndQuantityGreaterThanAndDeleted(name, color, 0, false)
+                .stream().map(product -> mapper.map(product, ProductDTO.class)).toList();
     }
 
     @Override
@@ -38,6 +75,14 @@ public class ProductServiceImpl implements ProductService {
         return mapper.map(getId(id, model), ProductDTO.class);
     }
 
+    @Override
+    public ProductDTO getByColorAndSize(Long id, String size, Model model) {
+        ProductDTO getById = getById(id, model);
+        Optional<ProductDTO> optional = getRelated(getById.getName()).stream()
+                .filter(p -> p.getColor().equals(getById.getColor()) && p.getSize().equals(size)).findFirst();
+        return optional.orElse(null);
+    }
+
     public Product getId(Long id, Model model) {
         Optional<Product> findById = productRepository.findByIdAndDeleted(id, false);
         if (findById.isEmpty()) {
@@ -47,22 +92,30 @@ public class ProductServiceImpl implements ProductService {
         return findById.get();
     }
 
-    public ProductDTO getByName(String name, Model model) {
+    public ProductDTO getByName(String name) {
         Optional<Product> findByName = productRepository.findByNameAndDeleted(name, false);
-        if (findByName.isPresent()) {
-            model.addAttribute("err", "ten da ton tai");
-            return mapper.map(findByName.get(), ProductDTO.class);
-        }
-        return null;
+        return findByName.map(product -> mapper.map(product, ProductDTO.class)).orElse(null);
     }
 
     @Override
     @Transactional
     public String add(ProductDTO productDTO, Model model) {
-        ProductDTO getByName = getByName(productDTO.getName(), model);
-        if (getByName != null) return "/admin/addProduct";
+        ProductDTO getByName = getByName(productDTO.getName());
+        if (getByName != null) {
+            model.addAttribute("err", "ten da ton tai");
+            return "/admin/addProduct";
+        }
         cloudinaryService.uploadImageProduct(productDTO);
         productRepository.save(mapper.map(productDTO, Product.class));
+        return "redirect:/admin/product";
+    }
+
+    @Override
+    public String duplicate(ProductDTO productDTO, Model model) {
+        if (!productDTO.getImageMain().isEmpty() || !productDTO.getImageSub().isEmpty() || !productDTO.getImageHover().isEmpty()) {
+            cloudinaryService.uploadImageProduct(productDTO);
+        }
+        productRepository.save(new Product().duplicate(getById(productDTO.getId(), model), productDTO));
         return "redirect:/admin/product";
     }
 
@@ -70,8 +123,9 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public String update(ProductDTO productDTO, Model model) {
         ProductDTO getById = getById(productDTO.getId(), model);
-        if (getById == null || !Objects.equals(getByName(productDTO.getName(), model).getId(), productDTO.getId()))
+        if (getById == null) {
             return "/admin/editProduct";
+        }
         cloudinaryService.deleteImageProduct(productDTO, getById);
         cloudinaryService.uploadImageProduct(productDTO);
         productRepository.save(mapper.map(getById, Product.class).update(productDTO));

@@ -17,7 +17,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
 
     @Column(name = "price")
@@ -37,29 +37,21 @@ public class Product {
 
     @Column(name = "img_sub")
     private String imgSub;
-    @Column(name = "weight")
-    private Double weight;
-
-    @Column(name = "length")
-    private Long length;
-
-    @Column(name = "width")
-    private Long width;
-
-    @Column(name = "height")
-    private Long height;
 
     @Column(name = "material")
     private String material;
 
-    @Column(name = "colors")
-    private String colors;
+    @Column(name = "color")
+    private String color;
 
-    @Column(name = "sizes")
-    private String sizes;
+    @Column(name = "size")
+    private String size;
+
+    @Column(name = "quantity")
+    private Integer quantity;
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
-    private Boolean deleted;
+    private Boolean deleted = false;
 
     public Product update(ProductDTO dto) {
         if (Objects.nonNull(dto.getImgMain())) {
@@ -73,15 +65,26 @@ public class Product {
         }
         this.name = dto.getName();
         this.categoriesId = dto.getCategoriesId();
-        this.weight = dto.getWeight();
-        this.length = dto.getLength();
-        this.width = dto.getWidth();
-        this.height = dto.getHeight();
         this.material = dto.getMaterial();
-        this.colors = dto.getColors();
-        this.sizes = dto.getSizes();
+        this.color = dto.getColor();
+        this.size = dto.getSize();
         this.description = dto.getDescription();
         this.price = dto.getPrice();
+        return this;
+    }
+
+    public Product duplicate(ProductDTO dto, ProductDTO productDTO) {
+        this.imgMain = !productDTO.getImageMain().isEmpty() ? productDTO.getImgMain() : dto.getImgMain();
+        this.imgSub = !productDTO.getImageSub().isEmpty() ? productDTO.getImgSub() : dto.getImgSub();
+        this.imgHover = !productDTO.getImageHover().isEmpty() ? productDTO.getImgHover() : dto.getImgHover();
+        this.name = dto.getName();
+        this.categoriesId = dto.getCategoriesId();
+        this.material = dto.getMaterial();
+        this.description = dto.getDescription();
+        this.price = dto.getPrice();
+        this.color = productDTO.getColor();
+        this.size = productDTO.getSize();
+        this.quantity = productDTO.getQuantity();
         return this;
     }
 

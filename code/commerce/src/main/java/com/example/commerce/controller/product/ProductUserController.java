@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Controller
 @RequiredArgsConstructor
 public class ProductUserController {
@@ -26,11 +28,17 @@ public class ProductUserController {
     public String getProductById(Model model, @RequestParam(name = "id", required = false) Long id) {
         userService.getCurrentUser(model);
         ProductDTO product = productService.getById(id, model);
-
+        List<ProductDTO> related = productService.getRelatedDistinctNameAndSize(product.getName());
+        List<ProductDTO> sizes = productService.getSizesByColor(product.getName(), product.getColor());
+        List<ProductDTO> colors = productService.getAllDistinctColor(product.getName(), product.getColor());
+        model.addAttribute("categoriesService", categoriesService);
         model.addAttribute("numberOfReview", reviewService.countProduct(id));
         model.addAttribute("reviews", reviewService.getByProductId(id, model));
         model.addAttribute("userService", userService);
         model.addAttribute("product", product);
+        model.addAttribute("sizes", sizes);
+        model.addAttribute("colors", colors);
+        model.addAttribute("related", related);
         model.addAttribute("type", categoriesService.getById(product.getCategoriesId()).getType());
         return "product-detail";
     }

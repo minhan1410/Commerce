@@ -35,6 +35,7 @@ public class ProductAdminController {
 
     @PostMapping("/add")
     public String addProductNew(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
+        model.addAttribute("listCategories", categoriesService.getAll());
         return result.hasErrors() ? "/admin/addProduct" : productService.add(dto, model);
     }
 
@@ -48,6 +49,18 @@ public class ProductAdminController {
     @PostMapping("/update")
     public String updatePost(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
         return result.hasErrors() ? "/admin/editProduct" : productService.update(dto, model);
+    }
+
+    @GetMapping("/duplicate/{id}")
+    public String duplicate(@PathVariable(name = "id") Long id, Model model) {
+        model.addAttribute("product", productService.getById(id, model));
+        model.addAttribute("listCategories", categoriesService.getAll());
+        return "/admin/duplicateProduct";
+    }
+
+    @PostMapping("/duplicate")
+    public String duplicatePost(@ModelAttribute("product") ProductDTO dto, Model model) {
+        return productService.duplicate(dto, model);
     }
 
     @GetMapping("/delete/{id}")
