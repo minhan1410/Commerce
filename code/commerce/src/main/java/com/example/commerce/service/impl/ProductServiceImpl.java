@@ -42,20 +42,20 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<ProductDTO> getRelated(String name) {
+    public List<ProductDTO> getRelatedByName(String name) {
         return productRepository.getByNameAndQuantityGreaterThanAndDeleted(name, 0, false).stream()
                 .map(product -> mapper.map(product, ProductDTO.class)).toList();
     }
 
     @Override
     public List<ProductDTO> getRelatedDistinctNameAndSize(String name) {
-        return getRelated(name).stream().filter(distinctByKey(ProductDTO::getSize)).filter(distinctByKey(ProductDTO::getColor))
+        return getRelatedByName(name).stream().filter(distinctByKey(ProductDTO::getSize)).filter(distinctByKey(ProductDTO::getColor))
                 .map(product -> mapper.map(product, ProductDTO.class)).toList();
     }
 
     @Override
     public List<ProductDTO> getAllDistinctColor(String name, String color) {
-        return getRelated(name).stream().filter(distinctByKey(ProductDTO::getColor)).toList();
+        return getRelatedByName(name).stream().filter(distinctByKey(ProductDTO::getColor)).toList();
     }
 
     @Override
@@ -76,9 +76,9 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getByColorAndSize(Long id, String size, Model model) {
+    public ProductDTO getByIdAndSize(Long id, String size, Model model) {
         ProductDTO getById = getById(id, model);
-        Optional<ProductDTO> optional = getRelated(getById.getName()).stream()
+        Optional<ProductDTO> optional = getRelatedByName(getById.getName()).stream()
                 .filter(p -> p.getColor().equals(getById.getColor()) && p.getSize().equals(size)).findFirst();
         return optional.orElse(null);
     }

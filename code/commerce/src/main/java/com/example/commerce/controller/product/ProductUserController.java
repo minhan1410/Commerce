@@ -28,7 +28,8 @@ public class ProductUserController {
     public String getProductById(Model model, @RequestParam(name = "id", required = false) Long id) {
         userService.getCurrentUser(model);
         ProductDTO product = productService.getById(id, model);
-        List<ProductDTO> related = productService.getRelatedDistinctNameAndSize(product.getName());
+        List<ProductDTO> related = productService.getAllDistinctName().stream()
+                .filter(p -> !p.getName().equals(product.getName())).toList();
         List<ProductDTO> sizes = productService.getSizesByColor(product.getName(), product.getColor());
         List<ProductDTO> colors = productService.getAllDistinctColor(product.getName(), product.getColor());
         model.addAttribute("categoriesService", categoriesService);

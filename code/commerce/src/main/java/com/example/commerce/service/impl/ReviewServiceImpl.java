@@ -57,7 +57,7 @@ public class ReviewServiceImpl implements ReviewService {
     public String add(ReviewDTO dto, Model model) {
         dto.setReviewerId(userService.getCurrentUser().getId());
 //        dto.setProductId(dto.getProductId());
-        for (ProductDTO productDTO : productService.getRelated(productService.getById(dto.getProductId(), model).getName())) {
+        for (ProductDTO productDTO : productService.getRelatedByName(productService.getById(dto.getProductId(), model).getName())) {
             dto.setProductId(productDTO.getId());
             reviewRepository.save(mapper.map(dto, Review.class));
         }

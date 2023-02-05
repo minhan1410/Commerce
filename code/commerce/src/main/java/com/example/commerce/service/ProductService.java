@@ -10,7 +10,7 @@ public interface ProductService {
 
     List<ProductDTO> getAllDistinctName(); // get all khong lay cac ten trung nhau
 
-    List<ProductDTO> getRelated(String name);
+    List<ProductDTO> getRelatedByName(String name);
 
     List<ProductDTO> getRelatedDistinctNameAndSize(String name);
 
@@ -22,7 +22,7 @@ public interface ProductService {
 
     ProductDTO getById(Long id, Model model);
 
-    ProductDTO getByColorAndSize(Long id, String size, Model model);
+    ProductDTO getByIdAndSize(Long id, String size, Model model);
 
     String add(ProductDTO productDTO, Model model);
 

@@ -3,6 +3,7 @@ package com.example.commerce.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name = "coupon")
@@ -13,11 +14,14 @@ public class Coupon {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "code")
+    @Column(name = "code", unique = true)
     private String code;
 
     @Column(name = "discount")
     private Integer discount;
+
+    @Column(name = "expiration_date")
+    private Date expirationDate;
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
