@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,27 +26,23 @@ public class ProductUserController {
 
     @GetMapping("/product-detail")
     public String getProductById(Model model, @RequestParam(name = "id", required = false) Long id) {
-        userService.getCurrentUser(model);
-        ProductDTO product = productService.getById(id, model);
-        List<ProductDTO> related = productService.getAllDistinctName().stream()
-                .filter(p -> !p.getName().equals(product.getName())).toList();
-        List<ProductDTO> sizes = productService.getSizesByColor(product.getName(), product.getColor());
-        List<ProductDTO> colors = productService.getAllDistinctColor(product.getName(), product.getColor());
+        ProductDTO product = productService.productDetail(id, model);
         model.addAttribute("categoriesService", categoriesService);
         model.addAttribute("numberOfReview", reviewService.countProduct(id));
         model.addAttribute("reviews", reviewService.getByProductId(id, model));
-        model.addAttribute("userService", userService);
-        model.addAttribute("product", product);
-        model.addAttribute("sizes", sizes);
-        model.addAttribute("colors", colors);
-        model.addAttribute("related", related);
         model.addAttribute("type", categoriesService.getById(product.getCategoriesId()).getType());
         return "product-detail";
     }
 
     @PostMapping(value = "/member/product-detail/review")
     public String review(@ModelAttribute ReviewDTO dto, Model model) {
-        userService.getCurrentUser(model);
         return reviewService.add(dto, model);
+    }
+
+    @GetMapping(value = "/product")
+    public String getAllProductForProductPage(Model model, HttpServletRequest request) {
+        model.addAttribute("cate", categoriesService.getAll());
+        model.addAttribute("categoriesService", categoriesService);
+        return productService.getAllProductForProductPage(model, request);
     }
 }

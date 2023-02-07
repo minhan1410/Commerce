@@ -10,6 +10,7 @@ import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.util.List;
@@ -54,7 +55,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
     public String add(ReviewDTO dto, Model model) {
+        userService.getCurrentUser(model);
+
         dto.setReviewerId(userService.getCurrentUser().getId());
 //        dto.setProductId(dto.getProductId());
         for (ProductDTO productDTO : productService.getRelatedByName(productService.getById(dto.getProductId(), model).getName())) {
@@ -66,11 +70,14 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    @Transactional
+
     public String update(ReviewDTO dto, Model model) {
         return null;
     }
 
     @Override
+    @Transactional
     public String delete(Long id, Model model) {
         return null;
     }

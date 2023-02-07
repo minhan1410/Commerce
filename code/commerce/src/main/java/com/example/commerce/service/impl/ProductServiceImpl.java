@@ -5,15 +5,15 @@ import com.example.commerce.model.entity.Product;
 import com.example.commerce.repository.ProductRepository;
 import com.example.commerce.service.CloudinaryService;
 import com.example.commerce.service.ProductService;
+import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import javax.servlet.http.HttpServletRequest;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -24,6 +24,7 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ModelMapper mapper;
     private final CloudinaryService cloudinaryService;
+    private final UserService userService;
 
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
@@ -152,5 +153,74 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> searchProduct(String name) {
         return productRepository.findByNameContainingIgnoreCaseAndDeleted(name, false).stream()
                 .map(product -> mapper.map(product, ProductDTO.class)).toList();
+    }
+
+    @Override
+    public String getAllProductForProductPage(Model model, HttpServletRequest request) {
+        userService.getCurrentUser(model);
+
+        String sort = request.getParameter("sort");
+
+        String getKeyword = request.getParameter("keyword");
+        String keyword = Objects.isNull(getKeyword) ? "" : getKeyword;
+
+        String getPriceStart = request.getParameter("priceStart");
+        long priceStart = (Objects.isNull(getPriceStart) || getPriceStart.isBlank()) ? 0 : Long.parseLong(getPriceStart);
+
+        String getPriceEnd = request.getParameter("priceEnd");
+        long priceEnd = (Objects.isNull(getPriceEnd) || getPriceEnd.isBlank()) ? 0 : Long.parseLong(getPriceEnd);
+
+        String getPage = request.getParameter("page");
+        int page = Objects.isNull(getPage) ? 8 : Integer.parseInt(getPage);
+
+        Object getProduct = model.getAttribute("listProducts");
+        List<ProductDTO> listProducts = Objects.nonNull(getProduct) ? (List<ProductDTO>) getProduct : getAllDistinctName();
+
+        if (Objects.nonNull(sort)) {
+            if (sort.equals("desc")) {
+                listProducts = listProducts.stream().sorted(Comparator.comparing(ProductDTO::getPrice).reversed()).toList();
+            } else {
+                listProducts = listProducts.stream().sorted(Comparator.comparing(ProductDTO::getPrice)).toList();
+            }
+            model.addAttribute("listProducts", listProducts);
+            model.addAttribute("products", listProducts.stream().limit(page).toList());
+        } else {
+            if (!keyword.isBlank()) {
+                listProducts = listProducts.stream().filter(dto -> dto.getName().toLowerCase().contains(keyword.toLowerCase())).toList();
+            }
+            if (priceStart > 0) {
+                listProducts = listProducts.stream().filter(dto -> dto.getPrice() >= priceStart).toList();
+            }
+            if (priceEnd > 0) {
+                listProducts = listProducts.stream().filter(dto -> dto.getPrice() <= priceEnd).toList();
+            }
+            model.addAttribute("products", listProducts.stream().limit(page).toList());
+        }
+
+        request.setAttribute("sort", sort);
+        request.setAttribute("page", page);
+        request.setAttribute("priceStart", priceStart);
+        request.setAttribute("priceEnd", priceEnd);
+        request.setAttribute("keyword", keyword);
+
+        return "product";
+    }
+
+    @Override
+    public ProductDTO productDetail(Long id, Model model) {
+        userService.getCurrentUser(model);
+
+        ProductDTO product = getById(id, model);
+        List<ProductDTO> related = getAllDistinctName().stream()
+                .filter(p -> !p.getName().equals(product.getName())).toList();
+        List<ProductDTO> sizes = getSizesByColor(product.getName(), product.getColor());
+        List<ProductDTO> colors = getAllDistinctColor(product.getName(), product.getColor());
+        model.addAttribute("userService", userService);
+        model.addAttribute("product", product);
+        model.addAttribute("sizes", sizes);
+        model.addAttribute("colors", colors);
+        model.addAttribute("related", related);
+
+        return product;
     }
 }

@@ -31,4 +31,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByNameContainingIgnoreCaseAndDeleted(String name, Boolean deleted);
 
+    List<Product> getByQuantityGreaterThanAndDeletedFalseOrderByPriceAsc(Integer quantity);
+
+    List<Product> getByQuantityGreaterThanAndDeletedFalseOrderByPriceDesc(Integer quantity);
+
 }

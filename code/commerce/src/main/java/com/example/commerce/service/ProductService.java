@@ -3,6 +3,7 @@ package com.example.commerce.service;
 import com.example.commerce.model.dto.ProductDTO;
 import org.springframework.ui.Model;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface ProductService {
@@ -35,4 +36,12 @@ public interface ProductService {
     void deletes(List<ProductDTO> productDTOS, Model model);
 
     List<ProductDTO> searchProduct(String name);
+
+    String getAllProductForProductPage(Model model, HttpServletRequest request);
+
+    ProductDTO productDetail(Long id, Model model);
+
+    List<ProductDTO> getProductForProductPagePriceHigh(String sort);
+
+    List<ProductDTO> getProductForProductPage(String findName, long priceStart, long priceEnd, int start, int length);
 }
