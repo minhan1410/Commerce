@@ -173,30 +173,26 @@ public class ProductServiceImpl implements ProductService {
         String getPage = request.getParameter("page");
         int page = Objects.isNull(getPage) ? 8 : Integer.parseInt(getPage);
 
-        Object getProduct = model.getAttribute("listProducts");
-        List<ProductDTO> listProducts = Objects.nonNull(getProduct) ? (List<ProductDTO>) getProduct : getAllDistinctName();
+        List<ProductDTO> listProducts = getAllDistinctName();
 
-        if (Objects.nonNull(sort)) {
+        if (Objects.nonNull(sort) && !sort.equals("null")) {
             if (sort.equals("desc")) {
                 listProducts = listProducts.stream().sorted(Comparator.comparing(ProductDTO::getPrice).reversed()).toList();
             } else {
                 listProducts = listProducts.stream().sorted(Comparator.comparing(ProductDTO::getPrice)).toList();
             }
-            model.addAttribute("listProducts", listProducts);
-            model.addAttribute("products", listProducts.stream().limit(page).toList());
-        } else {
-            if (!keyword.isBlank()) {
-                listProducts = listProducts.stream().filter(dto -> dto.getName().toLowerCase().contains(keyword.toLowerCase())).toList();
-            }
-            if (priceStart > 0) {
-                listProducts = listProducts.stream().filter(dto -> dto.getPrice() >= priceStart).toList();
-            }
-            if (priceEnd > 0) {
-                listProducts = listProducts.stream().filter(dto -> dto.getPrice() <= priceEnd).toList();
-            }
-            model.addAttribute("products", listProducts.stream().limit(page).toList());
+        }
+        if (!keyword.isBlank()) {
+            listProducts = listProducts.stream().filter(dto -> dto.getName().toLowerCase().contains(keyword.toLowerCase())).toList();
+        }
+        if (priceStart > 0) {
+            listProducts = listProducts.stream().filter(dto -> dto.getPrice() >= priceStart).toList();
+        }
+        if (priceEnd > 0) {
+            listProducts = listProducts.stream().filter(dto -> dto.getPrice() <= priceEnd).toList();
         }
 
+        model.addAttribute("products", listProducts.stream().limit(page).toList());
         request.setAttribute("sort", sort);
         request.setAttribute("page", page);
         request.setAttribute("priceStart", priceStart);
@@ -222,5 +218,10 @@ public class ProductServiceImpl implements ProductService {
         model.addAttribute("related", related);
 
         return product;
+    }
+
+    @Override
+    public List<ProductDTO> topFeaturedProducts(int top) {
+        return getAllDistinctName().stream().sorted(Comparator.comparing(ProductDTO::getQuantity).reversed()).limit(top).toList();
     }
 }

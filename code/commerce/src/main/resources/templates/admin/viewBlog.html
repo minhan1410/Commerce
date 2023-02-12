@@ -67,7 +67,7 @@
 						<td><a th:text="${b.title}"></a></td>
 						<td><span th:text="${b.content}"></span></td>
 						<td><span th:text="${b.categoriesForBlogDTO.type}"></span></td>
-						<td><span th:text="${b.created_time} + ' ' + ${b.created_day} +' '+ ${b.created_month}"></span></td>
+						<td><span th:text="${b.created_time} + ' ' + ${b.createdDay} +' '+ ${b.createdMonth}"></span></td>
 						<td><span th:each="blogDTO : ${b.tags}">[[${blogDTO.type}]], </span></td>
 						<td><div class="btn-group">
 								<a th:href="@{'/admin/blog/edit?id=' + ${b.id}}" class="btn btn-success">Sửa</a> <a class="btn btn-danger"

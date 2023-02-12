@@ -85,4 +85,9 @@ public class CategoriesServiceImpl implements CategoriesService {
         return "redirect:/admin/categories";
     }
 
+    @Override
+    public Long getIdByType(String type) {
+        return categoriesRepository.getByTypeIgnoreCaseAndDeletedFalse(type).getId();
+    }
+
 }

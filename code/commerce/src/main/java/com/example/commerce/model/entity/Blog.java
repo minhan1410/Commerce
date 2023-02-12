@@ -19,8 +19,8 @@ public class Blog {
     @Column(name = "content")
     private String content;
 
-    @Column(name = "category_id")
-    private Long categoryId;
+    @Column(name = "category_blog_id")
+    private Long categoryBlogId;
 
     @Column(name = "created_time")
     private String createdTime;

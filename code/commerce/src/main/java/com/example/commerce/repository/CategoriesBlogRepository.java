@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CategoriesBlogRepository extends JpaRepository<CategoriesBlog, Long> {
+    CategoriesBlog getByIdAndDeletedFalse(Long id);
+
+    CategoriesBlog getByTypeContainsIgnoreCaseAndDeletedFalse(String type);
+
 }

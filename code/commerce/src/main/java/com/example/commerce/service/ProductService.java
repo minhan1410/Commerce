@@ -41,7 +41,6 @@ public interface ProductService {
 
     ProductDTO productDetail(Long id, Model model);
 
-    List<ProductDTO> getProductForProductPagePriceHigh(String sort);
+    List<ProductDTO> topFeaturedProducts(int top);
 
-    List<ProductDTO> getProductForProductPage(String findName, long priceStart, long priceEnd, int start, int length);
 }

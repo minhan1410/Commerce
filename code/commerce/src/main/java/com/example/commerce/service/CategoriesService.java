@@ -20,4 +20,6 @@ public interface CategoriesService {
     String update(CategoriesDTO categoriesDTO, Model model);
 
     String delete(Long id, Model model);
+
+    Long getIdByType(String type);
 }

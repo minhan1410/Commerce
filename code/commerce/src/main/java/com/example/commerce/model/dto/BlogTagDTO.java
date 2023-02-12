@@ -9,5 +9,5 @@ public class BlogTagDTO {
     private Long blogId;
     private Boolean deleted = false;
 
-    private Integer tagId;
+    private Long tagId;
 }

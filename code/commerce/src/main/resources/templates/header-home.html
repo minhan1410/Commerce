@@ -12,7 +12,7 @@
                     <div class="right-top-bar flex-w h-full">
                         <a sec:authorize="hasAnyAuthority('ROLE_ADMIN')" th:href="@{/admin/product}"
                            class="flex-c-m trans-04 p-lr-25">Manager</a>
-                        <a href="#" class="flex-c-m trans-04 p-lr-25"> Q&A</a>
+                        <!--                        <a href="#" class="flex-c-m trans-04 p-lr-25"> Q&A</a>-->
                         <a th:each="user : ${user}" th:href="@{'/member/user?id=' + ${id}}">
                             <img style="border-radius: 50%; height:30px; width:30px; margin:5px"
                                  th:src="*{user.avatar}">
@@ -42,32 +42,26 @@
                     <!-- Menu desktop -->
                     <div class="menu-desktop">
                         <ul class="main-menu">
-                            <li class="active-menu"><a th:href="@{/home}">Home</a>
-                                <ul class="sub-menu">
-                                    <li><a th:href="@{/home}">Home 1</a></li>
-                                    <li><a href="home-02.html">Home 2</a></li>
-                                    <li><a href="home-03.html">Home 3</a></li>
-                                </ul>
-                            </li>
+                            <li class="active-menu"><a th:href="@{/home}">Home</a></li>
 
                             <li><a th:href="@{/product}">Shop</a></li>
-
-                            <li class="label1" data-label1="hot"><a th:href="@{/cart}">Features</a></li>
 
                             <li><a th:href="@{/blog}">Blog</a></li>
 
                             <li><a th:href="@{/about}">About us</a></li>
 
                             <li><a th:href="@{/contact}">Contact</a></li>
+
+                            <li><a th:href="@{/cart}">Shoping Cart</a></li>
                         </ul>
                     </div>
 
                     <!-- Icon header -->
                     <div class="wrap-icon-header flex-w flex-r-m">
-                        <div
-                                class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">
-                            <i class="zmdi zmdi-search"></i>
-                        </div>
+                        <!--                        <div-->
+                        <!--                                class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-modal-search">-->
+                        <!--                            <i class="zmdi zmdi-search"></i>-->
+                        <!--                        </div>-->
 
                         <div
                                 class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart"
@@ -152,8 +146,6 @@
                 <li><a th:href="@{/home}">Home</a>
                     <ul class="sub-menu-m">
                         <li><a th:href="@{/home}">Homepage 1</a></li>
-                        <li><a href="home-02.html">Homepage 2</a></li>
-                        <li><a href="home-03.html">Homepage 3</a></li>
                     </ul>
                     <span class="arrow-main-menu-m"> <i
                             class="fa fa-angle-right" aria-hidden="true"></i>

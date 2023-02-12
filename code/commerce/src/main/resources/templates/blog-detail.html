@@ -66,10 +66,10 @@
 							<img th:src="@{${blog.blogImagePath}}" alt="IMG-BLOG">
 
 							<div class="flex-col-c-m size-123 bg9 how-pos5">
-								<span class="ltext-107 cl2 txt-center" th:text="${blog.created_day}">
+								<span class="ltext-107 cl2 txt-center" th:text="${blog.createdDay}">
 								</span>
 
-								<span class="stext-109 cl3 txt-center" th:text="${blog.created_month}">
+								<span class="stext-109 cl3 txt-center" th:text="${blog.createdMonth}">
 								</span>
 							</div>
 						</div>
@@ -81,7 +81,7 @@
 									<span class="cl12 m-l-4 m-r-6">|</span>
 								</span>
 
-								<span th:text=" ${blog.created_day} + ' ' + ${blog.created_month} + ' | ' ">
+								<span th:text=" ${blog.createdDay} + ' ' + ${blog.createdMonth} + ' | ' ">
 									22 Jan, 2018
 									<span class="cl12 m-l-4 m-r-6">|</span>
 								</span>
