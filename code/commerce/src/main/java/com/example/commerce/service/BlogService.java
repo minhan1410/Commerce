@@ -18,4 +18,6 @@ public interface BlogService {
     String delete(Long id, Model model);
 
     void getBlogForBlogPage(Model model, HttpServletRequest request);
+
+    void blogDetail(Long id, Model model, HttpServletRequest request);
 }

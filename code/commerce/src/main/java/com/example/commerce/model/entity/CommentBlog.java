@@ -16,11 +16,8 @@ public class CommentBlog {
     @Column(name = "comment")
     private String comment;
 
-    @Column(name = "name")
-    private String name;
-
-    @Column(name = "email")
-    private String email;
+    @Column(name = "reviewer_id")
+    private Long reviewerId;
 
     @Column(name = "blog_id")
     private Long blogId;

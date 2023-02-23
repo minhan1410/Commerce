@@ -171,7 +171,7 @@ public class ProductServiceImpl implements ProductService {
         long priceEnd = (Objects.isNull(getPriceEnd) || getPriceEnd.isBlank()) ? 0 : Long.parseLong(getPriceEnd);
 
         String getPage = request.getParameter("page");
-        int page = Objects.isNull(getPage) ? 8 : Integer.parseInt(getPage);
+        int page = Objects.isNull(getPage) ? 20 : Integer.parseInt(getPage);
 
         List<ProductDTO> listProducts = getAllDistinctName();
 

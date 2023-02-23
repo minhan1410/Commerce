@@ -1,6 +1,7 @@
 package com.example.commerce.service.impl;
 
 import com.example.commerce.model.dto.BlogDTO;
+import com.example.commerce.model.dto.CommentBlogDTO;
 import com.example.commerce.model.entity.Blog;
 import com.example.commerce.repository.BlogRepository;
 import com.example.commerce.service.*;
@@ -25,6 +26,7 @@ public class BlogServiceImpl implements BlogService {
     private final CategoryBlogService categoryBlogService;
     private final BlogTagService blogTagService;
     private final ProductService productService;
+    private final CommentBlogService commentBlogService;
 
     @Override
     public List<BlogDTO> getAll() {
@@ -128,5 +130,28 @@ public class BlogServiceImpl implements BlogService {
         model.addAttribute("totalBlog", count);
         model.addAttribute("products", productService.topFeaturedProducts(3));
 
+    }
+
+    @Override
+    public void blogDetail(Long id, Model model, HttpServletRequest request) {
+        String keyword = request.getParameter("keyword") == null ? "" : request.getParameter("keyword");
+
+        String category = request.getParameter("category") == null ? "" : request.getParameter("category");
+
+        String month = request.getParameter("month") == null ? "" : request.getParameter("month");
+
+        String tag = request.getParameter("tag") == null ? "" : request.getParameter("tag");
+
+        List<CommentBlogDTO> comment = commentBlogService.getComment(id);
+        model.addAttribute("blog", getAll().stream().filter(dto -> dto.getId().equals(id)).findFirst().orElseGet(null));
+        model.addAttribute("totalBlog", blogRepository.count());
+        model.addAttribute("categoryForBlog", categoryBlogService.getAll());
+        model.addAttribute("category", category);
+        model.addAttribute("month", month);
+        model.addAttribute("keyword", keyword);
+        model.addAttribute("tag", tag);
+        model.addAttribute("tags", tagService.getAll());
+        model.addAttribute("comments", comment);
+        model.addAttribute("commentTotal", comment.stream().count());
     }
 }

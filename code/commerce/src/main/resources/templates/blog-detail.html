@@ -63,7 +63,7 @@
 					<div class="p-r-45 p-r-0-lg">
 						<!--  -->
 						<div class="wrap-pic-w how-pos5-parent">
-							<img th:src="@{${blog.blogImagePath}}" alt="IMG-BLOG">
+							<img th:src="@{${blog.image}}" alt="IMG-BLOG">
 
 							<div class="flex-col-c-m size-123 bg9 how-pos5">
 								<span class="ltext-107 cl2 txt-center" th:text="${blog.createdDay}">
@@ -128,14 +128,12 @@
 							<br>
 								<div class="flex-w flex-t p-b-16">
 									<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
-										<img src="images/avatar-01.jpg" alt="AVATAR">
+										<img th:src="@{${userService.getById(c.reviewerId).getAvatar()}}" alt="AVATAR">
 									</div>
 		
 									<div class="size-207">
 										<div class="flex-w flex-sb-m p-b-17">
-											<span class="mtext-107 cl2 p-r-20" th:text="${c.name}">
-												Ariana Grande
-											</span>
+											<span class="mtext-107 cl2 p-r-20" th:text="${userService.getById(c.reviewerId).getName()}"></span>
 										</div>
 		
 										<p class="stext-102 cl6" th:text="${c.comment}">
@@ -162,14 +160,6 @@
 								
 								<div class="bor19 m-b-20">
 									<textarea class="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15" name="comment" placeholder="Comment..."></textarea>
-								</div>
-
-								<div class="bor19 size-218 m-b-20">
-									<input class="stext-111 cl2 plh3 size-116 p-lr-18" type="text" name="name" placeholder="Name *">
-								</div>
-
-								<div class="bor19 size-218 m-b-20">
-									<input class="stext-111 cl2 plh3 size-116 p-lr-18" type="text" name="mail" placeholder="Email *">
 								</div>
 
 								<button class="flex-c-m stext-101 cl0 size-125 bg3 bor2 hov-btn3 p-lr-15 trans-04">
