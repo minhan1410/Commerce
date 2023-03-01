@@ -37,7 +37,7 @@ public class User {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "country_id")
+    @Column(name = "countryId")
     private Integer countryId;
 
     @Column(name = "created_time")

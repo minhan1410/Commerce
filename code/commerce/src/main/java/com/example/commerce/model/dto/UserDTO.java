@@ -1,6 +1,7 @@
 package com.example.commerce.model.dto;
 
 import lombok.Data;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -21,6 +22,7 @@ public class UserDTO {
     private String authProvider;
     private Integer postalCode;
     private String avatar;
+    private MultipartFile image;
     private String oneTimePassword;
     private LocalDateTime otpRequestedTime;
     private Boolean deleted = false;

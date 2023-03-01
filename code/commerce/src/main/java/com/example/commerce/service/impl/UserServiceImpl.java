@@ -109,24 +109,31 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     @Override
     public void getCurrentUser(Model model) {
-        User user = getCurrentUser();
+        UserDTO user = getCurrentUser();
         boolean isPresent = user != null;
         model.addAttribute("id", isPresent ? user.getId() : null);
-        model.addAttribute("user", isPresent ? user : null);
+        model.addAttribute("user", user);
     }
 
     @Override
-    public User getCurrentUser() {
+    public UserDTO getCurrentUser() {
         Optional<Authentication> authentication = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
         if (authentication.isEmpty()) return null;
         Object principal = authentication.get().getPrincipal();
-        return principal instanceof String ? new User()
-                : principal instanceof CustomUserDetails ? ((CustomUserDetails) principal).getUser()
-                : ((CustomOAuth2User) principal).getUser();
+        return principal instanceof String ? new UserDTO()
+                : principal instanceof CustomUserDetails ? mapper.map(((CustomUserDetails) principal).getUser(), UserDTO.class)
+                : mapper.map(((CustomOAuth2User) principal).getUser(), UserDTO.class);
     }
 
     @Override
     public UserDTO getById(Long id) {
-        return mapper.map(userRepository.getById(id), UserDTO.class);
+        Optional<User> optional = Optional.of(userRepository.getById(id));
+        return optional.isEmpty() ? null : mapper.map(optional.get(), UserDTO.class);
+    }
+
+    @Override
+    public void getById(Long id, Model model) {
+        model.addAttribute("id", id);
+        model.addAttribute("user", getById(id));
     }
 }
