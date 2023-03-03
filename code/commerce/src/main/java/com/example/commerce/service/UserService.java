@@ -21,4 +21,6 @@ public interface UserService extends UserDetailsService {
     UserDTO getById(Long id);
 
     void getById(Long id, Model model);
+
+    UserDTO updateMember(UserDTO userDTO);
 }

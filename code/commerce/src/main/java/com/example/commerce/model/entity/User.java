@@ -3,6 +3,7 @@ package com.example.commerce.model.entity;
 import com.example.commerce.constants.Provider;
 import com.example.commerce.constants.Role;
 import com.example.commerce.model.custom.CustomOAuth2User;
+import com.example.commerce.model.dto.UserDTO;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -36,9 +37,6 @@ public class User {
 
     @Column(name = "city")
     private String city;
-
-    @Column(name = "countryId")
-    private Integer countryId;
 
     @Column(name = "created_time")
     private Date createdTime;
@@ -104,6 +102,20 @@ public class User {
         this.enabled = true;
         this.verificationCode = null;
         this.verificationCodeExpiry = null;
+        return this;
+    }
+
+    public User update(UserDTO dto) {
+        if (dto.getAvatar() != null) {
+            this.avatar = dto.getAvatar();
+        }
+        this.name = dto.getName();
+        this.mail = dto.getMail();
+        this.phone = dto.getPhone();
+        this.address = dto.getAddress();
+        this.state = dto.getState();
+        this.city = dto.getCity();
+        this.postalCode = dto.getPostalCode();
         return this;
     }
 }

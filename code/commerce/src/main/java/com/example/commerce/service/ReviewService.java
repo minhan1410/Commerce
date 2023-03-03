@@ -21,4 +21,6 @@ public interface ReviewService {
     String update(ReviewDTO dto, Model model);
 
     String delete(Long id, Model model);
+
+    void deleteByProduct(Long productId);
 }

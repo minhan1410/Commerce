@@ -1,6 +1,7 @@
 package com.example.commerce.service.impl;
 
 import com.example.commerce.model.dto.BlogDTO;
+import com.example.commerce.model.dto.CategoriesBlogDTO;
 import com.example.commerce.model.dto.CommentBlogDTO;
 import com.example.commerce.model.entity.Blog;
 import com.example.commerce.repository.BlogRepository;
@@ -23,7 +24,7 @@ public class BlogServiceImpl implements BlogService {
     private final ModelMapper mapper;
     private final CloudinaryService cloudinaryService;
     private final TagService tagService;
-    private final CategoryBlogService categoryBlogService;
+    private final CategoriesBlogService categoryBlogService;
     private final BlogTagService blogTagService;
     private final ProductService productService;
     private final CommentBlogService commentBlogService;
@@ -33,6 +34,11 @@ public class BlogServiceImpl implements BlogService {
         List<BlogDTO> dtos = blogRepository.getByDeleted(false).stream().map(blog -> mapper.map(blog, BlogDTO.class)).toList();
         dtos.forEach(dto -> dto.setTags(blogTagService.getTag(dto.getId())));
         return dtos;
+    }
+
+    @Override
+    public List<BlogDTO> getCategoryBlogId(Long id) {
+        return blogRepository.getByCategoryBlogIdAndDeletedFalse(id).stream().map(blog -> mapper.map(blog, BlogDTO.class)).toList();
     }
 
     @Override
@@ -62,7 +68,7 @@ public class BlogServiceImpl implements BlogService {
         }
         cloudinaryService.deleteImageBlog(dto, getById);
         cloudinaryService.uploadImageBlog(dto);
-        blogRepository.save(mapper.map(getById, Blog.class));
+        blogRepository.save(mapper.map(getById, Blog.class).update(dto));
         return "redirect:/admin/blog";
     }
 
@@ -78,7 +84,13 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
-    public void getBlogForBlogPage(Model model, HttpServletRequest request) {
+    @Transactional
+    public void delete(List<BlogDTO> list, Model model) {
+        list.forEach(dto -> delete(dto.getId(), model));
+    }
+
+    @Override
+    public String getBlogForBlogPage(Model model, HttpServletRequest request) {
         String getKeyword = request.getParameter("keyword");
         String keyword = Objects.isNull(getKeyword) ? "" : getKeyword;
 
@@ -106,7 +118,11 @@ public class BlogServiceImpl implements BlogService {
                     .contains(keyword.toLowerCase())).toList();
         }
         if (!category.isBlank()) {
-            Long id = categoryBlogService.getByType(category).getId();
+            CategoriesBlogDTO getType = categoryBlogService.getByType(category);
+            if (getType == null) {
+                return "/error/notFound";
+            }
+            Long id = getType.getId();
             blogs = blogs.stream().filter(dto -> dto.getCategoryBlogId().equals(id)).toList();
         }
         if (!month.isBlank()) {
@@ -129,11 +145,11 @@ public class BlogServiceImpl implements BlogService {
         model.addAttribute("tag", tag);
         model.addAttribute("totalBlog", count);
         model.addAttribute("products", productService.topFeaturedProducts(3));
-
+        return "blog";
     }
 
     @Override
-    public void blogDetail(Long id, Model model, HttpServletRequest request) {
+    public String blogDetail(Long id, Model model, HttpServletRequest request) {
         String keyword = request.getParameter("keyword") == null ? "" : request.getParameter("keyword");
 
         String category = request.getParameter("category") == null ? "" : request.getParameter("category");
@@ -143,7 +159,11 @@ public class BlogServiceImpl implements BlogService {
         String tag = request.getParameter("tag") == null ? "" : request.getParameter("tag");
 
         List<CommentBlogDTO> comment = commentBlogService.getComment(id);
-        model.addAttribute("blog", getAll().stream().filter(dto -> dto.getId().equals(id)).findFirst().orElseGet(null));
+        Optional<BlogDTO> optional = getAll().stream().filter(dto -> dto.getId().equals(id)).findFirst();
+        if (optional.isEmpty()) {
+            return "/error/notFound";
+        }
+        model.addAttribute("blog", optional.get());
         model.addAttribute("totalBlog", blogRepository.count());
         model.addAttribute("categoryForBlog", categoryBlogService.getAll());
         model.addAttribute("category", category);
@@ -153,5 +173,6 @@ public class BlogServiceImpl implements BlogService {
         model.addAttribute("tags", tagService.getAll());
         model.addAttribute("comments", comment);
         model.addAttribute("commentTotal", comment.stream().count());
+        return "blog-detail";
     }
 }

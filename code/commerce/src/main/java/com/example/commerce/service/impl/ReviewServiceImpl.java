@@ -82,4 +82,16 @@ public class ReviewServiceImpl implements ReviewService {
         return null;
     }
 
+    @Override
+    @Transactional
+    public void deleteByProduct(Long productId) {
+        List<Review> getAll = reviewRepository.getByDeleted(false);
+        getAll.forEach(r -> {
+            if (r.getProductId().equals(productId)) {
+                r.setDeleted(true);
+            }
+        });
+        reviewRepository.saveAll(getAll);
+    }
+
 }

@@ -24,16 +24,14 @@ public class BlogUserController {
     @GetMapping("/blog")
     public String blog(Model model, HttpServletRequest request) {
         userService.getCurrentUser(model);
-        blogService.getBlogForBlogPage(model, request);
-        return "blog";
+        return blogService.getBlogForBlogPage(model, request);
     }
 
     @GetMapping("/blog-detail")
     public String blogDetail(@RequestParam(name = "id") Long id, Model model, HttpServletRequest request) {
         userService.getCurrentUser(model);
-        blogService.blogDetail(id, model, request);
         model.addAttribute("userService", userService);
-        return "blog-detail";
+        return blogService.blogDetail(id, model, request);
     }
 
     @PostMapping("/blog-detail/review")

@@ -6,6 +6,7 @@ import com.example.commerce.model.custom.CustomUserDetails;
 import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.model.entity.User;
 import com.example.commerce.repository.UserRepository;
+import com.example.commerce.service.CloudinaryService;
 import com.example.commerce.service.MailService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +42,8 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
     private final Scheduler scheduler;
+    private final CloudinaryService cloudinaryService;
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -110,8 +113,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     @Override
     public void getCurrentUser(Model model) {
         UserDTO user = getCurrentUser();
-        boolean isPresent = user != null;
-        model.addAttribute("id", isPresent ? user.getId() : null);
+        model.addAttribute("id", user.getId());
         model.addAttribute("user", user);
     }
 
@@ -135,5 +137,14 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     public void getById(Long id, Model model) {
         model.addAttribute("id", id);
         model.addAttribute("user", getById(id));
+    }
+
+    @Override
+    public UserDTO updateMember(UserDTO dto) {
+        UserDTO currentUser = getCurrentUser();
+        cloudinaryService.deleteImageMember(dto, currentUser);
+        cloudinaryService.uploadImageMember(dto);
+        User update = mapper.map(currentUser, User.class).update(dto);
+        return mapper.map(userRepository.save(update), UserDTO.class);
     }
 }

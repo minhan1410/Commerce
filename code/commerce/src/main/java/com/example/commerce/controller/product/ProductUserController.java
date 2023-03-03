@@ -27,6 +27,9 @@ public class ProductUserController {
     @GetMapping("/product-detail")
     public String getProductById(Model model, @RequestParam(name = "id", required = false) Long id) {
         ProductDTO product = productService.productDetail(id, model);
+        if (product == null) {
+            return "/error/notFound";
+        }
         model.addAttribute("categoriesService", categoriesService);
         model.addAttribute("numberOfReview", reviewService.countProduct(id));
         model.addAttribute("reviews", reviewService.getByProductId(id, model));

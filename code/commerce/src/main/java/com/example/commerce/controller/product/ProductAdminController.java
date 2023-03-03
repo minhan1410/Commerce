@@ -3,6 +3,7 @@ package com.example.commerce.controller.product;
 import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.service.CategoriesService;
 import com.example.commerce.service.ProductService;
+import com.example.commerce.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 public class ProductAdminController {
     private final ProductService productService;
     private final CategoriesService categoriesService;
+    private final ReviewService reviewService;
 
     @GetMapping()
     public String listProduct(Model model) {
@@ -41,7 +43,11 @@ public class ProductAdminController {
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable(name = "id") Long id, Model model) {
-        model.addAttribute("product", productService.getById(id, model));
+        ProductDTO getId = productService.getById(id, model);
+        if (getId == null) {
+            return "/error/notFound";
+        }
+        model.addAttribute("product", getId);
         model.addAttribute("listCategories", categoriesService.getAll());
         return "/admin/editProduct";
     }
@@ -53,7 +59,11 @@ public class ProductAdminController {
 
     @GetMapping("/duplicate/{id}")
     public String duplicate(@PathVariable(name = "id") Long id, Model model) {
-        model.addAttribute("product", productService.getById(id, model));
+        ProductDTO getId = productService.getById(id, model);
+        if (getId == null) {
+            return "/error/notFound";
+        }
+        model.addAttribute("product", getId);
         model.addAttribute("listCategories", categoriesService.getAll());
         return "/admin/duplicateProduct";
     }
@@ -65,6 +75,7 @@ public class ProductAdminController {
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id, Model model) {
+        reviewService.deleteByProduct(id);
         return productService.delete(id, model);
     }
 }

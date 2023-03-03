@@ -5,8 +5,8 @@
     <title>Categories</title>
 
     <!-- Latest compiled and minified CSS -->
-    <link th:rel="stylesheet"
-          th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"></link>
+    <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"
+          th:rel="stylesheet"></link>
 
     <!-- jQuery library -->
     <script
@@ -24,8 +24,8 @@
 
     <script th:src="@{/js/person.js}"></script>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
     <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
 
     <style>
@@ -54,6 +54,10 @@
             color: white;
             background-color: gray;
         }
+
+        th {
+            text-align: center !important;
+        }
     </style>
 
 </head>
@@ -61,17 +65,12 @@
 <div th:replace="/admin/header :: header"></div>
 
 <div class="container">
-    <h2><b>Danh mục sản phẩm</b></h2>
-    <a class="btn btn-warning mb-2" th:href="@{/admin/categories/add}">Thêm danh mục</a>
+    <div style="display: flex; align-items: center; justify-content: space-between; margin:40px 0px">
+        <h2><b>Danh mục sản phẩm</b></h2>
+        <a class="btn btn-warning mb-2" th:href="@{/admin/categories/new}">Thêm danh mục</a>
+    </div>
 
-    <!--    <form th:action="@{/search-categories}">-->
-    <!--        <input type="text" id="keyword" placeholder="Danh mục"-->
-    <!--               required="required" name="keyword">-->
-    <!--        <button style="margin : 5px" type="submit" class="btn btn-primary">Tìm kiếm</button>-->
-    <!--        <a class="btn btn-warning" th:href="@{/admin/categories/add}">Thêm danh mục</a>-->
-    <!--    </form>-->
-
-    <table class="table table-striped" id="tableOne">
+    <table class="table table-striped tableOne">
         <thead>
         <tr>
             <th>Id</th>
@@ -88,7 +87,7 @@
                     <div class="btn-group">
                         <a class="btn btn-success"
                            th:href="@{'/admin/categories/update/' + ${cate.id}}">Edit</a>
-                        <a class="btn btn-danger" th:href="@{'/admin/categories/delete/' + ${cate.id}}">Dele</a>
+                        <a class="btn btn-danger" th:href="@{'/admin/categories/delete/' + ${cate.id}}">Delete</a>
                     </div>
                 </td>
             </tr>
@@ -97,15 +96,13 @@
     </table>
 </div>
 
-<div class="container">
-    <h2><b>Danh mục bài viết</b></h2>
-    <form th:action="@{/search-categories}">
-        <input type="text" id="keyword" placeholder="Danh mục"
-               required="required" name="keyword">
-        <button style="margin : 5px" type="submit" class="btn btn-primary">Tìm kiếm</button>
-        <a class="btn btn-warning" th:href="@{/admin/categoriesforblog/new}">Thêm danh mục</a>
-    </form>
-    <table class="table table-striped">
+<div class="container" style="margin-bottom: 40px">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin:40px 0px;border-top: 2px solid #000;padding-top: 40px">
+        <h2><b>Danh mục bài viết</b></h2>
+        <a class="btn btn-warning mb-2" th:href="@{/admin/categoriesforblog/new}">Thêm danh mục</a>
+    </div>
+
+    <table class="table table-striped tableOne">
         <thead>
         <tr>
             <th>Id</th>
@@ -121,9 +118,9 @@
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-success"
-                           th:href="@{'/admin/categories/update?id=' + ${c.id}}">Edit</a> <a
+                           th:href="@{'/admin/categoriesforblog/update?id=' + ${c.id}}">Edit</a> <a
                             class="btn btn-danger"
-                            th:href="@{'/admin/categoriesforblog/delete/' + ${c.id}}">Dele</a>
+                            th:href="@{'/admin/categoriesforblog/delete/' + ${c.id}}">Delete</a>
                     </div>
                 </td>
             </tr>
@@ -134,12 +131,13 @@
 
 <div th:replace="/admin/footer :: footer"></div>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+<link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<script charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js" type="text/javascript"></script>
 
 <script>
     $(document).ready(function () {
-        $("#tableOne").DataTable({
+        $(".tableOne").DataTable({
+            lengthMenu: [5, 10, 20, 30], // show entries,
             'columnDefs': [
                 {
                     'searchable': false,

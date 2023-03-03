@@ -9,6 +9,8 @@ import java.util.List;
 public interface BlogService {
     List<BlogDTO> getAll();
 
+    List<BlogDTO> getCategoryBlogId(Long id);
+
     BlogDTO getById(Long id, Model model);
 
     String add(BlogDTO dto, Model model);
@@ -17,7 +19,9 @@ public interface BlogService {
 
     String delete(Long id, Model model);
 
-    void getBlogForBlogPage(Model model, HttpServletRequest request);
+    void delete(List<BlogDTO> list, Model model);
 
-    void blogDetail(Long id, Model model, HttpServletRequest request);
+    String getBlogForBlogPage(Model model, HttpServletRequest request);
+
+    String blogDetail(Long id, Model model, HttpServletRequest request);
 }

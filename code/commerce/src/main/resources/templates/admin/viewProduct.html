@@ -5,8 +5,8 @@
     <title>Quản lí sản phẩm</title>
 
     <!-- Latest compiled and minified CSS -->
-    <link th:rel="stylesheet"
-          th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"></link>
+    <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"
+          th:rel="stylesheet"></link>
     <!-- jQuery library -->
     <script
             th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
@@ -24,9 +24,11 @@
 </head>
 <body>
 <div th:replace="/admin/header :: header"></div>
-<div class="container">
-    <h2>Danh sách sản phẩm</h2>
-    <a style="margin-bottom: 15px" class="btn btn-warning" th:href="@{/admin/product/add}">Thêm sản phẩm</a>
+<div class="container" style="margin-bottom: 40px">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin:40px 0px">
+        <h2>Danh sách sản phẩm</h2>
+        <a class="btn btn-warning" style="margin-bottom: 15px" th:href="@{/admin/product/add}">Thêm sản phẩm</a>
+    </div>
 
     <!--		<form style="margin : 5px" th:action="@{/admin/product}">-->
     <!--			<a class="btn btn-warning" th:href="@{/admin/product/new}">Thêm-->
@@ -65,12 +67,12 @@
         <th:block th:each="p, iState  : ${products}">
             <tr>
                 <td><span th:text="${iState.index + 1}"></span></td>
-                <td><img style="width: 100px; height: 120px;"
-                         th:src="@{${p.imgMain}}" alt="IMG-LOGO"></td>
-                <td><img style="width: 100px; height: 120px;"
-                         th:src="@{${p.imgHover}}" alt="IMG-LOGO"></td>
-                <td><img style="width: 100px; height: 120px;"
-                         th:src="@{${p.imgSub}}" alt="IMG-LOGO"></td>
+                <td><img alt="IMG-LOGO"
+                         style="width: 100px; height: 120px;" th:src="@{${p.imgMain}}"></td>
+                <td><img alt="IMG-LOGO"
+                         style="width: 100px; height: 120px;" th:src="@{${p.imgHover}}"></td>
+                <td><img alt="IMG-LOGO"
+                         style="width: 100px; height: 120px;" th:src="@{${p.imgSub}}"></td>
                 <td><a th:text="${p.name}"></a></td>
                 <td><span th:text="'$'+ ${p.price}"></span></td>
                 <td><span th:text="${categoriesService.getById(p.categoriesId).type}"></span></td>
@@ -79,9 +81,9 @@
                 <td><span th:text="${p.quantity}"></span></td>
                 <td>
                     <div class="btn-group">
-                        <a th:href="@{'/admin/product/update/' + ${p.id}}" class="btn btn-success">Sửa</a>
-                        <a th:href="@{'/admin/product/delete/' + ${p.id}}" class="btn btn-danger">Xóa</a>
-                        <a th:href="@{'/admin/product/duplicate/' + ${p.id}}" class="btn btn-warning">Duplicate</a>
+                        <a class="btn btn-success" th:href="@{'/admin/product/update/' + ${p.id}}">Sửa</a>
+                        <a class="btn btn-danger" th:href="@{'/admin/product/delete/' + ${p.id}}">Xóa</a>
+                        <a class="btn btn-warning" th:href="@{'/admin/product/duplicate/' + ${p.id}}">Duplicate</a>
                     </div>
                 </td>
             </tr>
@@ -101,8 +103,8 @@
 
 <script th:src="@{/js/person.js}"></script>
 
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+<link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<script charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js" type="text/javascript"></script>
 
 <script>
     $(document).ready(function () {

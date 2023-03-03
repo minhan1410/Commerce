@@ -79,7 +79,7 @@ public class CategoriesServiceImpl implements CategoriesService {
         if (getId != null) {
             getId.setDeleted(true);
             categoriesRepository.save(mapper.map(getId, Categories.class).delete());
-//            delete product
+//            delete all product
             productService.deletes(productService.getByCategory(id), model);
         }
         return "redirect:/admin/categories";

@@ -1,6 +1,6 @@
 <div th:replace="/admin/header :: header"></div>
 <H1><b>Thêm danh mục product</b></H1>
-<form class="form-inline" th:action="@{/admin/categories/add}" method="post">
+<form class="form-inline" th:action="@{/admin/categories/new}" method="post">
     <div th:if="${err}">
         <p style="color : red; text-align: center" th:text="${err}"></p><br>
     </div>

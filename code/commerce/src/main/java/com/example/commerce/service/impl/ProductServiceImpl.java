@@ -73,7 +73,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getById(Long id, Model model) {
-        return mapper.map(getId(id, model), ProductDTO.class);
+        Product getId = getId(id, model);
+        if (getId == null) {
+            return null;
+        }
+        return mapper.map(getId, ProductDTO.class);
     }
 
     @Override
@@ -159,6 +163,9 @@ public class ProductServiceImpl implements ProductService {
     public String getAllProductForProductPage(Model model, HttpServletRequest request) {
         userService.getCurrentUser(model);
 
+        String getCate = request.getParameter("cateId");
+        Long cate = Objects.isNull(getCate) ? -1l : Long.parseLong(getCate);
+
         String sort = request.getParameter("sort");
 
         String getKeyword = request.getParameter("keyword");
@@ -181,6 +188,9 @@ public class ProductServiceImpl implements ProductService {
             } else {
                 listProducts = listProducts.stream().sorted(Comparator.comparing(ProductDTO::getPrice)).toList();
             }
+        }
+        if (cate > -1) {
+            listProducts = listProducts.stream().filter(dto -> dto.getCategoriesId().equals(cate)).toList();
         }
         if (!keyword.isBlank()) {
             listProducts = listProducts.stream().filter(dto -> dto.getName().toLowerCase().contains(keyword.toLowerCase())).toList();
@@ -207,7 +217,11 @@ public class ProductServiceImpl implements ProductService {
         userService.getCurrentUser(model);
 
         ProductDTO product = getById(id, model);
-        List<ProductDTO> related = getAllDistinctName().stream()
+        if (product == null) {
+            return null;
+        }
+
+        List<ProductDTO> related = getAllDistinctName().stream().filter(p -> p.getCategoriesId().equals(product.getCategoriesId()))
                 .filter(p -> !p.getName().equals(product.getName())).toList();
         List<ProductDTO> sizes = getSizesByColor(product.getName(), product.getColor());
         List<ProductDTO> colors = getAllDistinctColor(product.getName(), product.getColor());

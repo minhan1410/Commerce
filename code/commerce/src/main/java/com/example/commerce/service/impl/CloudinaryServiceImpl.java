@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.commerce.model.dto.BlogDTO;
 import com.example.commerce.model.dto.ProductDTO;
+import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.service.CloudinaryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -96,6 +97,21 @@ public class CloudinaryServiceImpl implements CloudinaryService {
     public void deleteImageBlog(BlogDTO dto, BlogDTO getById) {
         if (!dto.getImg().isEmpty()) {
             deleteImage(getById.getImage());
+        }
+    }
+
+    @Override
+    public void uploadImageMember(UserDTO dto) {
+        String img = uploadImage(dto.getImage());
+        if (Objects.nonNull(img)) {
+            dto.setAvatar(img);
+        }
+    }
+
+    @Override
+    public void deleteImageMember(UserDTO dto, UserDTO getById) {
+        if (!dto.getImage().isEmpty()) {
+            deleteImage(getById.getAvatar());
         }
     }
 }
