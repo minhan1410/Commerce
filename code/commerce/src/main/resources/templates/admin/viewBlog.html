@@ -1,97 +1,98 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Quản lí Blog</title>
+    <meta charset="ISO-8859-1">
+    <title>Quản lí Blog</title>
 
-<!-- Latest compiled and minified CSS -->
-<link th:rel="stylesheet"
-	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"></link>
-<!-- jQuery library -->
-<script
-	th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"
+          th:rel="stylesheet"></link>
+    <!-- jQuery library -->
+    <script
+            th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 
-<!-- Popper JS -->
-<script
-	th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
+    <!-- Popper JS -->
+    <script
+            th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
 
-<!-- Latest compiled JavaScript -->
-<script
-	th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+    <!-- Latest compiled JavaScript -->
+    <script
+            th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
 
-<link rel="stylesheet" th:href="@{/css/viewperson.css}"></link>
+    <link rel="stylesheet" th:href="@{/css/viewperson.css}"></link>
 
 </head>
 <body>
-	<div th:replace="/admin/header :: header"></div>
-	<div class="container">
-		<h2>
-			<b>Danh sách bài viết</b>
-		</h2>
-		<form style="margin : 5px" th:action="@{/admin/blog}">
-			<a class="btn btn-warning" th:href="@{/admin/blog/new}">Thêm
-				sản phẩm</b>
-			</a> <input type="text" id="keyword" placeholder="Tìm kiếm"
-				 name="keyword" th:value="${keyword}">
-			<button type="submit" class="btn btn-primary">Tìm kiếm</button>
-			
-			<label>Category</label>
-			<select name = "category" th:value="${categoriesForBlogDTO}">
-				<option value="">Choose an option</option>
-				<th:block th:each="cate: ${categoryForBlog}">
-					<option th:text="${cate.type}" th:value="${cate.id}"></option>
-				</th:block>
-			</select>
-		</form>
-		<table
-			class="table table-bordered table-striped table-responsive-stack"
-			id="tableOne">
-			<thead class="thead-dark">
-				<tr>
-					<th>Id</th>
-					<th>Image</th>
-					<th>Title</th>
-					<th>Content</th>
-					<th>Time</th>
-					<th>Category</th>
-					<th>Tag</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<th:block th:each="b : ${blogs}">
-					<tr>
-						<td><span th:text="${b.id}"></span></td>
-						<td><img style="width: 130px; height: 100px;"
-							th:src="@{${b.blogImagePath}}" alt="IMG-LOGO"></td>
-						<td><a th:text="${b.title}"></a></td>
-						<td><span th:text="${b.content}"></span></td>
-						<td><span th:text="${b.categoriesForBlogDTO.type}"></span></td>
-						<td><span th:text="${b.created_time} + ' ' + ${b.createdDay} +' '+ ${b.createdMonth}"></span></td>
-						<td><span th:each="blogDTO : ${b.tags}">[[${blogDTO.type}]], </span></td>
-						<td><div class="btn-group">
-								<a th:href="@{'/admin/blog/edit?id=' + ${b.id}}" class="btn btn-success">Sửa</a> <a class="btn btn-danger"
-									th:href="@{'/admin/blog/delete/' + ${b.id}}">Xóa</a>
-							</div></td>
-					</tr>
-				</th:block>
-			</tbody>
-		</table>
-		<div class="clearfix">
-			<ul class="pagination">
-				<li class="page-item disabled"><a href="#" class="page-link">Previous</a></li>
-				<li class="page-item active" ><a href="#" class="page-link">1</a></li>
-				<li class="page-item"><a href="#" class="page-link">2</a></li>
-				<li class="page-item"><a href="#" class="page-link">3</a></li>
-				<li class="page-item"><a href="#" class="page-link">4</a></li>
-				<li class="page-item"><a href="#" class="page-link">5</a></li>
-				<li class="page-item"><a href="#" class="page-link">Next</a></li>
-			</ul>
-		</div>
-	</div>
-	<div th:replace="/admin/footer :: footer"></div>
-	
-	
-	<script th:src="@{/js/person.js}"></script>
+<div th:replace="/admin/header :: header"></div>
+<div class="container">
+    <h2>
+        <b>Danh sách bài viết</b>
+    </h2>
+    <form style="margin : 5px" th:action="@{/admin/blog}">
+        <a class="btn btn-warning" th:href="@{/admin/blog/new}">Thêm
+            sản phẩm</a>
+    </form>
+    <table class="table table-striped tableOne">
+        <thead class="thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Image</th>
+            <th>Title</th>
+            <th>Category</th>
+            <th>Time</th>
+            <th>Tag</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <th:block th:each="b : ${blogs}">
+            <tr>
+                <td><span th:text="${b.id}"></span></td>
+                <td><img alt="IMG-LOGO"
+                         style="width: 130px; height: 100px;" th:src="@{${b.image}}"></td>
+                <td><a th:text="${b.title}"></a></td>
+                <td><span th:text="${categoryForBlog.getId(b.categoryBlogId).type}"></span></td>
+                <td><span th:text="${b.createdTime} + ' ' + ${b.createdDay} +' '+ ${b.createdMonth}"></span></td>
+                <td>
+                    <span th:each="blogDTO : ${b.tags}" th:if="${b.tags.size() > 1}">[[${blogDTO.type}]], </span>
+                    <span th:each="blogDTO : ${b.tags}" th:if="${b.tags.size() == 1}">[[${blogDTO.type}]]</span>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-success" th:href="@{'/admin/blog/edit?id=' + ${b.id}}">Sửa</a> <a
+                            class="btn btn-danger"
+                            th:href="@{'/admin/blog/delete/' + ${b.id}}">Xóa</a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<div th:replace="/admin/footer :: footer"></div>
+
+<link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<script charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".tableOne").DataTable({
+            lengthMenu: [5, 10, 20, 30], // show entries,
+            'columnDefs': [
+                {
+                    'searchable': false,
+                    'targets': [1] // cac truong k cho search
+                    // see https://datatables.net/reference/option/columns.searchable
+                },
+                {
+                    'orderable': false,
+                    'targets': [1] // cac truong k cho filter
+                },
+            ]
+        });
+    });
+</script>
+
+<script th:src="@{/js/person.js}"></script>
 </body>
 </html>

@@ -2,9 +2,11 @@ package com.example.commerce.service;
 
 import com.example.commerce.model.custom.CustomOAuth2User;
 import com.example.commerce.model.dto.UserDTO;
+import com.example.commerce.model.entity.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.ui.Model;
 
+import java.util.List;
 import java.util.Locale;
 
 public interface UserService extends UserDetailsService {
@@ -22,5 +24,7 @@ public interface UserService extends UserDetailsService {
 
     void getById(Long id, Model model);
 
-    UserDTO updateMember(UserDTO userDTO);
+    User updateMember(UserDTO userDTO);
+
+    List<UserDTO> getAllUsers();
 }

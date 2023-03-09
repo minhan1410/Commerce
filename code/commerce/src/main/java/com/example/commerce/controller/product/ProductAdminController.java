@@ -24,7 +24,7 @@ public class ProductAdminController {
     public String listProduct(Model model) {
         model.addAttribute("products", productService.getAll());
         model.addAttribute("categoriesService", categoriesService);
-//        model.addAttribute("listCategories", categoriesService.getAll());
+//        model.addAttribute("listCategories", categoriesService.getAllUsers());
         return "/admin/viewProduct";
     }
 

@@ -1,6 +1,7 @@
 package com.example.commerce.service.impl;
 
 import com.example.commerce.constants.Provider;
+import com.example.commerce.constants.Role;
 import com.example.commerce.model.custom.CustomOAuth2User;
 import com.example.commerce.model.custom.CustomUserDetails;
 import com.example.commerce.model.dto.UserDTO;
@@ -30,6 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
@@ -66,7 +68,8 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
             return;
         }
         String verificationCode = RandomString.make(20);
-        User user = findMail.isPresent() && findMail.get().getVerificationCodeExpiry() != null ? findMail.get().updateVerificationCodeExpiry() : mapper.map(userDTO, User.class).createUserLocal(passwordEncoder.encode(userDTO.getPassword()), verificationCode);
+        User user = findMail.isPresent() && findMail.get().getVerificationCodeExpiry() != null ? findMail.get().updateVerificationCodeExpiry()
+                : mapper.map(userDTO, User.class).createUserLocal(passwordEncoder.encode(userDTO.getPassword()), verificationCode);
         userRepository.save(user);
 
 //        send email
@@ -140,11 +143,17 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     }
 
     @Override
-    public UserDTO updateMember(UserDTO dto) {
+    public User updateMember(UserDTO dto) {
         UserDTO currentUser = getCurrentUser();
         cloudinaryService.deleteImageMember(dto, currentUser);
         cloudinaryService.uploadImageMember(dto);
         User update = mapper.map(currentUser, User.class).update(dto);
-        return mapper.map(userRepository.save(update), UserDTO.class);
+//        return mapper.map(userRepository.save(update), UserDTO.class);
+        return userRepository.save(update);
+    }
+
+    @Override
+    public List<UserDTO> getAllUsers() {
+        return userRepository.getByRoleAndDeletedFalse(Role.USER).stream().map(user -> mapper.map(user, UserDTO.class)).toList();
     }
 }

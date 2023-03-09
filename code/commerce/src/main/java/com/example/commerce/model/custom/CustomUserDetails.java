@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 @Data
 @AllArgsConstructor
@@ -47,6 +48,14 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return user.getEnabled();
+        Boolean enabled = user.getEnabled();
+        if (Objects.isNull(enabled)) {
+            return false;
+        }
+        return enabled;
+    }
+
+    public void update(User updateMember) {
+        this.user = updateMember;
     }
 }
