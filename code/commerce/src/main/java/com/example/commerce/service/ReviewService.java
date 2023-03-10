@@ -20,7 +20,7 @@ public interface ReviewService {
 
     String update(ReviewDTO dto, Model model);
 
-    String delete(Long id, Model model);
+    String delete(Long id);
 
     void deleteByProduct(Long productId);
 }

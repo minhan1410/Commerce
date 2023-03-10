@@ -4,6 +4,7 @@ import com.example.commerce.model.dto.BlogDTO;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "blog")
@@ -39,13 +40,15 @@ public class Blog {
     private Boolean deleted;
 
     public Blog update(BlogDTO dto) {
+        if (Objects.nonNull(dto.getImage())) {
+            this.image = dto.getImage();
+        }
         this.title = dto.getTitle();
         this.content = dto.getContent();
         this.categoryBlogId = dto.getCategoryBlogId();
         this.createdTime = dto.getCreatedTime();
         this.createdDay = dto.getCreatedDay();
         this.createdMonth = dto.getCreatedMonth();
-        this.image = dto.getImage();
         return this;
     }
 }

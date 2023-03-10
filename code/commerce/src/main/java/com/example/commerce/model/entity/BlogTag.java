@@ -10,7 +10,7 @@ import javax.persistence.*;
 public class BlogTag {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "blog_id")

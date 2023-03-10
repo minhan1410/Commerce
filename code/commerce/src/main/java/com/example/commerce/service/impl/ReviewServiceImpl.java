@@ -78,7 +78,10 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public String delete(Long id, Model model) {
+    public String delete(Long id) {
+        Review byId = reviewRepository.getById(id);
+        byId.setDeleted(true);
+        reviewRepository.save(byId);
         return null;
     }
 

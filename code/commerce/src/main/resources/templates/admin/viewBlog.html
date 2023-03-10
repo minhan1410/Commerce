@@ -24,35 +24,35 @@
 </head>
 <body>
 <div th:replace="/admin/header :: header"></div>
-<div class="container">
-    <h2>
-        <b>Danh sách bài viết</b>
-    </h2>
-    <form style="margin : 5px" th:action="@{/admin/blog}">
-        <a class="btn btn-warning" th:href="@{/admin/blog/new}">Thêm
-            sản phẩm</a>
-    </form>
+<div class="container" style="margin-bottom: 40px">
+    <div style="display: flex; align-items: center; justify-content: space-between; margin:40px 0px">
+        <h2>
+            <b>Danh sách bài viết</b>
+        </h2>
+        <form style="margin : 5px" th:action="@{/admin/blog}">
+            <a class="btn btn-warning" th:href="@{/admin/blog/new}">Thêm
+                sản phẩm</a>
+        </form>
+    </div>
     <table class="table table-striped tableOne">
         <thead class="thead-dark">
         <tr>
-            <th>Id</th>
+            <th>STT</th>
             <th>Image</th>
             <th>Title</th>
             <th>Category</th>
-            <th>Time</th>
             <th>Tag</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody>
-        <th:block th:each="b : ${blogs}">
+        <th:block th:each="b, iState : ${blogs}">
             <tr>
-                <td><span th:text="${b.id}"></span></td>
+                <td><span th:text="${iState.index + 1}"></span></td>
                 <td><img alt="IMG-LOGO"
                          style="width: 130px; height: 100px;" th:src="@{${b.image}}"></td>
                 <td><a th:text="${b.title}"></a></td>
                 <td><span th:text="${categoryForBlog.getId(b.categoryBlogId).type}"></span></td>
-                <td><span th:text="${b.createdTime} + ' ' + ${b.createdDay} +' '+ ${b.createdMonth}"></span></td>
                 <td>
                     <span th:each="blogDTO : ${b.tags}" th:if="${b.tags.size() > 1}">[[${blogDTO.type}]], </span>
                     <span th:each="blogDTO : ${b.tags}" th:if="${b.tags.size() == 1}">[[${blogDTO.type}]]</span>

@@ -1,6 +1,7 @@
 package com.example.commerce.service.impl;
 
 import com.example.commerce.model.dto.BlogDTO;
+import com.example.commerce.model.dto.BlogTagDTO;
 import com.example.commerce.model.dto.CategoriesBlogDTO;
 import com.example.commerce.model.dto.CommentBlogDTO;
 import com.example.commerce.model.entity.Blog;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -53,19 +55,41 @@ public class BlogServiceImpl implements BlogService {
 
     @Override
     @Transactional
-    public String add(BlogDTO dto, Model model) {
+    public String add(BlogDTO dto, List<Long> tagId, Model model) {
+        LocalDateTime now = LocalDateTime.now();
+        dto.setCreatedDay(now.getDayOfMonth());
+        dto.setCreatedMonth(now.getMonth().name());
+        dto.setCreatedTime(now.getHour() + ":" + now.getMinute() + ":" + now.getSecond());
+
         cloudinaryService.uploadImageBlog(dto);
-        blogRepository.save(mapper.map(dto, Blog.class));
+        Blog blog = blogRepository.save(mapper.map(dto, Blog.class));
+        tagId.forEach(tId -> {
+            BlogTagDTO blogTagDTO = new BlogTagDTO();
+            blogTagDTO.setBlogId(blog.getId());
+            blogTagDTO.setTagId(tId);
+            blogTagService.add(blogTagDTO);
+        });
+
         return "redirect:/admin/blog";
     }
 
     @Override
     @Transactional
-    public String update(BlogDTO dto, Model model) {
+    public String update(BlogDTO dto, List<Long> tagId, Model model) {
         BlogDTO getById = getById(dto.getId(), model);
         if (Objects.isNull(getById)) {
-            return "/admin/editBlog";
+            return "/err/notFound";
         }
+
+        List<Long> tagById = blogTagService.getByBlogId(getById.getId()).stream().map(BlogTagDTO::getTagId).toList();
+        tagId.stream().filter(tId -> !tagById.contains(tId)).toList().forEach(tId -> {
+            BlogTagDTO blogTagDTO = new BlogTagDTO();
+            blogTagDTO.setBlogId(dto.getId());
+            blogTagDTO.setTagId(tId);
+            blogTagService.add(blogTagDTO);
+        });
+        tagById.stream().filter(tId -> !tagId.contains(tId)).toList().forEach(tId -> blogTagService.delete(dto.getId(), tId));
+
         cloudinaryService.deleteImageBlog(dto, getById);
         cloudinaryService.uploadImageBlog(dto);
         blogRepository.save(mapper.map(getById, Blog.class).update(dto));
@@ -77,6 +101,8 @@ public class BlogServiceImpl implements BlogService {
     public String delete(Long id, Model model) {
         BlogDTO getId = getById(id, model);
         if (getId != null) {
+            blogTagService.getByBlogId(id).stream().map(BlogTagDTO::getTagId).toList()
+                    .forEach(tId -> blogTagService.delete(id, tId));
             getId.setDeleted(true);
             blogRepository.save(mapper.map(getId, Blog.class));
         }

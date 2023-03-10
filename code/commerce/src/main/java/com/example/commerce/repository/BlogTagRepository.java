@@ -11,4 +11,6 @@ public interface BlogTagRepository extends JpaRepository<BlogTag, Long> {
     List<BlogTag> getByBlogIdAndDeletedFalse(Long blogId);
 
     List<BlogTag> getByTagIdAndDeletedFalse(Long tagId);
+
+    BlogTag getByBlogIdAndTagIdAndDeletedFalse(Long blogId, Long tagId);
 }

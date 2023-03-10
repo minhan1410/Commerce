@@ -1,89 +1,92 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Quản lí Blog</title>
+    <meta charset="ISO-8859-1">
+    <title>Quản lí Blog</title>
 
-<!-- Latest compiled and minified CSS -->
-<link th:rel="stylesheet"
-	th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"></link>
-<!-- jQuery library -->
-<script
-	th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link th:href="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css}"
+          th:rel="stylesheet"></link>
+    <!-- jQuery library -->
+    <script
+            th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js}"></script>
 
-<!-- Popper JS -->
-<script
-	th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
+    <!-- Popper JS -->
+    <script
+            th:src="@{https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js}"></script>
 
-<!-- Latest compiled JavaScript -->
-<script
-	th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
+    <!-- Latest compiled JavaScript -->
+    <script
+            th:src="@{https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js}"></script>
 
-<link rel="stylesheet" th:href="@{/css/viewperson.css}"></link>
+    <link rel="stylesheet" th:href="@{/css/viewperson.css}"></link>
 
-<script th:src="@{/js/person.js}"></script>
+    <script th:src="@{/js/person.js}"></script>
 
 </head>
 <body>
-	<div th:replace="/admin/header :: header"></div>
-	<div class="container">
-		<h2>
-			<b>Danh sách Comment</b>
-		</h2>
-		<form style="margin : 5px" th:action="@{/admin/review}">
-			</a> <input type="text" id="keyword" placeholder="Tìm kiếm"
-				 name="keyword" th:value="${keyword}">
-			<button type="submit" class="btn btn-primary">Tìm kiếm</button>
-			
-			<!-- <label>Category</label>
-			<select name = "category" th:value="${categoriesForBlogDTO}">
-				<option value="">Choose an option</option>
-				<th:block th:each="cate: ${categoryForBlog}">
-					<option th:text="${cate.type}" th:value="${cate.id}"></option>
-				</th:block>
-			</select> -->
-		</form>
-		<table
-			class="table table-bordered table-striped table-responsive-stack"
-			id="tableOne">
-			<thead class="thead-dark">
-				<tr>
-					<th>Id</th>
-					<th>Review</th>
-					<th>Star Number</th>
-					<th>Time</th>
-					<th>User</th>
-					<th>Product</th>
-					<th>Actions</th>
-				</tr>
-			</thead>
-			<tbody>
-				<th:block th:each="r : ${reviews}">
-					<tr>
-						<td><a th:text="${r.id}"></a></td>
-						<td><span th:text="${r.review}"></span></td>
-						<td><span th:text="${r.starNumber}"></span></td>
-						<td><span th:text="${r.reviewDate}"></span></td>
-						<td><span th:text="${r.userDTO.name}"></span></td>
-						<td><span th:text="${r.productDTO.name}"></span></td>
-						<td><div class="btn-group">
-								<a class="btn btn-danger" th:href="@{'/admin/review/delete/' + ${r.id}}">Xóa</a>
-							</div>
-						</td>
-					</tr>
-				</th:block>
-			</tbody>
-		</table>
-		<!-- <nav aria-label="Page navigation example">
-			<ul class="pagination">
-				<li class="page-item"><a class="page-link" >Previous</a></li>
-				<li class="page-item"><a th:href="@{'/admin/product?page=' + ${page} + '&size=5'}"
-				th:text="${page}" >1</a></li>
-				<li class="page-item"><a class="page-link" >Next</a></li>
-			</ul>
-		</nav> -->
-	</div>
-	<div th:replace="/admin/footer :: footer"></div>
-	<!-- /.container -->
+<div th:replace="/admin/header :: header"></div>
+<div class="container">
+    <h2>
+        <b>Danh sách Comment</b>
+    </h2>
+    <table
+            class="table table-bordered table-striped table-responsive-stack"
+            id="tableOne">
+        <thead class="thead-dark">
+        <tr>
+            <th>Stt</th>
+            <th>Product</th>
+            <th>Color</th>
+            <th>Size</th>
+            <th>User</th>
+            <th>Star Number</th>
+            <th>Review</th>
+            <th>Actions</th>
+        </tr>
+
+        </thead>
+        <tbody>
+        <th:block th:each="r,iState : ${reviews}">
+            <tr>
+                <td><span th:text="${iState.index + 1}"></span></td>
+                <td><span th:text="${productsMap.get(r.productId).getName()}"></span></td>
+                <td><span th:text="${productsMap.get(r.productId).getColor()}"></span></td>
+                <td><span th:text="${productsMap.get(r.productId).getSize()}"></span></td>
+                <td><span th:text="${usersMap.get(r.reviewerId)}"></span></td>
+                <td><span th:text="${r.starNumber}"></span></td>
+                <td><span th:text="${r.review}"></span></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-danger" th:href="@{'/admin/review/delete/' + ${r.id}}">Xóa</a>
+                    </div>
+                </td>
+            </tr>
+        </th:block>
+        </tbody>
+    </table>
+</div>
+<div th:replace="/admin/footer :: footer"></div>
+<link href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css" rel="stylesheet" type="text/css">
+<script charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js" type="text/javascript"></script>
+
+<script>
+    $(document).ready(function () {
+        $("#tableOne").DataTable({
+            lengthMenu: [5, 10, 20, 30], // show entries
+            'columnDefs': [
+                {
+                    'searchable': false,
+                    'targets': [0, 2, 3, 5, 7] // cac truong k cho search
+                    // see https://datatables.net/reference/option/columns.searchable
+                },
+                {
+                    'orderable': false,
+                    'targets': [7] // cac truong k cho filter
+                },
+            ]
+        });
+    });
+</script>
 </body>
 </html>

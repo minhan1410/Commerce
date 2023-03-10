@@ -13,9 +13,9 @@ public interface BlogService {
 
     BlogDTO getById(Long id, Model model);
 
-    String add(BlogDTO dto, Model model);
+    String add(BlogDTO dto, List<Long> tagId, Model model);
 
-    String update(BlogDTO dto, Model model);
+    String update(BlogDTO dto, List<Long> tagId, Model model);
 
     String delete(Long id, Model model);
 

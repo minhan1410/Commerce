@@ -35,4 +35,16 @@ public class BlogTagServiceImpl implements BlogTagService {
         return tagService.getIds(tagIds);
     }
 
+    @Override
+    public void add(BlogTagDTO dto) {
+        blogTagRepository.save(mapper.map(dto, BlogTag.class));
+    }
+
+    @Override
+    public void delete(Long blogId, Long tagId) {
+        BlogTag get = blogTagRepository.getByBlogIdAndTagIdAndDeletedFalse(blogId, tagId);
+        get.setDeleted(true);
+        blogTagRepository.save(get);
+    }
+
 }

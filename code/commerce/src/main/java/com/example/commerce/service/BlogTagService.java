@@ -11,4 +11,8 @@ public interface BlogTagService {
     List<BlogTagDTO> getByTagId(Long tagId);
 
     List<TagDTO> getTag(Long blogId);
+
+    void add(BlogTagDTO dto);
+
+    void delete(Long blogId, Long tagId);
 }

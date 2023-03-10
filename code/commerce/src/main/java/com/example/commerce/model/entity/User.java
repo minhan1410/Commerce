@@ -89,6 +89,7 @@ public class User {
         this.role = Role.USER;
         this.authProvider = Provider.valueOf(provider.toUpperCase());
         this.enabled = true;
+        this.deleted = false;
         this.avatar = provider.equals("facebook") ? oAuth2User.getAvatarFb() : oAuth2User.getAvatarGoogle();
         return this;
     }

@@ -45,7 +45,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .userInfoEndpoint().userService(userService).and()
                 .successHandler((request, response, authentication) -> {
                     CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
-                    if (Boolean.TRUE.equals(userService.createUserProvider(oauthUser, ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId()))) {
+                    String provider = ((OAuth2AuthenticationToken) authentication).getAuthorizedClientRegistrationId();
+                    if (Boolean.TRUE.equals(userService.createUserProvider(oauthUser, provider))) {
                         response.sendRedirect("/home");
                     } else {
                         response.sendRedirect("/?err=" + "existedMail");

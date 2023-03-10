@@ -54,9 +54,8 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User user = super.loadUser(userRequest);
-        String username = user.getAttribute("email");
-        return new CustomOAuth2User(user, userRepository.findByMail(username).orElseThrow(() -> new UsernameNotFoundException(username)));
+        OAuth2User oAuth2User = super.loadUser(userRequest);
+        return new CustomOAuth2User(oAuth2User);
     }
 
     @Override
@@ -91,7 +90,8 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
             return false;
         }
         if (findMail.isEmpty()) {
-            userRepository.save(new User().createUserProvider(oAuth2User, provider));
+            oAuth2User.setUser(new User().createUserProvider(oAuth2User, provider));
+            userRepository.save(oAuth2User.getUser());
         }
         return true;
     }
