@@ -55,7 +55,9 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
-        return new CustomOAuth2User(oAuth2User);
+        CustomOAuth2User auth2User = new CustomOAuth2User(oAuth2User);
+        auth2User.setUser(userRepository.findByMail(auth2User.getEmail()).orElse(null));
+        return auth2User;
     }
 
     @Override
