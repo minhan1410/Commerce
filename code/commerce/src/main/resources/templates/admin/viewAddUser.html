@@ -370,7 +370,8 @@
                     <div th:id="${'editEmployeeModal'+{p.id}}" class="modal fade">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <form th:action="@{/edit}" method="post" enctype="multipart/form-data">
+                                <form th:action="@{/admin/user/edit}" method="post">
+                                    <input type="text" th:value="*{p.id}" name="id" class="hidden-true">
                                     <div class="form-group">
                                         <label>Name</label> <input type="text" th:value="*{p.name}" name="name" class="form-control"
                                                                     disabled>
@@ -420,7 +421,7 @@
                                         <input type="button" class="btn btn-default"
                                                data-dismiss="modal" value="Cancel"> <a
                                             type="submit" class="btn btn-danger"
-                                            th:href="@{'/delete/'+${p.id}}">Save</a>
+                                            th:href="@{'/admin/user/delete/'+${p.id}}">Save</a>
                                     </div>
                                 </form>
                             </div>
