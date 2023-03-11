@@ -125,9 +125,14 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         Optional<Authentication> authentication = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication());
         if (authentication.isEmpty()) return null;
         Object principal = authentication.get().getPrincipal();
-        return principal instanceof String ? new UserDTO()
-                : principal instanceof CustomUserDetails ? mapper.map(((CustomUserDetails) principal).getUser(), UserDTO.class)
-                : mapper.map(((CustomOAuth2User) principal).getUser(), UserDTO.class);
+        if (principal instanceof String) return new UserDTO();
+        if (principal instanceof CustomUserDetails)
+            return mapper.map(((CustomUserDetails) principal).getUser(), UserDTO.class);
+
+        CustomOAuth2User customOAuth2User = (CustomOAuth2User) principal;
+        User user = userRepository.findByMail(customOAuth2User.getEmail()).get();
+        customOAuth2User.setUser(user);
+        return mapper.map(user, UserDTO.class);
     }
 
     @Override
