@@ -371,7 +371,7 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <form th:action="@{/admin/user/edit}" method="post">
-                                    <input type="text" th:value="*{p.id}" name="id" class="hidden-true">
+                                    <input type="text" th:value="*{p.id}" name="id" style="display: none">
                                     <div class="form-group">
                                         <label>Name</label> <input type="text" th:value="*{p.name}" name="name" class="form-control"
                                                                     disabled>

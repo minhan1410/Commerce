@@ -28,7 +28,7 @@ public class UserAdminController {
 
     @PostMapping("/edit")
     public String setAdmin(Model model, @ModelAttribute("userDTO") UserDTO userDTO) {
-        User user = mapper.map(userDTO, User.class);
+        User user = userRepository.getById(userDTO.getId());
         user.setRole(Role.ADMIN);
         userRepository.save(user);
         return "redirect:/admin/user";
