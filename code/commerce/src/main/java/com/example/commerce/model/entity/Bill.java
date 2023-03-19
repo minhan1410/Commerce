@@ -3,7 +3,6 @@ package com.example.commerce.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "bill")
@@ -14,23 +13,41 @@ public class Bill {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "bill_date")
-    private LocalDateTime billDate;
+    @Column(name = "user_id")
+    private Long userId;
+
+    @Column(name = "cart_items_id")
+    private Long cartItemsId;
+
+    @Column(name = "coupon_id")
+    private Long couponId;
 
     @Column(name = "price_total")
     private Long priceTotal;
 
-    @Column(name = "discount_percent")
-    private Integer discountPercent;
+    @Column(name = "receiver_name")
+    private Long receiverName;
 
-    @Column(name = "buyer_id")
-    private Long buyerId;
+    @Column(name = "shipping_address")
+    private Long shippingAddress;
+
+    @Column(name = "phone_number")
+    private Long phoneNumber;
+
+    @Column(name = "create_time")
+    private Long createTime;
+
+    @Column(name = "confirm_time")
+    private Long confirmTime;
+
+    @Column(name = "delivery_time")
+    private Long deliveryTime;
+
+    @Column(name = "received_time")
+    private Long receivedTime;
 
     @Column(name = "status")
     private String status;
-
-    @Column(name = "pay")
-    private String pay;
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;

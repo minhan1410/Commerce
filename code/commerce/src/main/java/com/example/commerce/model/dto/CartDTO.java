@@ -5,10 +5,10 @@ import lombok.Data;
 
 @Data
 @Builder
-public class CartItemsDTO {
+public class CartDTO {
     private Long id;
     private ProductDTO product;
-    private Long billId;
-    private int quantity;
     private UserDTO user;
+    private int quantity;
+    private Boolean deleted = false;
 }

@@ -5,7 +5,7 @@ import org.springframework.ui.Model;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-public interface CartItemsService {
+public interface CartService {
     String addToCart(Long id, String size, int numberProducts, HttpSession session, Model model);
 
     String updateCart(Long id, int quantity, String coupon, HttpServletRequest request, Model model);

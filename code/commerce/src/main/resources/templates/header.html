@@ -3,7 +3,7 @@
     <!-- Topbar -->
     <div class="top-bar">
         <div class="content-topbar flex-sb-m h-full container">
-            <div class="left-top-bar">Free shipping for standard order
+            <div class="left-top-bar" th:text="${'Discount codes: ' + coupon}">Free shipping for standard order
                 over $100
             </div>
 
@@ -22,8 +22,9 @@
                 <a class="flex-c-m trans-04 p-lr-25" sec:authorize="isAuthenticated()"
                    th:href="@{/member/user}"><span sec:authentication="name"></span></a>
                 <a class="flex-c-m trans-04 p-lr-25" sec:authorize="isAuthenticated()" th:href="@{/logout}"
-                   th:if="${user.id == null}"> <img src="https://res.cloudinary.com/dpvehgfmo/image/upload/v1677683288/user_mvyazt.png"
-                                                    style="border-radius: 50%; height:30px; width:30px; margin:5px"></a>
+                   th:if="${user.id == null}"> <img
+                        src="https://res.cloudinary.com/dpvehgfmo/image/upload/v1677683288/user_mvyazt.png"
+                        style="border-radius: 50%; height:30px; width:30px; margin:5px"></a>
             </div>
 
         </div>
@@ -36,7 +37,7 @@
             <!-- Topbar -->
             <div class="top-bar">
                 <div class="content-topbar flex-sb-m h-full container">
-                    <div class="left-top-bar">Free shipping for standard order
+                    <div class="left-top-bar" th:text="${'Discount codes: ' + coupon}">Free shipping for standard order
                         over $100
                     </div>
 
@@ -128,7 +129,7 @@
         <div class="menu-mobile">
             <ul class="topbar-mobile">
                 <li>
-                    <div class="left-top-bar">Free shipping for standard order
+                    <div class="left-top-bar" th:text="${'Discount codes: ' + coupon}">Free shipping for standard order
 
                         over $100
                     </div>

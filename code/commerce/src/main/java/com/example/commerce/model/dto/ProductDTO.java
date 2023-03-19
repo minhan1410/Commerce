@@ -12,7 +12,6 @@ public class ProductDTO {
     @NotBlank(message = "name not bank")
     private String name;
     private Long price;
-    @NotBlank(message = "description not bank")
     private String description;
     private Long categoriesId;
     private String imgMain;

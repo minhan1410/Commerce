@@ -2,10 +2,7 @@ package com.example.commerce.controller.product;
 
 import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.model.dto.ReviewDTO;
-import com.example.commerce.service.CategoriesService;
-import com.example.commerce.service.ProductService;
-import com.example.commerce.service.ReviewService;
-import com.example.commerce.service.UserService;
+import com.example.commerce.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,6 +20,7 @@ public class ProductUserController {
     private final ProductService productService;
     private final CategoriesService categoriesService;
     private final ReviewService reviewService;
+    private final CouponService couponService;
 
     @GetMapping("/product-detail")
     public String getProductById(Model model, @RequestParam(name = "id", required = false) Long id) {
@@ -30,6 +28,7 @@ public class ProductUserController {
         if (product == null) {
             return "/error/notFound";
         }
+        couponService.getByExpirationDate(model);
         model.addAttribute("categoriesService", categoriesService);
         model.addAttribute("numberOfReview", reviewService.countProduct(id));
         model.addAttribute("reviews", reviewService.getByProductId(id, model));
@@ -44,6 +43,7 @@ public class ProductUserController {
 
     @GetMapping(value = "/product")
     public String getAllProductForProductPage(Model model, HttpServletRequest request) {
+        couponService.getByExpirationDate(model);
         model.addAttribute("cate", categoriesService.getAll());
         model.addAttribute("categoriesService", categoriesService);
         return productService.getAllProductForProductPage(model, request);

@@ -5,19 +5,19 @@ import lombok.Data;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "cart_items")
+@Table(name = "cart")
 @Data
-public class CartItems {
+public class Cart {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "user_id")
+    private Long userId;
+
     @Column(name = "product_id")
     private Long productId;
-
-    @Column(name = "bill_id")
-    private Long billId;
 
     @Column(name = "quantity")
     private Integer quantity;

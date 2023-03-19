@@ -2,17 +2,20 @@ package com.example.commerce.model.dto;
 
 import lombok.Data;
 
-import java.time.LocalDateTime;
-
 @Data
 public class BillDTO {
     private Long id;
-    private LocalDateTime billDate;
+    private UserDTO user;
+    private CartDTO cartItems;
     private Long priceTotal;
-    private Integer discountPercent;
-    private Long buyerId;
+    private Long receiverName;
+    private Long shippingAddress;
+    private Long phoneNumber;
+    private Long createTime;
+    private Long confirmTime;
+    private Long deliveryTime;
+    private Long receivedTime;
     private String status;
-    private String pay;
     private Boolean deleted = false;
 
 }

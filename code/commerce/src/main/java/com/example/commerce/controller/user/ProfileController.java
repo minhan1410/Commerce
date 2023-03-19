@@ -2,6 +2,7 @@ package com.example.commerce.controller.user;
 
 import com.example.commerce.model.custom.CustomUserDetails;
 import com.example.commerce.model.dto.UserDTO;
+import com.example.commerce.service.CouponService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,10 +20,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/member/user")
 public class ProfileController {
     private final UserService userService;
+    private final CouponService couponService;
 
     @GetMapping()
     public String info(Model model) {
         model.addAttribute("user", userService.getCurrentUser());
+        couponService.getByExpirationDate(model);
         return "informationUser";
     }
 
