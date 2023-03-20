@@ -150,7 +150,7 @@
 
                                 <div class="size-204 respon6-next">
                                     <div class="rs1-select2 bor8 bg0">
-                                        <select class="js-select2" name="time">
+                                        <select class="js-select2" name="size">
                                             <option th:each="s : ${sizes}" th:text="${s.size}"
                                                     th:value="${s.size}"></option>
                                         </select>
@@ -176,7 +176,7 @@
                                     </div>
 
                                     <button class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail"
-                                            th:formaction="@{'/add-to-cart?id='+${product.id}+'&size='+${product.size}}"
+                                            th:formaction="@{'/add-to-cart?id='+${product.id}}"
                                             type="submit">
                                         <!--  -->
                                         Add to cart

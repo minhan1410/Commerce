@@ -27,6 +27,7 @@ public class CartServiceImpl implements CartService {
     @Transactional
     public String addToCart(Long id, String size, int numberProducts, HttpSession session, Model model) {
         ProductDTO byIdAndSize = productService.getByIdAndSize(id, size, model);
+        Long currentId = byIdAndSize.getId();
         Map<Long, CartDTO> map = (Map<Long, CartDTO>) session.getAttribute("cart"); //lay session neu co , neu chua co tao 1 session moi la cart
         Integer totalOfCart = (Integer) session.getAttribute("totalOfCart");
         Double totalPrice = (Double) session.getAttribute("totalPrice");
@@ -34,15 +35,15 @@ public class CartServiceImpl implements CartService {
         if (Objects.isNull(map)) {
             map = new HashMap<>();
 
-            map.put(id, CartDTO.builder().product(byIdAndSize).quantity(numberProducts).build());
+            map.put(currentId, CartDTO.builder().product(byIdAndSize).quantity(numberProducts).build());
             session.setAttribute("cart", map);
             totalOfCart = numberProducts;
             totalPrice = Double.valueOf((numberProducts * byIdAndSize.getPrice()));
         } else {
-            CartDTO dto = map.get(id);
+            CartDTO dto = map.get(currentId);
             if (Objects.isNull(dto)) { // chua co sp
                 dto = CartDTO.builder().product(byIdAndSize).quantity(numberProducts).build();
-                map.put(id, dto);
+                map.put(currentId, dto);
             } else {
                 dto.setQuantity(dto.getQuantity() + numberProducts);
             }

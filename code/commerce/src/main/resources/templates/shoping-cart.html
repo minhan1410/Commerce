@@ -52,7 +52,7 @@
 <!-- breadcrumb -->
 <div class="container">
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-        <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04"> Home
+        <a th:href="@{/home}" class="stext-109 cl8 hov-cl1 trans-04"> Home
             <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
         </a> <span class="stext-109 cl4"> Shoping Cart </span>
     </div>
@@ -71,9 +71,11 @@
                             <tr class="table_head">
                                 <th class="column-1">Product</th>
                                 <th class="column-2"></th>
-                                <th class="column-3">Price</th>
-                                <th class="column-4">Quantity</th>
-                                <th class="column-5"></th>
+                                <th class="column-3">Size</th>
+                                <th class="column-4">Color</th>
+                                <th class="column-5">Price</th>
+                                <th class="column-6">Quantity</th>
+                                <th class="column-7"></th>
                             </tr>
                             <th:block th:each="entry: ${#session.getAttribute('cart')}">
                                 <tr class="table_row">
@@ -86,10 +88,16 @@
                                     <td class="column-2" th:text="${entry.value.product.name}">Fresh
                                         Strawberries
                                     </td>
-                                    <td class="column-3" name="price1"
+                                    <td class="column-3" th:text="${entry.value.product.size}">Fresh
+                                        Strawberries
+                                    </td>
+                                    <td class="column-4" th:text="${entry.value.product.color}">Fresh
+                                        Strawberries
+                                    </td>
+                                    <td class="column-5" name="price1"
                                         th:text="${entry.value.product.price} + '$'">$ 36.00
                                     </td>
-                                    <td class="column-4">
+                                    <td class="column-6">
                                         <div class="wrap-num-product flex-w m-l-auto m-r-0">
                                             <a th:href="@{'/update-cart?id='+${entry.key} +'&quantity='+${1 * -1}}">
                                                 <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
@@ -111,7 +119,8 @@
 
                                     </td>
 
-                                    <td class="column-5">
+
+                                    <td class="column-7">
                                         <a th:href="@{'/delete-from-cart?id='+${entry.key}}"
                                            class="btn btn-danger"> <span class="glyphicon glyphicon-trash">Trash</span>
                                         </a>
@@ -237,7 +246,7 @@
 
                     <div class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer"
                          data-mdb-toggle="modal"
-                         data-mdb-target="#exampleModal">
+                         data-mdb-target="#exampleModal" th:if="${session.cart != null}">
                         Proceed to Checkout
                     </div>
                 </div>
