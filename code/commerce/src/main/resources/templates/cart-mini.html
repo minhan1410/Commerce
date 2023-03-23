@@ -1,6 +1,6 @@
 <div th:fragment="cart-mini">
 
-    <!-- Cart -->
+    <!-- CartItem -->
     <div class="wrap-header-cart js-panel-cart">
         <div class="s-full js-hide-cart"></div>
 
@@ -24,7 +24,7 @@
 
                             <div class="header-cart-item-txt p-t-8">
                                 <a class="header-cart-item-name m-b-18 hov-cl1 trans-04" href="#"
-                                   th:text="${entry.value.product.name}">
+                                   th:text="${entry.value.product.name + ' - ' + entry.value.product.size}">
                                 </a> <span class="header-cart-item-info"> [[${entry.value.quantity}]] x $[[${entry.value.product.price}]]
 									</span>
                             </div>

@@ -11,4 +11,6 @@ public interface CartService {
     String updateCart(Long id, int quantity, String coupon, HttpServletRequest request, Model model);
 
     String deleteToCart(Long id, HttpServletRequest req);
+
+    String checkout(String receiverName, String shippingAddress, String phoneNumber, HttpServletRequest request);
 }

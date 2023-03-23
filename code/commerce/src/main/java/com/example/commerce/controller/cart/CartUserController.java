@@ -46,4 +46,9 @@ public class CartUserController {
     public String deleteToCart(@RequestParam(name = "id", required = true) Long id, HttpServletRequest request) {
         return cartService.deleteToCart(id, request);
     }
+
+    @PostMapping("/checkout")
+    public String checkout(@RequestParam(name = "receiverName") String receiverName, @RequestParam(name = "shippingAddress") String shippingAddress, @RequestParam(name = "phoneNumber") String phoneNumber, HttpServletRequest request) {
+        return cartService.checkout(receiverName, shippingAddress, phoneNumber, request);
+    }
 }

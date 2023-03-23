@@ -1,21 +1,25 @@
 package com.example.commerce.model.dto;
 
+import com.example.commerce.constants.BillStatus;
 import lombok.Data;
+
+import java.util.Date;
 
 @Data
 public class BillDTO {
     private Long id;
     private UserDTO user;
-    private CartDTO cartItems;
-    private Long priceTotal;
-    private Long receiverName;
-    private Long shippingAddress;
-    private Long phoneNumber;
-    private Long createTime;
-    private Long confirmTime;
-    private Long deliveryTime;
-    private Long receivedTime;
-    private String status;
+    private CartDTO cart;
+    private Integer totalCart;
+    private Double priceTotal;
+    private String receiverName;
+    private String shippingAddress;
+    private String phoneNumber;
+    private Date createTime;
+    private Date confirmTime;
+    private Date deliveryTime;
+    private Date receivedTime;
+    private BillStatus status;
     private Boolean deleted = false;
 
 }
