@@ -1,12 +1,11 @@
 package com.example.commerce.service;
 
-import org.quartz.JobDetail;
-import org.quartz.Trigger;
+import com.example.commerce.model.dto.CartItemDTO;
+
+import java.util.Map;
 
 public interface MailService {
-    Boolean sendMailRegister(String name, String email, String url);
+    void sendMailCart(Map<Long, CartItemDTO> map, Integer totalOfCart, Double totalPrice, Double totalPriceAfterApplyCoupon, String email);
 
-    JobDetail buildJobDetailRegister(String name, String email, String url);
-
-    Trigger buildJobTriggerRegister(JobDetail jobDetail);
+    void sendMailRegister(String name, String email, String url);
 }

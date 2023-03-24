@@ -4,16 +4,14 @@ import com.example.commerce.constants.BillStatus;
 import com.example.commerce.model.dto.CartItemDTO;
 import com.example.commerce.model.dto.CouponDTO;
 import com.example.commerce.model.dto.ProductDTO;
+import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.model.entity.Bill;
 import com.example.commerce.model.entity.Cart;
 import com.example.commerce.model.entity.CartItem;
 import com.example.commerce.repository.BillRepository;
 import com.example.commerce.repository.CartItemRepository;
 import com.example.commerce.repository.CartRepository;
-import com.example.commerce.service.CartService;
-import com.example.commerce.service.CouponService;
-import com.example.commerce.service.ProductService;
-import com.example.commerce.service.UserService;
+import com.example.commerce.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -34,6 +32,7 @@ public class CartServiceImpl implements CartService {
     private final CouponService couponService;
     private final UserService userService;
     private final BillRepository billRepository;
+    private final MailService mailService;
 
     @Override
     @Transactional
@@ -134,8 +133,10 @@ public class CartServiceImpl implements CartService {
         Double totalPriceAfterApplyCoupon = (Double) session.getAttribute("totalPriceAfterApplyCoupon");
         Double price = coupon == null ? totalPrice : totalPriceAfterApplyCoupon;
 
+        UserDTO currentUser = userService.getCurrentUser();
+
         Cart cart = cartRepository.save(Cart.builder()
-                .userId(userService.getCurrentUser().getId())
+                .userId(currentUser.getId())
                 .deleted(false)
                 .build());
 
@@ -144,7 +145,7 @@ public class CartServiceImpl implements CartService {
         cartItemRepository.saveAll(cartItems);
 
         billRepository.save(Bill.builder()
-                .userId(userService.getCurrentUser().getId())
+                .userId(currentUser.getId())
                 .cartId(cart.getId())
                 .couponId(coupon)
                 .totalCart(totalOfCart)
@@ -157,7 +158,12 @@ public class CartServiceImpl implements CartService {
                 .deleted(false)
                 .build());
 
+//        Xoa session
+        session.invalidate();
+
 //        Gui thong tin mua hang thanh cong ve mail
+        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser.getMail());
+
 //        Chuyen toi trang lich su mua hang
         return "redirect:/cart";
     }

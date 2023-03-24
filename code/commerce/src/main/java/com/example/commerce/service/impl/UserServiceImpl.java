@@ -13,10 +13,7 @@ import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.utility.RandomString;
 import org.modelmapper.ModelMapper;
-import org.quartz.JobDetail;
 import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.Trigger;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -74,14 +71,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         userRepository.save(user);
 
 //        send email
-        JobDetail jobDetail = mailService.buildJobDetailRegister(userDTO.getName(), userDTO.getMail(), url + "/verify?code=" + verificationCode);
-        Trigger trigger = mailService.buildJobTriggerRegister(jobDetail);
-        try {
-            scheduler.scheduleJob(jobDetail, trigger);
-            model.addAttribute("mess", messageSource.getMessage("verificationCode", null, "default message", locale));
-        } catch (SchedulerException e) {
-            model.addAttribute("err", messageSource.getMessage("Khong gui duoc mail", null, null, locale));
-        }
+        mailService.sendMailRegister(userDTO.getName(), userDTO.getMail(), url + "/verify?code=" + verificationCode);
     }
 
     @Override
