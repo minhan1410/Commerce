@@ -28,7 +28,7 @@ public class ReviewAdminController {
     public String getComment(Model model) {
         List<ReviewDTO> getAll = reviewService.getAll();
         Map<Long, ProductDTO> productsMap = getAll.stream().map(ReviewDTO::getProductId).distinct().collect(Collectors
-                .toMap(Long::longValue, productId -> productService.getById(productId, model)));
+                .toMap(Long::longValue, productId -> productService.getById(productId)));
         Map<Long, String> usersMap = getAll.stream().map(ReviewDTO::getReviewerId).distinct().collect(Collectors
                 .toMap(Long::longValue, reviewerId -> userService.getById(reviewerId).getName()));
 

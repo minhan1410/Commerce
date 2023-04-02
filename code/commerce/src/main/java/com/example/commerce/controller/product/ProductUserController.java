@@ -31,14 +31,14 @@ public class ProductUserController {
         couponService.getByExpirationDate(model);
         model.addAttribute("categoriesService", categoriesService);
         model.addAttribute("numberOfReview", reviewService.countProduct(id));
-        model.addAttribute("reviews", reviewService.getByProductId(id, model));
+        model.addAttribute("reviews", reviewService.getByProductId(id));
         model.addAttribute("type", categoriesService.getById(product.getCategoriesId()).getType());
         return "product-detail";
     }
 
     @PostMapping(value = "/member/product-detail/review")
     public String review(@ModelAttribute ReviewDTO dto, Model model) {
-        return reviewService.add(dto, model);
+        return reviewService.add(dto);
     }
 
     @GetMapping(value = "/product")

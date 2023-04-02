@@ -1,5 +1,6 @@
 package com.example.commerce.service;
 
+import com.example.commerce.model.dto.CartDTO;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,4 +14,6 @@ public interface CartService {
     String deleteToCart(Long id, HttpServletRequest req);
 
     String checkout(String receiverName, String shippingAddress, String phoneNumber, HttpServletRequest request);
+
+    CartDTO getById(Long id);
 }

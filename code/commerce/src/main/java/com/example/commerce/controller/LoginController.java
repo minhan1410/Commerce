@@ -1,4 +1,4 @@
-package com.example.commerce.controller.user;
+package com.example.commerce.controller;
 
 import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.service.UserService;
@@ -6,9 +6,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -18,11 +22,10 @@ public class LoginController {
     private final MessageSource messageSource;
 
     @GetMapping("/login")
-    public String login(@RequestParam(name = "err", required = false) String err, Model model, HttpServletRequest request) {
+    public String login(Model model, HttpServletRequest request) {
+        HttpSession session = request.getSession();
         model.addAttribute("user", new UserDTO());
-        if (!ValueConstants.DEFAULT_NONE.equals(err)) {
-            model.addAttribute("err", messageSource.getMessage(err, null, null, request.getLocale()));
-        }
+        model.addAttribute("err", session.getAttribute("err"));
         return "login";
     }
 

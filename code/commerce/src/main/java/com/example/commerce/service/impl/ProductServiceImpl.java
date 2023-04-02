@@ -72,8 +72,13 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getById(Long id, Model model) {
-        Product getId = getId(id, model);
+    public List<ProductDTO> getByListId(List<Long> ids) {
+        return getAll().stream().filter(productDTO -> ids.contains(productDTO.getId())).toList();
+    }
+
+    @Override
+    public ProductDTO getById(Long id) {
+        Product getId = getId(id, null);
         if (getId == null) {
             return null;
         }
@@ -81,8 +86,12 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductDTO getByIdAndSize(Long id, String size, Model model) {
-        ProductDTO getById = getById(id, model);
+    public ProductDTO getByIdAndSize(Long id, String size) {
+        ProductDTO getById = getById(id);
+        if (getById == null) {
+            return null;
+        }
+
         Optional<ProductDTO> optional = getRelatedByName(getById.getName()).stream()
                 .filter(p -> p.getColor().equals(getById.getColor()) && p.getSize().equals(size)).findFirst();
         return optional.orElse(null);
@@ -116,18 +125,18 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String duplicate(ProductDTO productDTO, Model model) {
+    public String duplicate(ProductDTO productDTO) {
         if (!productDTO.getImageMain().isEmpty() || !productDTO.getImageSub().isEmpty() || !productDTO.getImageHover().isEmpty()) {
             cloudinaryService.uploadImageProduct(productDTO);
         }
-        productRepository.save(new Product().duplicate(getById(productDTO.getId(), model), productDTO));
+        productRepository.save(new Product().duplicate(getById(productDTO.getId()), productDTO));
         return "redirect:/admin/product";
     }
 
     @Override
     @Transactional
     public String update(ProductDTO productDTO, Model model) {
-        ProductDTO getById = getById(productDTO.getId(), model);
+        ProductDTO getById = getById(productDTO.getId());
         if (getById == null) {
             return "/admin/editProduct";
         }
@@ -216,7 +225,7 @@ public class ProductServiceImpl implements ProductService {
     public ProductDTO productDetail(Long id, Model model) {
         userService.getCurrentUser(model);
 
-        ProductDTO product = getById(id, model);
+        ProductDTO product = getById(id);
         if (product == null) {
             return null;
         }

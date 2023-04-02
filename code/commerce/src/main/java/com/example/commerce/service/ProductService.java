@@ -21,13 +21,15 @@ public interface ProductService {
 
     List<ProductDTO> getByCategory(Long categoryID);
 
-    ProductDTO getById(Long id, Model model);
+    List<ProductDTO> getByListId(List<Long> ids);
 
-    ProductDTO getByIdAndSize(Long id, String size, Model model);
+    ProductDTO getById(Long id);
+
+    ProductDTO getByIdAndSize(Long id, String size);
 
     String add(ProductDTO productDTO, Model model);
 
-    String duplicate(ProductDTO productDTO, Model model);
+    String duplicate(ProductDTO productDTO);
 
     String update(ProductDTO productDTO, Model model);
 

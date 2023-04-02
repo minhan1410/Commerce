@@ -11,8 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -30,20 +30,21 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDTO> getByProductId(Long productId, Model model) {
-        return reviewRepository.getByProductIdAndDeleted(productId, false).stream().map(review -> mapper.map(review, ReviewDTO.class)).toList();
+    public List<ReviewDTO> getByProductId(Long productId) {
+        return reviewRepository.getByProductIdAndDeleted(productId, false).stream()
+                .map(review -> mapper.map(review, ReviewDTO.class)).toList();
     }
 
     @Override
-    public List<ReviewDTO> getByReviewerId(Long reviewerId, Model model) {
-        return reviewRepository.getByReviewerIdAndDeleted(reviewerId, false).stream().map(review -> mapper.map(review, ReviewDTO.class)).toList();
+    public List<ReviewDTO> getByReviewerId(Long reviewerId) {
+        return reviewRepository.getByReviewerIdAndDeleted(reviewerId, false).stream()
+                .map(review -> mapper.map(review, ReviewDTO.class)).toList();
     }
 
     @Override
-    public ReviewDTO getById(Long id, Model model) {
+    public ReviewDTO getById(Long id) {
         Optional<Review> findById = reviewRepository.findById(id);
         if (findById.isEmpty()) {
-            model.addAttribute("err", "id k ton tai");
             return null;
         }
         return mapper.map(findById.get(), ReviewDTO.class);
@@ -56,14 +57,17 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public String add(ReviewDTO dto, Model model) {
-        userService.getCurrentUser(model);
+    public String add(ReviewDTO dto) {
+//        userService.getCurrentUser(model);
 
         dto.setReviewerId(userService.getCurrentUser().getId());
 //        dto.setProductId(dto.getProductId());
-        for (ProductDTO productDTO : productService.getRelatedByName(productService.getById(dto.getProductId(), model).getName())) {
-            dto.setProductId(productDTO.getId());
-            reviewRepository.save(mapper.map(dto, Review.class));
+        for (ProductDTO productDTO : productService.getRelatedByName(productService.getById(dto.getProductId()).getName())) {
+//            dto.setProductId(productDTO.getId());
+            Review review = mapper.map(dto, Review.class);
+            review.setProductId(productDTO.getId());
+            review.setReviewDate(LocalDateTime.now());
+            reviewRepository.save(review);
         }
 
         return "redirect:/product-detail?id=" + dto.getProductId();
@@ -72,7 +76,7 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
 
-    public String update(ReviewDTO dto, Model model) {
+    public String update(ReviewDTO dto) {
         return null;
     }
 

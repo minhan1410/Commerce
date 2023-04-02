@@ -1,6 +1,7 @@
 package com.example.commerce.service.impl;
 
 import com.example.commerce.model.dto.CartItemDTO;
+import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.service.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -31,16 +32,16 @@ public class MailServiceImpl extends QuartzJobBean implements MailService {
 
     @SneakyThrows
     @Override
-    public void sendMailCart(Map<Long, CartItemDTO> map, Integer totalOfCart, Double totalPrice, Double totalPriceAfterApplyCoupon, String email) {
+    public void sendMailCart(Map<Long, CartItemDTO> map, Integer totalOfCart, Double totalPrice, Double totalPriceAfterApplyCoupon, UserDTO currentUser) {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("executeInternal", 2);
 
         jobDataMap.put("cart", map);
-        jobDataMap.put("cart", map);
         jobDataMap.put("totalOfCart", totalOfCart);
         jobDataMap.put("totalPrice", totalPrice);
         jobDataMap.put("totalPriceAfterApplyCoupon", totalPriceAfterApplyCoupon);
-        jobDataMap.put("email", email);
+        jobDataMap.put("email", currentUser.getMail());
+        jobDataMap.put("name", currentUser.getName());
 
         JobDetail jobDetail = JobBuilder.newJob(MailServiceImpl.class)
                 .withIdentity(UUID.randomUUID().toString(), "jobDetail-cart")
@@ -63,10 +64,10 @@ public class MailServiceImpl extends QuartzJobBean implements MailService {
     @SneakyThrows
     private void mailCart(JobExecutionContext jobExecutionContext) {
         JobDataMap jobDataMap = jobExecutionContext.getMergedJobDataMap();
-        Map<Long, CartItemDTO> cart = (Map<Long, CartItemDTO>) jobDataMap.get("cart");
-        Integer totalOfCart = (Integer) jobDataMap.get("totalOfCart");
-        Double totalPrice = (Double) jobDataMap.get("totalPrice");
-        Double totalPriceAfterApplyCoupon = (Double) jobDataMap.get("totalPriceAfterApplyCoupon");
+//        Map<Long, CartItemDTO> cart = (Map<Long, CartItemDTO>) jobDataMap.get("cart");
+//        Integer totalOfCart = (Integer) jobDataMap.get("totalOfCart");
+//        Double totalPrice = (Double) jobDataMap.get("totalPrice");
+//        Double totalPriceAfterApplyCoupon = (Double) jobDataMap.get("totalPriceAfterApplyCoupon");
         String email = (String) jobDataMap.get("email");
 
         Context context = new Context();
@@ -145,7 +146,7 @@ public class MailServiceImpl extends QuartzJobBean implements MailService {
 
     @SneakyThrows
     @Override
-    protected void executeInternal(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    protected void executeInternal(JobExecutionContext jobExecutionContext) {
         Integer executeInternal = (Integer) jobExecutionContext.getMergedJobDataMap().get("executeInternal");
         switch (executeInternal) {
             case 1: {

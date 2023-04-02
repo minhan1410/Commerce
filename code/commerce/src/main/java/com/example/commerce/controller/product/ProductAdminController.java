@@ -43,7 +43,7 @@ public class ProductAdminController {
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable(name = "id") Long id, Model model) {
-        ProductDTO getId = productService.getById(id, model);
+        ProductDTO getId = productService.getById(id);
         if (getId == null) {
             return "/error/notFound";
         }
@@ -59,7 +59,7 @@ public class ProductAdminController {
 
     @GetMapping("/duplicate/{id}")
     public String duplicate(@PathVariable(name = "id") Long id, Model model) {
-        ProductDTO getId = productService.getById(id, model);
+        ProductDTO getId = productService.getById(id);
         if (getId == null) {
             return "/error/notFound";
         }
@@ -70,7 +70,7 @@ public class ProductAdminController {
 
     @PostMapping("/duplicate")
     public String duplicatePost(@ModelAttribute("product") ProductDTO dto, Model model) {
-        return productService.duplicate(dto, model);
+        return productService.duplicate(dto);
     }
 
     @GetMapping("/delete/{id}")

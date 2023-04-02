@@ -1,10 +1,7 @@
 package com.example.commerce.service.impl;
 
 import com.example.commerce.constants.BillStatus;
-import com.example.commerce.model.dto.CartItemDTO;
-import com.example.commerce.model.dto.CouponDTO;
-import com.example.commerce.model.dto.ProductDTO;
-import com.example.commerce.model.dto.UserDTO;
+import com.example.commerce.model.dto.*;
 import com.example.commerce.model.entity.Bill;
 import com.example.commerce.model.entity.Cart;
 import com.example.commerce.model.entity.CartItem;
@@ -37,7 +34,11 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public String addToCart(Long id, String size, int numberProducts, HttpSession session, Model model) {
-        ProductDTO byIdAndSize = productService.getByIdAndSize(id, size, model);
+        ProductDTO byIdAndSize = productService.getByIdAndSize(id, size);
+        if (Objects.isNull(byIdAndSize)) {
+            return "error/notFound";
+        }
+
         Long currentProductId = byIdAndSize.getId();
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart"); //lay session neu co , neu chua co tao 1 session moi la cart
         Integer totalOfCart = (Integer) session.getAttribute("totalOfCart");
@@ -123,6 +124,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public String checkout(String receiverName, String shippingAddress, String phoneNumber, HttpServletRequest request) {
         HttpSession session = request.getSession();
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
@@ -162,9 +164,19 @@ public class CartServiceImpl implements CartService {
         session.invalidate();
 
 //        Gui thong tin mua hang thanh cong ve mail
-        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser.getMail());
+        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);
 
 //        Chuyen toi trang lich su mua hang
         return "redirect:/cart";
+    }
+
+    @Override
+    public CartDTO getById(Long id) {
+        Optional<Cart> optional = cartRepository.getByIdAndDeletedFalse(id);
+        if (optional.isEmpty()) return null;
+        Cart cart = optional.get();
+        CartDTO dto = mapper.map(cart, CartDTO.class);
+        dto.setUser(userService.getById(cart.getUserId()));
+        return dto;
     }
 }

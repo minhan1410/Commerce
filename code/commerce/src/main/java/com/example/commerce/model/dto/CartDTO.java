@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class CartDTO {
     private Long id;
-    private Long userId;
+    private UserDTO user;
     private Boolean deleted = false;
 }
