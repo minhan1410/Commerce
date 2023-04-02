@@ -27,26 +27,27 @@ DROP TABLE IF EXISTS `bill`;
 CREATE TABLE `bill` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
-  `cart_items_id` int DEFAULT NULL,
+  `cart_id` int DEFAULT NULL,
   `coupon_id` int DEFAULT NULL,
-  `price_total` mediumint DEFAULT NULL,
-  `receiver_name` bigint DEFAULT NULL,
-  `shipping_address` bigint DEFAULT NULL,
-  `phone_number` bigint DEFAULT NULL,
-  `create_time` bigint DEFAULT NULL,
-  `confirm_time` bigint DEFAULT NULL,
-  `delivery_time` bigint DEFAULT NULL,
-  `received_time` bigint DEFAULT NULL,
-  `status` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `deleted` bit(1) DEFAULT b'0',
+  `total_cart` int DEFAULT NULL,
+  `price_total` double DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `receiver_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `phone_number` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `shipping_address` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  `confirm_time` datetime DEFAULT NULL,
+  `delivery_time` datetime DEFAULT NULL,
+  `received_time` datetime DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `fk_bill_user_idx` (`user_id`),
-  KEY `fk_bill_cart_idx` (`cart_items_id`),
+  KEY `fk_bill_cart_idx` (`cart_id`),
   KEY `fk_bill_coupon_idx` (`coupon_id`),
-  CONSTRAINT `fk_bill_cart` FOREIGN KEY (`cart_items_id`) REFERENCES `cart` (`id`),
+  CONSTRAINT `fk_bill_cart` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`),
   CONSTRAINT `fk_bill_coupon` FOREIGN KEY (`coupon_id`) REFERENCES `coupon` (`id`),
   CONSTRAINT `fk_bill_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -55,6 +56,7 @@ CREATE TABLE `bill` (
 
 LOCK TABLES `bill` WRITE;
 /*!40000 ALTER TABLE `bill` DISABLE KEYS */;
+INSERT INTO `bill` VALUES (105,29,18,NULL,16,320,'WAIT','Dung','0347705659','30','2023-03-24 02:01:17',NULL,NULL,NULL,0),(107,29,19,NULL,1,35,'WAIT','Dung','0347705659','30','2023-03-24 02:35:31',NULL,NULL,NULL,0),(113,29,20,NULL,9,590,'WAIT','Dung','0347705659','30','2023-03-24 15:33:52',NULL,NULL,NULL,0),(115,29,21,NULL,3,360,'WAIT','Dung','0347705659','30','2023-03-24 15:37:25',NULL,NULL,NULL,0),(117,29,22,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 15:42:31',NULL,NULL,NULL,0),(119,29,23,NULL,1,40,'WAIT','Dung','0347705659','30','2023-03-24 15:54:48',NULL,NULL,NULL,0),(121,29,24,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:00:53',NULL,NULL,NULL,0),(123,29,25,NULL,1,120,'WAIT','Dung','0347705659','30','2023-03-24 16:05:24',NULL,NULL,NULL,0),(125,29,27,NULL,1,120,'WAIT','Dung','0347705659','30','2023-03-24 16:06:49',NULL,NULL,NULL,0),(127,29,28,NULL,1,35,'WAIT','Dung','0347705659','30','2023-03-24 16:09:01',NULL,NULL,NULL,0),(129,29,29,NULL,1,120,'WAIT','Dung','0347705659','30','2023-03-24 16:12:34',NULL,NULL,NULL,0),(131,29,30,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:41:23',NULL,NULL,NULL,0),(133,29,31,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:42:48',NULL,NULL,NULL,0),(135,29,32,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:44:58',NULL,NULL,NULL,0),(137,29,33,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:48:03',NULL,NULL,NULL,0),(139,29,34,NULL,1,100,'WAIT','Dung','0347705659','30','2023-03-24 16:57:30',NULL,NULL,NULL,0),(141,29,35,NULL,1,40,'WAIT','Dung','0347705659','30','2023-03-24 17:16:26',NULL,NULL,NULL,0),(145,29,36,NULL,4,160,'WAIT','Dung','0347705659','30','2023-03-24 21:57:45',NULL,NULL,NULL,0),(149,146,37,74,3,30,'WAIT','Tran Duy Anh Tu','','','2023-03-25 13:33:49',NULL,NULL,NULL,0),(152,146,38,NULL,2,420,'WAIT','Tran Duy Anh Tu','','','2023-03-25 13:42:39',NULL,NULL,NULL,0),(157,146,39,74,4,167.5,'WAIT','Tran Duy Anh Tu','','','2023-03-27 23:36:19',NULL,NULL,NULL,0);
 /*!40000 ALTER TABLE `bill` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -131,15 +133,10 @@ DROP TABLE IF EXISTS `cart`;
 CREATE TABLE `cart` (
   `id` int NOT NULL AUTO_INCREMENT,
   `user_id` int DEFAULT NULL,
-  `product_id` int DEFAULT NULL,
-  `quantity` int DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`),
-  KEY `fk_cart_product` (`product_id`),
-  KEY `fk_cart_user_idx` (`user_id`),
-  CONSTRAINT `fk_cart_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
-  CONSTRAINT `fk_cart_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+  KEY `fk_cart_user_idx` (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,8 +145,39 @@ CREATE TABLE `cart` (
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES (7,NULL,20,2,NULL),(8,NULL,21,2,NULL),(9,NULL,42,2,NULL),(10,NULL,20,2,NULL),(11,NULL,20,2,NULL),(12,NULL,20,2,NULL),(13,NULL,20,2,NULL),(14,NULL,20,2,NULL);
+INSERT INTO `cart` VALUES (18,29,_binary '\0'),(19,29,_binary '\0'),(20,29,_binary '\0'),(21,29,_binary '\0'),(22,29,_binary '\0'),(23,29,_binary '\0'),(24,29,_binary '\0'),(25,29,_binary '\0'),(26,29,_binary '\0'),(27,29,_binary '\0'),(28,29,_binary '\0'),(29,29,_binary '\0'),(30,29,_binary '\0'),(31,29,_binary '\0'),(32,29,_binary '\0'),(33,29,_binary '\0'),(34,29,_binary '\0'),(35,29,_binary '\0'),(36,29,_binary '\0'),(37,146,_binary '\0'),(38,146,_binary '\0'),(39,146,_binary '\0');
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `cart_item`
+--
+
+DROP TABLE IF EXISTS `cart_item`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `cart_item` (
+  `id` bigint NOT NULL,
+  `cart_id` int DEFAULT NULL,
+  `product_id` int DEFAULT NULL,
+  `quantity` int DEFAULT NULL,
+  `deleted` tinyint(1) DEFAULT '0',
+  PRIMARY KEY (`id`),
+  KEY `fk_cart_idx` (`cart_id`),
+  KEY `fk_cart_p_idx` (`product_id`),
+  CONSTRAINT `fk_cart` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`),
+  CONSTRAINT `fk_cart_p` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cart_item`
+--
+
+LOCK TABLES `cart_item` WRITE;
+/*!40000 ALTER TABLE `cart_item` DISABLE KEYS */;
+INSERT INTO `cart_item` VALUES (101,18,1,4,0),(102,18,68,4,0),(103,18,52,2,0),(104,18,62,6,0),(106,19,42,1,0),(108,20,1,2,0),(109,20,3,3,0),(110,20,52,1,0),(111,20,9,1,0),(112,20,45,2,0),(114,21,5,3,0),(116,22,1,1,0),(118,23,2,1,0),(120,24,1,1,0),(122,25,5,1,0),(124,27,5,1,0),(126,28,42,1,0),(128,29,5,1,0),(130,30,1,1,0),(132,31,1,1,0),(134,32,1,1,0),(136,33,1,1,0),(138,34,92,1,0),(140,35,2,1,0),(142,36,1,1,0),(143,36,68,2,0),(144,36,9,1,0),(147,37,1,2,0),(148,37,52,1,0),(150,38,5,1,0),(151,38,21,1,0),(153,39,19,1,0),(154,39,7,1,0),(155,39,42,1,0),(156,39,10,1,0);
+/*!40000 ALTER TABLE `cart_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -279,7 +307,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (93);
+INSERT INTO `hibernate_sequence` VALUES (205);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -305,7 +333,7 @@ CREATE TABLE `persistent_logins` (
 
 LOCK TABLES `persistent_logins` WRITE;
 /*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
-INSERT INTO `persistent_logins` VALUES ('surivato98@gmail.com','+1HyH7TlOcTD16BCQJJyHw==','AE3b5MUX8f//SQUToLGOHA==','2023-03-19 17:54:50');
+INSERT INTO `persistent_logins` VALUES ('surivato98@gmail.com','SqMPjwqJjxGLaP+XzcWeAg==','NN2q5oLDsH27hJX+SUQPOw==','2023-04-01 16:28:26');
 /*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -366,7 +394,7 @@ CREATE TABLE `review` (
   KEY `fk_review_product_idx` (`product_id`) /*!80000 INVISIBLE */,
   CONSTRAINT `fk_review_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `fk_review_user` FOREIGN KEY (`reviewer_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=74 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,7 +403,7 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES (16,'There\'s nothing left to criticize',4,'2021-08-31 21:41:14',52,2,_binary '\0'),(17,'That\'s cool',4,'2021-09-02 16:58:59',52,2,_binary '\0'),(18,'Nice ',2,'2021-09-02 17:16:00',52,5,_binary '\0'),(19,'Okay',1,'2021-09-02 17:16:27',52,5,_binary '\0'),(20,'I\'m really like it',5,'2021-09-02 17:17:14',52,5,_binary '\0'),(21,'Everything is so nice',5,'2021-09-14 16:16:11',52,3,_binary '\0'),(22,'Material of this shirt?',5,'2021-09-14 16:18:59',52,4,_binary '\0'),(24,'It\'s really nice and worth the money, I bought one',5,'2021-09-30 02:19:31',54,56,_binary '\0'),(70,'Dep',4,NULL,29,1,_binary '\0'),(71,'Dep',4,NULL,29,52,_binary '\0'),(72,'Dep',4,NULL,29,62,_binary '\0'),(73,'Dep',4,NULL,29,68,_binary '\0');
+INSERT INTO `review` VALUES (16,'There\'s nothing left to criticize',4,'2021-08-31 21:41:14',52,2,_binary '\0'),(17,'That\'s cool',4,'2021-09-02 16:58:59',52,2,_binary '\0'),(18,'Nice ',2,'2021-09-02 17:16:00',52,5,_binary '\0'),(19,'Okay',1,'2021-09-02 17:16:27',52,5,_binary '\0'),(20,'I\'m really like it',5,'2021-09-02 17:17:14',52,5,_binary '\0'),(21,'Everything is so nice',5,'2021-09-14 16:16:11',52,3,_binary '\0'),(22,'Material of this shirt?',5,'2021-09-14 16:18:59',52,4,_binary '\0'),(24,'It\'s really nice and worth the money, I bought one',5,'2021-09-30 02:19:31',54,56,_binary '\0'),(70,'Dep',4,NULL,29,1,_binary '\0'),(71,'Dep',4,NULL,29,52,_binary '\0'),(72,'Dep',4,NULL,29,62,_binary '\0'),(73,'Dep',4,NULL,29,68,_binary '\0'),(192,'11',4,'2023-03-31 00:21:48',146,19,_binary '\0'),(193,'dep',3,'2023-03-31 11:10:08',29,92,_binary '\0'),(194,'10',3,'2023-03-31 11:29:57',29,92,_binary '\0'),(195,'ưersd',0,'2023-03-31 11:32:24',29,92,_binary '\0'),(196,'xx',3,'2023-03-31 11:34:12',29,92,_binary '\0'),(197,'xx',3,'2023-03-31 11:34:14',29,92,_binary '\0'),(198,'xx',3,'2023-03-31 11:34:15',29,92,_binary '\0'),(199,'xx',3,'2023-03-31 11:34:16',29,92,_binary '\0'),(200,'xx',3,'2023-03-31 11:34:16',29,92,_binary '\0'),(201,'xx',3,'2023-03-31 11:34:22',29,92,_binary '\0'),(202,'xx',3,'2023-03-31 11:34:24',29,92,_binary '\0'),(203,'xx',3,'2023-03-31 11:34:33',29,92,_binary '\0');
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -433,7 +461,7 @@ CREATE TABLE `user` (
   `verification_code` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `verification_code_expiry` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=112 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -442,7 +470,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (21,'ghtkannm7@gmail.com',NULL,'An Nguyễn',NULL,NULL,NULL,NULL,NULL,NULL,'ADMIN',1,'GOOGLE',NULL,'https://lh3.googleusercontent.com/a/AEdFTp71Ztch70v85qEjolR6xM1gDzF2ymcdySCtD29P=s96-c',NULL,NULL,_binary '\0',NULL,NULL),(23,'minhan14102001@gmail.com',NULL,'Nguyễn An',NULL,NULL,NULL,NULL,NULL,NULL,'ADMIN',1,'FACEBOOK',NULL,'https://platform-lookaside.fbsbx.com/platform/profilepic/?asid=3275275382799546&height=50&width=50&ext=1673880767&hash=AeTJFZTsT-YreFPLXcI',NULL,NULL,_binary '\0',NULL,NULL),(29,'surivato98@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Dung','0347705659','30','31','32',NULL,NULL,'ADMIN',1,'LOCAL',33,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(52,'iamghost06@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyen Ngoc Bach',NULL,NULL,NULL,NULL,0,NULL,'USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(54,'iamghost827@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyễn Ngọc Bách','0969374719','64, Nguyễn Văn Trỗi, Hà Đông, Hà Nội','Ha Noi','Ha Noi',100000,NULL,'ADMIN',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png','',NULL,_binary '\0',NULL,NULL),(87,'anmusic1410@gmail.com',NULL,'Minh An Nguyễn',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'GOOGLE',NULL,'https://lh3.googleusercontent.com/a/AGNmyxanjRO2E8sFwTMa6xCp1F0QHqKGPhh1Z1LQT9ca=s96-c',NULL,NULL,_binary '\0',NULL,NULL),(90,'ngocbachnguyen100@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyễn Ngọc Bách',NULL,NULL,NULL,NULL,0,'2021-09-24 09:08:31','USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(91,'buivanhung124@gmail.com','$2a$10$4FkdxuynWWU.vPWQAByiDOkXQvxuaW25bjzaUfLlaV6YZW5KuR2ji','Bui Van Hung',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0','','2023-03-11 23:43:26'),(109,'ngocbachnguyen99@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyễn Ngọc Bách',NULL,NULL,NULL,NULL,0,'2021-09-24 16:13:46','USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL);
+INSERT INTO `user` VALUES (21,'ghtkannm7@gmail.com',NULL,'An Nguyễn',NULL,NULL,NULL,NULL,NULL,NULL,'ADMIN',1,'GOOGLE',NULL,'https://lh3.googleusercontent.com/a/AEdFTp71Ztch70v85qEjolR6xM1gDzF2ymcdySCtD29P=s96-c',NULL,NULL,_binary '\0',NULL,NULL),(29,'surivato98@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Dung','0347705659','30','31','32',NULL,NULL,'ADMIN',1,'LOCAL',33,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(52,'iamghost06@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyen Ngoc Bach',NULL,NULL,NULL,NULL,0,NULL,'USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(54,'iamghost827@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyễn Ngọc Bách','0969374719','64, Nguyễn Văn Trỗi, Hà Đông, Hà Nội','Ha Noi','Ha Noi',100000,NULL,'ADMIN',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png','',NULL,_binary '\0',NULL,NULL),(87,'anmusic1410@gmail.com',NULL,'Minh An Nguyễn',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'GOOGLE',NULL,'https://lh3.googleusercontent.com/a/AGNmyxanjRO2E8sFwTMa6xCp1F0QHqKGPhh1Z1LQT9ca=s96-c',NULL,NULL,_binary '\0',NULL,NULL),(90,'ngocbachnguyen100@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyễn Ngọc Bách',NULL,NULL,NULL,NULL,0,'2021-09-24 09:08:31','USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(91,'buivanhung124@gmail.com','$2a$10$4FkdxuynWWU.vPWQAByiDOkXQvxuaW25bjzaUfLlaV6YZW5KuR2ji','Bui Van Hung',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0','','2023-03-11 23:43:26'),(109,'ngocbachnguyen99@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyễn Ngọc Bách',NULL,NULL,NULL,NULL,0,'2021-09-24 16:13:46','USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(146,'duyanhtutran@gmail.com','$2a$10$Q4E1eL5Iqid/3tk8oV5dhu3SIMqLn/xQMqXTOVv43uPEfpAGFnEau','Tran Duy Anh Tu',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(204,'minhan14102001@gmail.com',NULL,'Nguyễn An',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'FACEBOOK',NULL,'https://scontent.fsgn2-9.fna.fbcdn.net/v/t1.30497-1/84628273_176159830277856_972693363922829312_n.jpg?stp=c15.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=1&ccb=1-7&_nc_sid=12b3be&_nc_ohc=Yehm_7dYxBQAX-68S2N&_nc_ht=scontent.fsgn2-9.fna&edm=AP4hL3IEAAAA&oh=00_AfD5Zc8W9KDFTuHG2xQDe7rpyv4sSu9vSSJjgDBuWynu4g&oe=644FF419',NULL,NULL,_binary '\0',NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -455,4 +483,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-03-20  1:06:13
+-- Dump completed on 2023-04-02 15:20:44
