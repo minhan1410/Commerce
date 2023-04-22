@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="admin/template :: header"></head>
+<body class="  ">
+<!-- loader Start -->
+<div th:replace="admin/template :: loading"></div>
+<!-- loader END -->
+
+<!-- Wrapper Start -->
+<div class="wrapper">
+    <div th:replace="admin/template :: sidebar"></div>
+    <div th:replace="admin/template :: navbar"></div>
+    <div th:replace="admin/template :: new-order"></div>
+
+    <div class="content-page">
+        <div class="container-fluid add-form-list">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Add Blog</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form enctype="multipart/form-data"
+                                  method="post" style="margin: 0 auto;"
+                                  th:action="@{/admin/blog/new}" th:object="${blog}">
+
+                                <div th:if="${err}">
+                                    <p style="color : red; text-align: center" th:text="${err}"></p><br>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Main Image</label>
+                                            <input accept="image/png,image/jpeg/webp" class="form-control image-file"
+                                                   id="fileImage1"
+                                                   name="primaryImage"
+                                                   th:field="*{img}"
+                                                   type="file">
+                                            <p><img alt="Image Preview" id="thumbnail1"
+                                                    style="height:200px; width:200px;object-fit: contain;display: none">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Tittle *</label>
+                                            <input class="form-control" data-errors="Please Enter Name."
+                                                   placeholder="Enter Name"
+                                                   required
+                                                   th:field="*{title}"
+                                                   type="text">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Category *</label>
+                                            <select class="form-control" required th:field="*{categoryBlogId}">
+                                                <th:block th:each="cate: ${categoryForBlog}">
+                                                    <option th:text="${cate.type}" th:value="${cate.id}"></option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Tag *</label>
+                                            <th:block th:each="tag,iter : ${listTags}">
+                                                <div class="custom-control custom-checkbox custom-checkbox-color-check custom-control-inline">
+                                                    <input checked="" class="custom-control-input bg-primary"
+                                                           name="tagId" th:value="${tag.id}" type="checkbox">
+                                                    <label class="custom-control-label" th:text="${tag.type}">
+                                                        Primary</label>
+                                                </div>
+
+                                                <div class="help-block with-errors"></div>
+                                            </th:block>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Description / Blog Details</label>
+                                            <textarea class="form-control" rows="4"
+                                                      th:field="*{content}"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mr-2" type="submit">Add Blog</button>
+                                <button class="btn btn-danger" id="reset" type="reset">Reset</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page end  -->
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+
+
+<!-- Footer Start -->
+<footer th:replace="admin/template :: footer"></footer>
+<!-- Footer End -->
+
+
+<div th:replace="admin/template :: script"></div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#reset').click(function () {
+            document.getElementById('thumbnail1').style.display = "none"
+            document.getElementById('thumbnail2').style.display = "none"
+            document.getElementById('thumbnail3').style.display = "none"
+        })
+
+        $('#fileImage1').change(function () {
+            showImageThumbnail1(this);
+            document.getElementById('thumbnail1').style.display = "block"
+        });
+    });
+
+    function showImageThumbnail1(fileInput) {
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#thumbnail1').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+</script>
+</body>
+</html>

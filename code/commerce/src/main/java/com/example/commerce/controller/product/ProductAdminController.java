@@ -25,20 +25,21 @@ public class ProductAdminController {
         model.addAttribute("products", productService.getAll());
         model.addAttribute("categoriesService", categoriesService);
 //        model.addAttribute("listCategories", categoriesService.getAllUsers());
-        return "/admin/viewProduct";
+        return "/admin/product/list-product";
     }
 
     @GetMapping("/add")
     public String addProduct(Model model) {
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("listCategories", categoriesService.getAll());
-        return "/admin/addProduct";
+//        return "/admin/addProduct";
+        return "/admin/product/add-product";
     }
 
     @PostMapping("/add")
     public String addProductNew(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
         model.addAttribute("listCategories", categoriesService.getAll());
-        return result.hasErrors() ? "/admin/addProduct" : productService.add(dto, model);
+        return result.hasErrors() ? "/admin/product/add-product" : productService.add(dto, model);
     }
 
     @GetMapping("/update/{id}")
@@ -49,12 +50,12 @@ public class ProductAdminController {
         }
         model.addAttribute("product", getId);
         model.addAttribute("listCategories", categoriesService.getAll());
-        return "/admin/editProduct";
+        return "/admin/product/edit-product";
     }
 
     @PostMapping("/update")
     public String updatePost(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
-        return result.hasErrors() ? "/admin/editProduct" : productService.update(dto, model);
+        return result.hasErrors() ? "/admin/product/edit-product" : productService.update(dto, model);
     }
 
     @GetMapping("/duplicate/{id}")
@@ -65,7 +66,7 @@ public class ProductAdminController {
         }
         model.addAttribute("product", getId);
         model.addAttribute("listCategories", categoriesService.getAll());
-        return "/admin/duplicateProduct";
+        return "/admin/product/duplicate-product";
     }
 
     @PostMapping("/duplicate")

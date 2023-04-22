@@ -28,7 +28,7 @@ public class BlogAdminController {
     public String listBlog(Model model) {
         model.addAttribute("blogs", blogService.getAll());
         model.addAttribute("categoryForBlog", categoryBlogService);
-        return "/admin/viewBlog";
+        return "/admin/blog/list-blog";
     }
 
     @GetMapping("/new")
@@ -36,7 +36,7 @@ public class BlogAdminController {
         model.addAttribute("listTags", tagService.getAll());
         model.addAttribute("blog", new BlogDTO());
         model.addAttribute("categoryForBlog", categoriesBlogService.getAll());
-        return "/admin/addBlog";
+        return "/admin/blog/add-blog";
     }
 
     @PostMapping("/new")

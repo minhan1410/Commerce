@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="admin/template :: header"></head>
+<body class="  ">
+<!-- loader Start -->
+<div th:replace="admin/template :: loading"></div>
+<!-- loader END -->
+
+<!-- Wrapper Start -->
+<div class="wrapper">
+    <div th:replace="admin/template :: sidebar"></div>
+    <div th:replace="admin/template :: navbar"></div>
+    <div th:replace="admin/template :: new-order"></div>
+
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
+                        <div>
+                            <h4 class="mb-3">Product List</h4>
+                            <p class="mb-0">The product list effectively dictates product presentation and provides
+                                space<br> to list your products and offering in the most appealing way.</p>
+                        </div>
+                        <a class="btn btn-primary add-list" th:href="@{/admin/product/add}"><i
+                                class="las la-plus mr-3"></i>Add Product</a>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="table-responsive rounded mb-3">
+                        <table class="dataTables table mb-0 tbl-server-info">
+                            <thead class="bg-white text-uppercase">
+                            <tr class="ligth ligth-data">
+                                <th>STT</th>
+                                <th>Product</th>
+                                <th>Size</th>
+                                <th>Color</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody class="ligth-body">
+                            <th:block th:each="p, iState  : ${products}">
+                                <tr>
+                                    <td th:text="${iState.index + 1}"></td>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <img alt="image"
+                                                 class="img-fluid rounded avatar-50 mr-3"
+                                                 style="height:60px; width:60px;object-fit: cover;"
+                                                 th:src="@{${p.imgMain}}">
+                                            <div>
+                                                <span class="name" th:text="${p.name}"></span>
+                                                <p class="mb-0"><small th:text="${p.description}"></small></p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td th:text="${p.size}"></td>
+                                    <td th:text="${p.color}"></td>
+                                    <td th:text="${categoriesService.getById(p.categoriesId).type}"></td>
+                                    <td th:text="'$'+ ${p.price}"></td>
+                                    <td th:text="${p.quantity}"></td>
+                                    <td>
+                                        <div class="d-flex align-items-center list-action">
+                                            <a class="badge bg-success mr-2" data-original-title="Edit"
+                                               data-placement="top"
+                                               data-toggle="tooltip" th:href="@{'/admin/product/update/' + ${p.id}}"
+                                               title=""><i class="ri-pencil-line mr-0"></i></a>
+
+                                            <a class="badge bg-warning mr-2" data-original-title="Delete"
+                                               data-placement="top"
+                                               data-toggle="tooltip" th:href="@{'/admin/product/delete/' + ${p.id}}"
+                                               title=""><i class="ri-delete-bin-line mr-0"></i></a>
+
+                                            <a class="badge bg-info mr-2" data-original-title="Duplicate"
+                                               data-placement="top"
+                                               data-toggle="tooltip" th:href="@{'/admin/product/duplicate/' + ${p.id}}"
+                                               title=""><i class="fa fa-clone"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Page end  -->
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+
+<!-- Footer Start -->
+<footer th:replace="admin/template :: footer"></footer>
+<!-- Footer End -->
+
+
+<div th:replace="admin/template :: script"></div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".dataTables").DataTable({
+            // lengthMenu: [5, 10, 20, 30], // show entries
+            'columnDefs': [
+                {
+                    'searchable': false,
+                    'targets': [0, 7] // cac truong k cho search
+                    // see https://datatables.net/reference/option/columns.searchable
+                },
+                {
+                    'orderable': false,
+                    'targets': [1, 7]
+                }
+            ]
+        });
+    });
+</script>
+</body>
+</html>

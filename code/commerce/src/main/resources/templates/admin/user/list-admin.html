@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="admin/template :: header"></head>
+<body class="  ">
+<!-- loader Start -->
+<div th:replace="admin/template :: loading"></div>
+<!-- loader END -->
+
+<!-- Wrapper Start -->
+<div class="wrapper">
+    <div th:replace="admin/template :: sidebar"></div>
+    <div th:replace="admin/template :: navbar"></div>
+    <div th:replace="admin/template :: new-order"></div>
+
+    <div class="content-page">
+        <div class="container-fluid">
+            <!-- Check if User already exists -->
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${err}">
+                <strong>Error: </strong> [[${err}]]
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
+                        <div>
+                            <h4 class="mb-3">Admin List</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="table-responsive rounded mb-3">
+                        <table class="dataTables table mb-0 tbl-server-info">
+                            <thead class="bg-white text-uppercase">
+                            <tr class="ligth ligth-data">
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Avatar</th>
+                                <th>Email</th>
+                                <th>Auth Provider</th>
+                            </tr>
+                            </thead>
+                            <tbody class="ligth-body">
+                            <th:block th:each="p, iState : ${users}">
+                                <tr>
+                                    <td th:text="${p.id}"></td>
+                                    <td th:text="${p.name}"></td>
+                                    <td><img
+                                            style="border-radius: 50%; height:45px; width:45px; margin:2px; background-color: black;"
+                                            th:src="@{${p.avatar} == null} ? @{/images/icons/user.png} : @{${p.avatar}}">
+                                    </td>
+                                    <td th:text="${p.mail}"></td>
+                                    <td th:text="${p.authProvider}"></td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Page end  -->
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+
+<!-- Footer Start -->
+<footer th:replace="admin/template :: footer"></footer>
+<!-- Footer End -->
+
+
+<div th:replace="admin/template :: script"></div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".dataTables").DataTable({
+            'columnDefs': [
+                {
+                    'searchable': false,
+                    'targets': [2, 4] // cac truong k cho search
+                },
+                {
+                    'orderable': false,
+                    'targets': [2]
+                }
+            ]
+        });
+    });
+</script>
+</body>
+</html>

@@ -153,4 +153,9 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     public List<UserDTO> getAllUsers() {
         return userRepository.getByRoleAndDeletedFalse(Role.USER).stream().map(user -> mapper.map(user, UserDTO.class)).toList();
     }
+
+    @Override
+    public List<UserDTO> getAllAdmin() {
+        return userRepository.getByRoleAndDeletedFalse(Role.ADMIN).stream().map(user -> mapper.map(user, UserDTO.class)).toList();
+    }
 }

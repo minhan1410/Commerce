@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="admin/template :: header"></head>
+<body class="  ">
+<!-- loader Start -->
+<div th:replace="admin/template :: loading"></div>
+<!-- loader END -->
+
+<!-- Wrapper Start -->
+<div class="wrapper">
+    <div th:replace="admin/template :: sidebar"></div>
+    <div th:replace="admin/template :: navbar"></div>
+    <div th:replace="admin/template :: new-order"></div>
+
+    <div class="content-page">
+        <div class="container-fluid">
+            <!-- Check if User already exists -->
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${err}">
+                <strong>Error: </strong> [[${err}]]
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
+                        <div>
+                            <h4 class="mb-3">User List</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="table-responsive rounded mb-3">
+                        <table class="dataTables table mb-0 tbl-server-info">
+                            <thead class="bg-white text-uppercase">
+                            <tr class="ligth ligth-data">
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Avatar</th>
+                                <th>Email</th>
+                                <th>Auth Provider</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody class="ligth-body">
+                            <th:block th:each="p, iState : ${users}">
+                                <tr>
+                                    <td th:text="${p.id}"></td>
+                                    <td th:text="${p.name}"></td>
+                                    <td><img
+                                            style="border-radius: 50%; height:45px; width:45px; margin:2px; background-color: black;"
+                                            th:src="@{${p.avatar} == null} ? @{/images/icons/user.png} : @{${p.avatar}}">
+                                    </td>
+                                    <td th:text="${p.mail}"></td>
+                                    <td th:text="${p.authProvider}"></td>
+                                    <td>
+                                        <div class="d-flex align-items-center list-action">
+                                            <a class="badge bg-warning mr-2" data-original-title="Delete"
+                                               data-target="#deleteModal"
+                                               data-toggle="modal"
+                                               th:href="@{'/admin/user/delete/' + ${p.id}}"
+                                               title=""><i class="ri-delete-bin-line mr-0"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Page end  -->
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+
+<!-- Delete Modal -->
+<div aria-hidden="true"
+     aria-labelledby="exampleModalCenteredScrollableTitle"
+     class="modal fade" id="deleteModal"
+     role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Blog User</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/admin/deleteEmployeeModal}">
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer Start -->
+<footer th:replace="admin/template :: footer"></footer>
+<!-- Footer End -->
+
+
+<div th:replace="admin/template :: script"></div>
+
+
+<script>
+    $(document).ready(function () {
+        $(".tbl-server-info").on("click", ".bg-warning", function () {
+            var id = $(this).closest("tr").find("td:eq(0)").text();
+            $("#deleteModal form").attr("action", "/admin/user/delete/" + id);
+            $("#deleteModal input[name='id']").val(id);
+        });
+
+        $(".dataTables").DataTable({
+            'columnDefs': [
+                {
+                    'searchable': false,
+                    'targets': [2, 4, 5] // cac truong k cho search
+                },
+                {
+                    'orderable': false,
+                    'targets': [2, 5]
+                }
+            ]
+        });
+    });
+</script>
+</body>
+</html>

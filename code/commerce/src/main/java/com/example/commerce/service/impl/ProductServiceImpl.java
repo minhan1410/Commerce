@@ -7,6 +7,7 @@ import com.example.commerce.service.CloudinaryService;
 import com.example.commerce.service.ProductService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import java.util.function.Predicate;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ModelMapper mapper;
@@ -114,11 +116,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public String add(ProductDTO productDTO, Model model) {
-        ProductDTO getByName = getByName(productDTO.getName());
-        if (getByName != null) {
-            model.addAttribute("err", "ten da ton tai");
-            return "/admin/addProduct";
-        }
+//        ProductDTO getByName = getByName(productDTO.getName());
+//        if (getByName != null) {
+//            model.addAttribute("err", "ten da ton tai");
+//            return "/admin/addProduct";
+//        }
         cloudinaryService.uploadImageProduct(productDTO);
         productRepository.save(mapper.map(productDTO, Product.class));
         return "redirect:/admin/product";

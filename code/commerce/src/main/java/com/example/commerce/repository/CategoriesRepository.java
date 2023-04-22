@@ -14,4 +14,6 @@ public interface CategoriesRepository extends JpaRepository<Categories, Long> {
     Optional<Categories> findByTypeAndDeleted(String type, Boolean deleted);
 
     Categories getByTypeIgnoreCaseAndDeletedFalse(String type);
+
+    Optional<Categories> getByIdAndDeletedFalse(Long id);
 }

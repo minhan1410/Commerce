@@ -27,4 +27,6 @@ public interface UserService extends UserDetailsService {
     User updateMember(UserDTO userDTO);
 
     List<UserDTO> getAllUsers();
+
+    List<UserDTO> getAllAdmin();
 }

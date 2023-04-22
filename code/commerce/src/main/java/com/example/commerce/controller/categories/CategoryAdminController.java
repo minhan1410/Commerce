@@ -21,11 +21,9 @@ public class CategoryAdminController {
     @GetMapping("categories")
     public String listCategories(Model model) {
         model.addAttribute("categories", categoriesService.getAll());
-        model.addAttribute("categoriesForBlog", categoriesBlogService.getAll());
-        return "/admin/viewCategory";
+        return "/admin/category/list-category";
     }
 
-//
 
     @GetMapping("/categories/new")
     public String addCategories(Model model) {
@@ -35,6 +33,7 @@ public class CategoryAdminController {
 
     @PostMapping("categories/new")
     public String addCategoriesNew(@ModelAttribute("category") CategoriesDTO dto, Model model) {
+        model.addAttribute("categories", categoriesService.getAll());
         return categoriesService.add(dto, model);
     }
 
@@ -45,8 +44,9 @@ public class CategoryAdminController {
     }
 
     @PostMapping("categories/update")
-    public String editCatePost(@ModelAttribute(name = "categories") CategoriesDTO dto, Model model) {
-        return categoriesService.update(dto, model);
+    public String editCatePost(@RequestParam("type") String type, @RequestParam("id") Long id, Model model) {
+        model.addAttribute("categories", categoriesService.getAll());
+        return categoriesService.update(CategoriesDTO.builder().id(id).type(type).deleted(false).build(), model);
     }
 
     @GetMapping("categories/delete/{id}")
@@ -54,7 +54,12 @@ public class CategoryAdminController {
         return categoriesService.delete(id, model);
     }
 
-//
+    //
+    @GetMapping("categories-blog")
+    public String listCategoriesBlog(Model model) {
+        model.addAttribute("categoriesForBlog", categoriesBlogService.getAll());
+        return "/admin/category/list-categoryBlog";
+    }
 
     @GetMapping("/categoriesforblog/new")
     public String addCategoriesForBlog(Model model) {
@@ -64,6 +69,7 @@ public class CategoryAdminController {
 
     @PostMapping("/categoriesforblog/save")
     public String addCategoriesForBlogNew(@ModelAttribute("category") CategoriesBlogDTO categoriesBlogDTO, Model model) {
+        model.addAttribute("categoriesForBlog", categoriesBlogService.getAll());
         return categoriesBlogService.add(categoriesBlogDTO, model);
     }
 
@@ -74,8 +80,9 @@ public class CategoryAdminController {
     }
 
     @PostMapping("/categoriesforblog/update")
-    public String editCategoriesForBlogSave(@ModelAttribute("categoriesForBlogDTO") CategoriesBlogDTO categoriesBlogDTO, Model model) {
-        return categoriesBlogService.update(categoriesBlogDTO, model);
+    public String editCategoriesForBlogSave(@RequestParam("type") String type, @RequestParam("id") Long id, Model model) {
+        model.addAttribute("categoriesForBlog", categoriesBlogService.getAll());
+        return categoriesBlogService.update(CategoriesBlogDTO.builder().id(id).type(type).deleted(false).build(), model);
     }
 
     @GetMapping("/categoriesforblog/delete/{id}")
@@ -83,7 +90,7 @@ public class CategoryAdminController {
         categoriesBlogService.delete(id, model);
         //          delete all blog
         blogService.delete(blogService.getCategoryBlogId(id), model);
-        return "redirect:/admin/categories";
+        return "redirect:/admin/categories-blog";
     }
 
 }

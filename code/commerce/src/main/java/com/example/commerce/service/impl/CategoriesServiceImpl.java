@@ -28,8 +28,8 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     public CategoriesDTO getById(Long id, Model model) {
-        Optional<Categories> findCategory = categoriesRepository.findById(id);
-        if (findCategory.isEmpty() || findCategory.get().getDeleted()) {
+        Optional<Categories> findCategory = categoriesRepository.getByIdAndDeletedFalse(id);
+        if (findCategory.isEmpty()) {
             model.addAttribute("err", "k ton tai");
             return null;
         }
@@ -38,8 +38,8 @@ public class CategoriesServiceImpl implements CategoriesService {
 
     @Override
     public CategoriesDTO getById(Long id) {
-        Optional<Categories> findCategory = categoriesRepository.findById(id);
-        if (findCategory.isEmpty() || findCategory.get().getDeleted()) {
+        Optional<Categories> findCategory = categoriesRepository.getByIdAndDeletedFalse(id);
+        if (findCategory.isEmpty()) {
             return null;
         }
         return mapper.map(findCategory.get(), CategoriesDTO.class);
@@ -58,7 +58,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     @Override
     @Transactional
     public String add(CategoriesDTO categoriesDTO, Model model) {
-        if (getByType(categoriesDTO.getType(), model) != null) return "/admin/addCategories";
+        if (getByType(categoriesDTO.getType(), model) != null) return "/admin/category/list-category";
         categoriesRepository.save(mapper.map(categoriesDTO, Categories.class));
         return "redirect:/admin/categories";
     }
@@ -67,7 +67,8 @@ public class CategoriesServiceImpl implements CategoriesService {
     @Transactional
     public String update(CategoriesDTO categoriesDTO, Model model) {
         CategoriesDTO getById = getById(categoriesDTO.getId(), model);
-        if (getById == null || getByType(categoriesDTO.getType(), model) != null) return "/admin/editCategories";
+        if (getById == null || getByType(categoriesDTO.getType(), model) != null)
+            return "/admin/category/list-category";
         categoriesRepository.save(mapper.map(getById, Categories.class).update(categoriesDTO));
         return "redirect:/admin/categories";
     }

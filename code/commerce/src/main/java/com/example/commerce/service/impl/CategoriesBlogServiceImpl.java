@@ -43,10 +43,10 @@ public class CategoriesBlogServiceImpl implements CategoriesBlogService {
         CategoriesBlog getType = categoriesBlogRepository.getByTypeAndDeletedFalse(categoriesBlogDTO.getType());
         if (getType != null) {
             model.addAttribute("err", "da ton tai");
-            return "/admin/addCategoriesForBlog";
+            return "/admin/category/list-categoryBlog";
         }
         categoriesBlogRepository.save(mapper.map(categoriesBlogDTO, CategoriesBlog.class));
-        return "redirect:/admin/categories";
+        return "redirect:/admin/categories-blog";
     }
 
     @Override
@@ -69,7 +69,7 @@ public class CategoriesBlogServiceImpl implements CategoriesBlogService {
             return "/admin/editCategoriesForBlog";
         }
         categoriesBlogRepository.save(categoriesBlogRepository.save(mapper.map(getId, CategoriesBlog.class).update(categoriesBlogDTO)));
-        return "redirect:/admin/categories";
+        return "redirect:/admin/categories-blog";
     }
 
     @Override
@@ -79,7 +79,6 @@ public class CategoriesBlogServiceImpl implements CategoriesBlogService {
         if (getId != null) {
             getId.setDeleted(true);
             categoriesBlogRepository.save(mapper.map(getId, CategoriesBlog.class));
-
         }
     }
 }

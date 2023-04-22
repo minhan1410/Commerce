@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="admin/template :: header"></head>
+<body class="  ">
+<!-- loader Start -->
+<div th:replace="admin/template :: loading"></div>
+<!-- loader END -->
+
+<!-- Wrapper Start -->
+<div class="wrapper">
+    <div th:replace="admin/template :: sidebar"></div>
+    <div th:replace="admin/template :: navbar"></div>
+    <div th:replace="admin/template :: new-order"></div>
+
+    <div class="content-page">
+        <div class="container-fluid add-form-list">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Add Product</h4>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form enctype="multipart/form-data"
+                                  method="post" style="margin: 0 auto;"
+                                  th:action="@{/admin/product/add}" th:object="${product}">
+
+                                <div th:if="${err}">
+                                    <p style="color : red; text-align: center" th:text="${err}"></p><br>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Main Image</label>
+                                            <input accept="image/png,image/jpeg/webp" class="form-control image-file"
+                                                   id="fileImage1"
+                                                   name="primaryImage"
+                                                   th:field="*{imageMain}"
+                                                   type="file">
+                                            <p><img alt="Image Preview" id="thumbnail1"
+                                                    style="height:200px; width:200px;object-fit: contain;display: none">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Hover Image</label>
+                                            <input accept="image/png,image/jpeg/webp" class="form-control image-file"
+                                                   id="fileImage2"
+                                                   name="primaryImage"
+                                                   th:field="*{imageHover}"
+                                                   type="file">
+                                            <p><img alt="Image Preview" id="thumbnail2"
+                                                    style="height:200px; width:200px;object-fit: contain;display: none">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Sub Image</label>
+                                            <input accept="image/png,image/jpeg/webp" class="form-control image-file"
+                                                   id="fileImage3"
+                                                   name="primaryImage"
+                                                   th:field="*{imageSub}"
+                                                   type="file">
+                                            <p><img alt="Image Preview" id="thumbnail3"
+                                                    style="height:200px; width:200px;object-fit: contain;display: none">
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Name *</label>
+                                            <input class="form-control" data-errors="Please Enter Name."
+                                                   placeholder="Enter Name"
+                                                   required
+                                                   th:field="*{name}"
+                                                   type="text">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Category *</label>
+                                            <select class="form-control" required th:field="*{categoriesId}">
+                                                <th:block th:each="cate: ${listCategories}">
+                                                    <option th:text="${cate.type}" th:value="${cate.id}"></option>
+                                                </th:block>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Material *</label>
+                                            <input class="form-control" data-errors="Please Enter Code."
+                                                   placeholder="Enter Code"
+                                                   required th:field="*{material}" type="text">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Color *</label>
+                                            <input class="form-control" data-errors="Please Enter Color."
+                                                   placeholder="Enter Color"
+                                                   required th:field="*{color}" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Size *</label>
+                                            <input class="form-control" data-errors="Please Enter Size."
+                                                   placeholder="Enter Size"
+                                                   required th:field="*{size}" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Price *</label>
+                                            <input class="form-control" data-errors="Please Enter Price."
+                                                   placeholder="Enter Price"
+                                                   required th:field="*{price}" type="number">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Quantity *</label>
+                                            <input class="form-control" min="1" placeholder="Enter Quantity"
+                                                   required th:field="*{quantity}" type="number">
+                                            <div class="help-block with-errors"></div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <div class="form-group">
+                                            <label>Description / Product Details</label>
+                                            <textarea class="form-control" rows="4"
+                                                      th:field="*{description}"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="btn btn-primary mr-2" type="submit">Add Product</button>
+                                <button class="btn btn-danger" id="reset" type="reset">Reset</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page end  -->
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+
+
+<!-- Footer Start -->
+<footer th:replace="admin/template :: footer"></footer>
+<!-- Footer End -->
+
+
+<div th:replace="admin/template :: script"></div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#reset').click(function () {
+            document.getElementById('thumbnail1').style.display = "none"
+            document.getElementById('thumbnail2').style.display = "none"
+            document.getElementById('thumbnail3').style.display = "none"
+        })
+
+        $('#fileImage1').change(function () {
+            showImageThumbnail1(this);
+            document.getElementById('thumbnail1').style.display = "block"
+        });
+
+        $('#fileImage2').change(function () {
+            showImageThumbnail2(this);
+            document.getElementById('thumbnail2').style.display = "block"
+        });
+
+        $('#fileImage3').change(function () {
+            showImageThumbnail3(this);
+            document.getElementById('thumbnail3').style.display = "block"
+        });
+
+    });
+
+    function showImageThumbnail1(fileInput) {
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#thumbnail1').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    /* $(document).ready(function(){
+        $('#fileImage2').change(function(){
+            showImageThumbnail(this);
+        });
+    }); */
+
+    function showImageThumbnail2(fileInput) {
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#thumbnail2').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+    /* $(document).ready(function(){
+        $('#fileImage3').change(function(){
+            showImageThumbnail(this);
+        });
+    }); */
+
+    function showImageThumbnail3(fileInput) {
+        file = fileInput.files[0];
+        reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#thumbnail3').attr('src', e.target.result);
+        };
+
+        reader.readAsDataURL(file);
+    }
+
+</script>
+</body>
+</html>

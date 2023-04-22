@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:fragment="header">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <title>Admin</title>
+
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/images/icons/favicon.png}" type="image/png"/>
+    <link rel="stylesheet" th:href="@{/admin/assets/css/backend-plugin.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/assets/css/backend.css?v=1.0.0}">
+    <link rel="stylesheet" th:href="@{/admin/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/admin/assets/vendor/remixicon/fonts/remixicon.css}">
+</head>
+<body>
+<!-- loader Start -->
+<div id="loading" th:fragment="loading">
+    <div id="loading-center"></div>
+</div>
+<!-- loader END -->
+
+<!-- Wrapper Start -->
+<div class="wrapper" th:fragment="wrapper">
+    <div class="iq-sidebar  sidebar-default " th:fragment="sidebar">
+        <div class="iq-sidebar-logo d-flex align-items-center justify-content-between">
+            <a class="logo" th:href="@{/admin}">
+                <img alt="IMG-LOGO" th:src="@{/images/icons/logo.png}">
+            </a>
+            <div class="iq-menu-bt-sidebar ml-0">
+                <i class="las la-bars wrapper-menu"></i>
+            </div>
+        </div>
+        <div class="data-scrollbar" data-scroll="1">
+            <nav class="iq-sidebar-menu">
+                <ul class="iq-menu" id="iq-sidebar-toggle">
+                    <li class="active">
+                        <a class="svg-icon" th:href="@{/admin}">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash1" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" x2="12" y1="22.08" y2="12"></line>
+                            </svg>
+                            <span class="ml-4">Dashboards</span>
+                        </a>
+                    </li>
+                    <li class=" ">
+                        <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#product">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash2" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <circle cx="9" cy="21" r="1"></circle>
+                                <circle cx="20" cy="21" r="1"></circle>
+                                <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                            </svg>
+                            <span class="ml-4">Products</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="product">
+                            <li class="">
+                                <a th:href="@{/admin/product}">
+                                    <i class="las la-minus"></i><span>List Product</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a th:href="@{/admin/product/add}">
+                                    <i class="las la-minus"></i><span>Add Product</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#category">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash3" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <rect height="13" rx="2" ry="2" width="13" x="9" y="9"></rect>
+                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                            </svg>
+                            <span class="ml-4">Categories</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="category">
+                            <li class="">
+                                <a th:href="@{/admin/categories}">
+                                    <i class="las la-minus"></i><span>List Category</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a th:href="@{/admin/categories-blog}">
+                                    <i class="las la-minus"></i><span>List Category Blog</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#people">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash8" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                            <span class="ml-4">User</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="people">
+                            <li class="">
+                                <a th:href="@{/admin/user}">
+                                    <i class="las la-minus"></i><span>List User</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a th:href="@{/admin/user-admin}">
+                                    <i class="las la-minus"></i><span>List Admin</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#blog">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash7" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" x2="8" y1="13" y2="13"></line>
+                                <line x1="16" x2="8" y1="17" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            <span class="ml-4">Blog</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="blog">
+                            <li class="">
+                                <a th:href="@{/admin/blog}">
+                                    <i class="las la-minus"></i><span>List Blog</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a th:href="@{/admin/blog/new}">
+                                    <i class="las la-minus"></i><span>Add Blog</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#sale">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash4" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path>
+                                <path d="M22 12A10 10 0 0 0 12 2v10z"></path>
+                            </svg>
+                            <span class="ml-4">Sale</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="sale">
+                            <li class="">
+                                <a href="../backend/page-list-sale.html">
+                                    <i class="las la-minus"></i><span>List Sale</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../backend/page-add-sale.html">
+                                    <i class="las la-minus"></i><span>Add Sale</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#purchase">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash5" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <rect height="16" rx="2" ry="2" width="22" x="1" y="4"></rect>
+                                <line x1="1" x2="23" y1="10" y2="10"></line>
+                            </svg>
+                            <span class="ml-4">Purchases</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="purchase">
+                            <li class="">
+                                <a href="../backend/page-list-purchase.html">
+                                    <i class="las la-minus"></i><span>List Purchases</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../backend/page-add-purchase.html">
+                                    <i class="las la-minus"></i><span>Add purchase</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#return">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash6" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="4 14 10 14 10 20"></polyline>
+                                <polyline points="20 10 14 10 14 4"></polyline>
+                                <line x1="14" x2="21" y1="10" y2="3"></line>
+                                <line x1="3" x2="10" y1="21" y2="14"></line>
+                            </svg>
+                            <span class="ml-4">Returns</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="return">
+                            <li class="">
+                                <a href="../backend/page-list-returns.html">
+                                    <i class="las la-minus"></i><span>List Returns</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../backend/page-add-return.html">
+                                    <i class="las la-minus"></i><span>Add Return</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a class="" href="../backend/page-report.html">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash7" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="16" x2="8" y1="13" y2="13"></line>
+                                <line x1="16" x2="8" y1="17" y2="17"></line>
+                                <polyline points="10 9 9 9 8 9"></polyline>
+                            </svg>
+                            <span class="ml-4">Reports</span>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="reports">
+                        </ul>
+                    </li>
+                    <li class=" ">
+                        <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#otherpage">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash9" stroke="currentColor"
+                                 stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
+                                 width="20" xmlns="http://www.w3.org/2000/svg">
+                                <rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect>
+                                <rect height="9" width="3" x="7" y="7"></rect>
+                                <rect height="5" width="3" x="14" y="7"></rect>
+                            </svg>
+                            <span class="ml-4">other page</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="otherpage">
+                            <li class=" ">
+                                <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#user">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash10"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="8.5" cy="7" r="4"></circle>
+                                        <polyline points="17 11 19 13 23 9"></polyline>
+                                    </svg>
+                                    <span class="ml-4">User Details</span>
+                                    <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <polyline points="10 15 15 20 20 15"></polyline>
+                                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                                    </svg>
+                                </a>
+                                <ul class="iq-submenu collapse" data-parent="#otherpage" id="user">
+                                    <li class="">
+                                        <a href="../app/user-profile.html">
+                                            <i class="las la-minus"></i><span>User Profile</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../app/user-add.html">
+                                            <i class="las la-minus"></i><span>User Add</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../app/user-list.html">
+                                            <i class="las la-minus"></i><span>User List</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class=" ">
+                                <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#ui">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash11"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                    </svg>
+                                    <span class="ml-4">UI Elements</span>
+                                    <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <polyline points="10 15 15 20 20 15"></polyline>
+                                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                                    </svg>
+                                </a>
+                                <ul class="iq-submenu collapse" data-parent="#otherpage" id="ui">
+                                    <li class="">
+                                        <a href="../backend/ui-avatars.html">
+                                            <i class="las la-minus"></i><span>Avatars</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-alerts.html">
+                                            <i class="las la-minus"></i><span>Alerts</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-badges.html">
+                                            <i class="las la-minus"></i><span>Badges</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-breadcrumb.html">
+                                            <i class="las la-minus"></i><span>Breadcrumb</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-buttons.html">
+                                            <i class="las la-minus"></i><span>Buttons</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-buttons-group.html">
+                                            <i class="las la-minus"></i><span>Buttons Group</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-boxshadow.html">
+                                            <i class="las la-minus"></i><span>Box Shadow</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-colors.html">
+                                            <i class="las la-minus"></i><span>Colors</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-cards.html">
+                                            <i class="las la-minus"></i><span>Cards</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-carousel.html">
+                                            <i class="las la-minus"></i><span>Carousel</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-grid.html">
+                                            <i class="las la-minus"></i><span>Grid</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-helper-classes.html">
+                                            <i class="las la-minus"></i><span>Helper classes</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-images.html">
+                                            <i class="las la-minus"></i><span>Images</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-list-group.html">
+                                            <i class="las la-minus"></i><span>list Group</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-media-object.html">
+                                            <i class="las la-minus"></i><span>Media</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-modal.html">
+                                            <i class="las la-minus"></i><span>Modal</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-notifications.html">
+                                            <i class="las la-minus"></i><span>Notifications</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-pagination.html">
+                                            <i class="las la-minus"></i><span>Pagination</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-popovers.html">
+                                            <i class="las la-minus"></i><span>Popovers</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-progressbars.html">
+                                            <i class="las la-minus"></i><span>Progressbars</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-typography.html">
+                                            <i class="las la-minus"></i><span>Typography</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-tabs.html">
+                                            <i class="las la-minus"></i><span>Tabs</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-tooltips.html">
+                                            <i class="las la-minus"></i><span>Tooltips</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/ui-embed-video.html">
+                                            <i class="las la-minus"></i><span>Video</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class=" ">
+                                <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#auth">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash12"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" x2="8" y1="13" y2="13"></line>
+                                        <line x1="16" x2="8" y1="17" y2="17"></line>
+                                        <polyline points="10 9 9 9 8 9"></polyline>
+                                    </svg>
+                                    <span class="ml-4">Authentication</span>
+                                    <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <polyline points="10 15 15 20 20 15"></polyline>
+                                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                                    </svg>
+                                </a>
+                                <ul class="iq-submenu collapse" data-parent="#otherpage" id="auth">
+                                    <li class="">
+                                        <a href="../backend/auth-sign-in.html">
+                                            <i class="las la-minus"></i><span>Login</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/auth-sign-up.html">
+                                            <i class="las la-minus"></i><span>Register</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/auth-recoverpw.html">
+                                            <i class="las la-minus"></i><span>Recover Password</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/auth-confirm-mail.html">
+                                            <i class="las la-minus"></i><span>Confirm Mail</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/auth-lock-screen.html">
+                                            <i class="las la-minus"></i><span>Lock Screen</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="">
+                                <a aria-expanded="false" class="collapsed svg-icon" data-toggle="collapse" href="#form">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash13"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path>
+                                        <rect height="4" rx="1" ry="1" width="8" x="8" y="2"></rect>
+                                    </svg>
+                                    <span class="ml-4">Forms</span>
+                                    <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <polyline points="10 15 15 20 20 15"></polyline>
+                                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                                    </svg>
+                                </a>
+                                <ul class="iq-submenu collapse" data-parent="#otherpage" id="form">
+                                    <li class="">
+                                        <a href="../backend/form-layout.html">
+                                            <i class="las la-minus"></i><span class="">Form Elements</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="svg-icon" href="../backend/form-input-group.html">
+                                            <i class="las la-minus"></i><span class="">Form Input</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="svg-icon" href="../backend/form-validation.html">
+                                            <i class="las la-minus"></i><span class="">Form Validation</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="svg-icon" href="../backend/form-switch.html">
+                                            <i class="las la-minus"></i><span class="">Form Switch</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="svg-icon" href="../backend/form-chechbox.html">
+                                            <i class="las la-minus"></i><span class="">Form Checkbox</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="svg-icon" href="../backend/form-radio.html">
+                                            <i class="las la-minus"></i><span class="">Form Radio</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a class="svg-icon" href="../backend/form-textarea.html">
+                                            <i class="las la-minus"></i><span class="">Form Textarea</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class=" ">
+                                <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#table">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash14"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <rect height="7" width="7" x="3" y="3"></rect>
+                                        <rect height="7" width="7" x="14" y="3"></rect>
+                                        <rect height="7" width="7" x="14" y="14"></rect>
+                                        <rect height="7" width="7" x="3" y="14"></rect>
+                                    </svg>
+                                    <span class="ml-4">Table</span>
+                                    <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <polyline points="10 15 15 20 20 15"></polyline>
+                                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                                    </svg>
+                                </a>
+                                <ul class="iq-submenu collapse" data-parent="#otherpage" id="table">
+                                    <li class="">
+                                        <a href="../backend/tables-basic.html">
+                                            <i class="las la-minus"></i><span>Basic Tables</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/table-data.html">
+                                            <i class="las la-minus"></i><span>Data Table</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/table-tree.html">
+                                            <i class="las la-minus"></i><span>Table Tree</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class=" ">
+                                <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#pricing">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash16"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+                                        <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+                                        <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+                                    </svg>
+                                    <span class="ml-4">Pricing</span>
+                                    <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <polyline points="10 15 15 20 20 15"></polyline>
+                                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                                    </svg>
+                                </a>
+                                <ul class="iq-submenu collapse" data-parent="#otherpage" id="pricing">
+                                    <li class="">
+                                        <a href="../backend/pricing.html">
+                                            <i class="las la-minus"></i><span>Pricing 1</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/pricing-2.html">
+                                            <i class="las la-minus"></i><span>Pricing 2</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="">
+                                <a class="svg-icon" href="../backend/pages-invoice.html">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash07"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" x2="8" y1="13" y2="13"></line>
+                                        <line x1="16" x2="8" y1="17" y2="17"></line>
+                                        <polyline points="10 9 9 9 8 9"></polyline>
+                                    </svg>
+                                    <span class="ml-4">Invoice</span>
+                                </a>
+                            </li>
+                            <li class=" ">
+                                <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#pages-error">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash17"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                        <line x1="12" x2="12" y1="9" y2="13"></line>
+                                        <line x1="12" x2="12.01" y1="17" y2="17"></line>
+                                    </svg>
+                                    <span class="ml-4">Error</span>
+                                    <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <polyline points="10 15 15 20 20 15"></polyline>
+                                        <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                                    </svg>
+                                </a>
+                                <ul class="iq-submenu collapse" data-parent="#otherpage" id="pages-error">
+                                    <li class="">
+                                        <a href="../backend/pages-error.html">
+                                            <i class="las la-minus"></i><span>Error 404</span>
+                                        </a>
+                                    </li>
+                                    <li class="">
+                                        <a href="../backend/pages-error-500.html">
+                                            <i class="las la-minus"></i><span>Error 500</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="">
+                                <a href="../backend/pages-blank-page.html">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash18"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                        <polyline points="13 2 13 9 20 9"></polyline>
+                                    </svg>
+                                    <span class="ml-4">Blank Page</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a href="../backend/pages-maintenance.html">
+                                    <svg class="svg-icon" fill="none" height="20" id="p-dash19"
+                                         stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                         stroke-width="2" viewBox="0 0 24 24" width="20"
+                                         xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path>
+                                    </svg>
+                                    <span class="ml-4">Maintenance</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+            <div class="position-relative sidebar-bottom" id="sidebar-bottom">
+                <div class="card border-none">
+                    <div class="card-body p-0">
+                        <div class="sidebarbottom-content">
+                            <div class="image"><img alt="side-bkg" class="img-fluid"
+                                                    src="/admin/assets/images/layouts/side-bkg.png"></div>
+                            <h6 class="mt-4 px-4 body-title">Get More Feature by Upgrading</h6>
+                            <button class="btn sidebar-bottom-btn mt-4" type="button">Go Premium</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="p-3"></div>
+        </div>
+    </div>
+    <div class="iq-top-navbar" th:fragment="navbar">
+        <div class="iq-navbar-custom">
+            <nav class="navbar navbar-expand-lg navbar-light p-0">
+                <div class="iq-navbar-logo d-flex align-items-center justify-content-between">
+                    <i class="ri-menu-line wrapper-menu"></i>
+                    <a class="logo" th:href="@{/admin}">
+                        <img alt="IMG-LOGO" th:src="@{/images/icons/logo.png}">
+                    </a>
+                </div>
+                <div class="iq-search-bar device-search">
+                    <form action="#" class="searchbox">
+                        <a class="search-link" href="#"><i class="ri-search-line"></i></a>
+                        <input class="text search-input" placeholder="Search here..." type="text">
+                    </form>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button aria-controls="navbarSupportedContent" aria-label="Toggle navigation" class="navbar-toggler"
+                            data-target="#navbarSupportedContent" data-toggle="collapse"
+                            type="button">
+                        <i class="ri-menu-3-line"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ml-auto navbar-list align-items-center">
+                            <li class="nav-item nav-icon dropdown">
+                                <a aria-expanded="false" aria-haspopup="true"
+                                   class="search-toggle dropdown-toggle btn border add-btn" data-toggle="dropdown"
+                                   href="#"
+                                   id="dropdownMenuButton02">
+                                    <img alt="img-flag" class="img-fluid image-flag mr-2"
+                                         src="/admin/assets/images/small/flag-01.png">En
+                                </a>
+                                <div aria-labelledby="dropdownMenuButton2" class="iq-sub-dropdown dropdown-menu">
+                                    <div class="card shadow-none m-0">
+                                        <div class="card-body p-3">
+                                            <a class="iq-sub-card" href="#"><img
+                                                    alt="img-flag" class="img-fluid mr-2"
+                                                    src="/admin/assets/images/small/flag-02.png">French</a>
+                                            <a class="iq-sub-card" href="#"><img
+                                                    alt="img-flag" class="img-fluid mr-2"
+                                                    src="/admin/assets/images/small/flag-03.png">Spanish</a>
+                                            <a class="iq-sub-card" href="#"><img
+                                                    alt="img-flag" class="img-fluid mr-2"
+                                                    src="/admin/assets/images/small/flag-04.png">Italian</a>
+                                            <a class="iq-sub-card" href="#"><img
+                                                    alt="img-flag" class="img-fluid mr-2"
+                                                    src="/admin/assets/images/small/flag-05.png">German</a>
+                                            <a class="iq-sub-card" href="#"><img
+                                                    alt="img-flag" class="img-fluid mr-2"
+                                                    src="/admin/assets/images/small/flag-06.png">Japanese</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li>
+                                <a class="btn border add-btn shadow-none mx-2 d-none d-md-block"
+                                   data-target="#new-order"
+                                   data-toggle="modal" href="#"><i class="las la-plus mr-2"></i>New
+                                    Order</a>
+                            </li>
+                            <li class="nav-item nav-icon search-content">
+                                <a aria-expanded="false" aria-haspopup="true" class="search-toggle rounded"
+                                   data-toggle="dropdown"
+                                   href="#" id="dropdownSearch">
+                                    <i class="ri-search-line"></i>
+                                </a>
+                                <div aria-labelledby="dropdownSearch"
+                                     class="iq-search-bar iq-sub-dropdown dropdown-menu">
+                                    <form action="#" class="searchbox p-2">
+                                        <div class="form-group mb-0 position-relative">
+                                            <input class="text search-input font-size-12"
+                                                   placeholder="type here to search..."
+                                                   type="text">
+                                            <a class="search-link" href="#"><i class="las la-search"></i></a>
+                                        </div>
+                                    </form>
+                                </div>
+                            </li>
+                            <li class="nav-item nav-icon dropdown">
+                                <a aria-expanded="false" aria-haspopup="true" class="search-toggle dropdown-toggle"
+                                   data-toggle="dropdown" href="#" id="dropdownMenuButton2">
+                                    <svg class="feather feather-mail" fill="none" height="20" stroke="currentColor"
+                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                         viewBox="0 0 24 24"
+                                         width="20" xmlns="http://www.w3.org/2000/svg">
+                                        <path
+                                                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                        </path>
+                                        <polyline points="22,6 12,13 2,6"></polyline>
+                                    </svg>
+                                    <span class="bg-primary"></span>
+                                </a>
+                                <div aria-labelledby="dropdownMenuButton2" class="iq-sub-dropdown dropdown-menu">
+                                    <div class="card shadow-none m-0">
+                                        <div class="card-body p-0 ">
+                                            <div class="cust-title p-3">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <h5 class="mb-0">All Messages</h5>
+                                                    <a class="badge badge-primary badge-card" href="#">3</a>
+                                                </div>
+                                            </div>
+                                            <div class="px-3 pt-0 pb-0 sub-card">
+                                                <a class="iq-sub-card" href="#">
+                                                    <div class="media align-items-center cust-card py-3 border-bottom">
+                                                        <div class="">
+                                                            <img alt="01"
+                                                                 class="avatar-50 rounded-small"
+                                                                 src="/admin/assets/images/user/01.jpg">
+                                                        </div>
+                                                        <div class="media-body ml-3">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h6 class="mb-0">Emma Watson</h6>
+                                                                <small class="text-dark"><b>12 : 47 pm</b></small>
+                                                            </div>
+                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a class="iq-sub-card" href="#">
+                                                    <div class="media align-items-center cust-card py-3 border-bottom">
+                                                        <div class="">
+                                                            <img alt="02"
+                                                                 class="avatar-50 rounded-small"
+                                                                 src="/admin/assets/images/user/02.jpg">
+                                                        </div>
+                                                        <div class="media-body ml-3">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h6 class="mb-0">Ashlynn Franci</h6>
+                                                                <small class="text-dark"><b>11 : 30 pm</b></small>
+                                                            </div>
+                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a class="iq-sub-card" href="#">
+                                                    <div class="media align-items-center cust-card py-3">
+                                                        <div class="">
+                                                            <img alt="03"
+                                                                 class="avatar-50 rounded-small"
+                                                                 src="/admin/assets/images/user/03.jpg">
+                                                        </div>
+                                                        <div class="media-body ml-3">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h6 class="mb-0">Kianna Carder</h6>
+                                                                <small class="text-dark"><b>11 : 21 pm</b></small>
+                                                            </div>
+                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <a class="right-ic btn btn-primary btn-block position-relative p-2" href="#"
+                                               role="button">
+                                                View All
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item nav-icon dropdown">
+                                <a aria-expanded="false" aria-haspopup="true" class="search-toggle dropdown-toggle"
+                                   data-toggle="dropdown" href="#" id="dropdownMenuButton">
+                                    <svg class="feather feather-bell" fill="none" height="20" stroke="currentColor"
+                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                         viewBox="0 0 24 24"
+                                         width="20" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                        <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                                    </svg>
+                                    <span class="bg-primary "></span>
+                                </a>
+                                <div aria-labelledby="dropdownMenuButton" class="iq-sub-dropdown dropdown-menu">
+                                    <div class="card shadow-none m-0">
+                                        <div class="card-body p-0 ">
+                                            <div class="cust-title p-3">
+                                                <div class="d-flex align-items-center justify-content-between">
+                                                    <h5 class="mb-0">Notifications</h5>
+                                                    <a class="badge badge-primary badge-card" href="#">3</a>
+                                                </div>
+                                            </div>
+                                            <div class="px-3 pt-0 pb-0 sub-card">
+                                                <a class="iq-sub-card" href="#">
+                                                    <div class="media align-items-center cust-card py-3 border-bottom">
+                                                        <div class="">
+                                                            <img alt="01"
+                                                                 class="avatar-50 rounded-small"
+                                                                 src="/admin/assets/images/user/01.jpg">
+                                                        </div>
+                                                        <div class="media-body ml-3">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h6 class="mb-0">Emma Watson</h6>
+                                                                <small class="text-dark"><b>12 : 47 pm</b></small>
+                                                            </div>
+                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a class="iq-sub-card" href="#">
+                                                    <div class="media align-items-center cust-card py-3 border-bottom">
+                                                        <div class="">
+                                                            <img alt="02"
+                                                                 class="avatar-50 rounded-small"
+                                                                 src="/admin/assets/images/user/02.jpg">
+                                                        </div>
+                                                        <div class="media-body ml-3">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h6 class="mb-0">Ashlynn Franci</h6>
+                                                                <small class="text-dark"><b>11 : 30 pm</b></small>
+                                                            </div>
+                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <a class="iq-sub-card" href="#">
+                                                    <div class="media align-items-center cust-card py-3">
+                                                        <div class="">
+                                                            <img alt="03"
+                                                                 class="avatar-50 rounded-small"
+                                                                 src="/admin/assets/images/user/03.jpg">
+                                                        </div>
+                                                        <div class="media-body ml-3">
+                                                            <div class="d-flex align-items-center justify-content-between">
+                                                                <h6 class="mb-0">Kianna Carder</h6>
+                                                                <small class="text-dark"><b>11 : 21 pm</b></small>
+                                                            </div>
+                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <a class="right-ic btn btn-primary btn-block position-relative p-2" href="#"
+                                               role="button">
+                                                View All
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="nav-item nav-icon dropdown caption-content">
+                                <a aria-expanded="false" aria-haspopup="true" class="search-toggle dropdown-toggle"
+                                   data-toggle="dropdown" href="#" id="dropdownMenuButton4">
+                                    <img alt="user" class="img-fluid rounded" src="/admin/assets/images/user/1.png">
+                                </a>
+                                <div aria-labelledby="dropdownMenuButton" class="iq-sub-dropdown dropdown-menu">
+                                    <div class="card shadow-none m-0">
+                                        <div class="card-body p-0 text-center">
+                                            <div class="media-body profile-detail text-center">
+                                                <img alt="profile-bg" class="rounded-top img-fluid mb-4"
+                                                     src="/admin/assets/images/page-img/profile-bg.jpg">
+                                                <img alt="profile-img" class="rounded profile-img img-fluid avatar-70"
+                                                     src="/admin/assets/images/user/1.png">
+                                            </div>
+                                            <div class="p-3">
+                                                <h5 class="mb-1">JoanDuo@property.com</h5>
+                                                <p class="mb-0">Since 10 march, 2020</p>
+                                                <div class="d-flex align-items-center justify-content-center mt-3">
+                                                    <a class="btn border mr-2"
+                                                       href="../app/user-profile.html">Profile</a>
+                                                    <a class="btn border" href="auth-sign-in.html">Sign Out</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+    <div aria-hidden="true" class="modal fade" id="new-order" role="dialog" tabindex="-1" th:fragment="new-order">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="popup text-left">
+                        <h4 class="mb-3">New Order</h4>
+                        <div class="content create-workform bg-body">
+                            <div class="pb-3">
+                                <label class="mb-2">Email</label>
+                                <input class="form-control" placeholder="Enter Name or Email" type="text">
+                            </div>
+                            <div class="col-lg-12 mt-4">
+                                <div class="d-flex flex-wrap align-items-ceter justify-content-center">
+                                    <div class="btn btn-primary mr-4" data-dismiss="modal">Cancel</div>
+                                    <div class="btn btn-outline-primary" data-dismiss="modal">Create</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="content-page">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4">
+                    <div class="card card-transparent card-block card-stretch card-height border-none">
+                        <div class="card-body p-0 mt-lg-2 mt-0">
+                            <h3 class="mb-3">Hi Graham, Good Morning</h3>
+                            <p class="mb-0 mr-4">Your dashboard gives you views of key performance or business
+                                process.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="row">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="card card-block card-stretch card-height">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-4 card-total-sale">
+                                        <div class="icon iq-icon-box-2 bg-info-light">
+                                            <img alt="image" class="img-fluid" src="/admin/assets/images/product/1.png">
+                                        </div>
+                                        <div>
+                                            <p class="mb-2">Total Sales</p>
+                                            <h4>31.50</h4>
+                                        </div>
+                                    </div>
+                                    <div class="iq-progress-bar mt-2">
+                                      <span class="bg-info iq-progress progress-1" data-percent="85">
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="card card-block card-stretch card-height">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-4 card-total-sale">
+                                        <div class="icon iq-icon-box-2 bg-danger-light">
+                                            <img alt="image" class="img-fluid" src="/admin/assets/images/product/2.png">
+                                        </div>
+                                        <div>
+                                            <p class="mb-2">Total Cost</p>
+                                            <h4>$ 4598</h4>
+                                        </div>
+                                    </div>
+                                    <div class="iq-progress-bar mt-2">
+                                      <span class="bg-danger iq-progress progress-1" data-percent="70">
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="card card-block card-stretch card-height">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center mb-4 card-total-sale">
+                                        <div class="icon iq-icon-box-2 bg-success-light">
+                                            <img alt="image" class="img-fluid" src="/admin/assets/images/product/3.png">
+                                        </div>
+                                        <div>
+                                            <p class="mb-2">Product Sold</p>
+                                            <h4>4589 M</h4>
+                                        </div>
+                                    </div>
+                                    <div class="iq-progress-bar mt-2">
+                                      <span class="bg-success iq-progress progress-1" data-percent="75">
+                                      </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-block card-stretch card-height">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Overview</h4>
+                            </div>
+                            <div class="card-header-toolbar d-flex align-items-center">
+                                <div class="dropdown">
+                                  <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
+                                        id="dropdownMenuButton001">
+                                      This Month<i class="ri-arrow-down-s-line ml-1"></i>
+                                  </span>
+                                    <div aria-labelledby="dropdownMenuButton001"
+                                         class="dropdown-menu dropdown-menu-right shadow-none">
+                                        <a class="dropdown-item" href="#">Year</a>
+                                        <a class="dropdown-item" href="#">Month</a>
+                                        <a class="dropdown-item" href="#">Week</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="layout1-chart1"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card card-block card-stretch card-height">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Revenue Vs Cost</h4>
+                            </div>
+                            <div class="card-header-toolbar d-flex align-items-center">
+                                <div class="dropdown">
+                                  <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
+                                        id="dropdownMenuButton002">
+                                      This Month<i class="ri-arrow-down-s-line ml-1"></i>
+                                  </span>
+                                    <div aria-labelledby="dropdownMenuButton002"
+                                         class="dropdown-menu dropdown-menu-right shadow-none">
+                                        <a class="dropdown-item" href="#">Yearly</a>
+                                        <a class="dropdown-item" href="#">Monthly</a>
+                                        <a class="dropdown-item" href="#">Weekly</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="layout1-chart-2" style="min-height: 360px;"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card card-block card-stretch card-height">
+                        <div class="card-header d-flex align-items-center justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Top Products</h4>
+                            </div>
+                            <div class="card-header-toolbar d-flex align-items-center">
+                                <div class="dropdown">
+                                  <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
+                                        id="dropdownMenuButton006">
+                                      This Month<i class="ri-arrow-down-s-line ml-1"></i>
+                                  </span>
+                                    <div aria-labelledby="dropdownMenuButton006"
+                                         class="dropdown-menu dropdown-menu-right shadow-none">
+                                        <a class="dropdown-item" href="#">Year</a>
+                                        <a class="dropdown-item" href="#">Month</a>
+                                        <a class="dropdown-item" href="#">Week</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <ul class="list-unstyled row top-product mb-0">
+                                <li class="col-lg-3">
+                                    <div class="card card-block card-stretch card-height mb-0">
+                                        <div class="card-body">
+                                            <div class="bg-warning-light rounded">
+                                                <img alt="image"
+                                                     class="style-img img-fluid m-auto p-3"
+                                                     src="/admin/assets/images/product/01.png">
+                                            </div>
+                                            <div class="style-text text-left mt-3">
+                                                <h5 class="mb-1">Organic Cream</h5>
+                                                <p class="mb-0">789 Item</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="col-lg-3">
+                                    <div class="card card-block card-stretch card-height mb-0">
+                                        <div class="card-body">
+                                            <div class="bg-danger-light rounded">
+                                                <img alt="image"
+                                                     class="style-img img-fluid m-auto p-3"
+                                                     src="/admin/assets/images/product/02.png">
+                                            </div>
+                                            <div class="style-text text-left mt-3">
+                                                <h5 class="mb-1">Rain Umbrella</h5>
+                                                <p class="mb-0">657 Item</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="col-lg-3">
+                                    <div class="card card-block card-stretch card-height mb-0">
+                                        <div class="card-body">
+                                            <div class="bg-info-light rounded">
+                                                <img alt="image"
+                                                     class="style-img img-fluid m-auto p-3"
+                                                     src="/admin/assets/images/product/03.png">
+                                            </div>
+                                            <div class="style-text text-left mt-3">
+                                                <h5 class="mb-1">Serum Bottle</h5>
+                                                <p class="mb-0">489 Item</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="col-lg-3">
+                                    <div class="card card-block card-stretch card-height mb-0">
+                                        <div class="card-body">
+                                            <div class="bg-success-light rounded">
+                                                <img alt="image"
+                                                     class="style-img img-fluid m-auto p-3"
+                                                     src="/admin/assets/images/product/02.png">
+                                            </div>
+                                            <div class="style-text text-left mt-3">
+                                                <h5 class="mb-1">Organic Cream</h5>
+                                                <p class="mb-0">468 Item</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-transparent card-block card-stretch mb-4">
+                        <div class="card-header d-flex align-items-center justify-content-between p-0">
+                            <div class="header-title">
+                                <h4 class="card-title mb-0">Best Item All Time</h4>
+                            </div>
+                            <div class="card-header-toolbar d-flex align-items-center">
+                                <div><a class="btn btn-primary view-btn font-size-14" href="#">View All</a></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-block card-stretch card-height-helf">
+                        <div class="card-body card-item-right">
+                            <div class="d-flex align-items-top">
+                                <div class="bg-warning-light rounded">
+                                    <img alt="image" class="style-img img-fluid m-auto"
+                                         src="/admin/assets/images/product/04.png">
+                                </div>
+                                <div class="style-text text-left">
+                                    <h5 class="mb-2">Coffee Beans Packet</h5>
+                                    <p class="mb-2">Total Sell : 45897</p>
+                                    <p class="mb-0">Total Earned : $45,89 M</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card card-block card-stretch card-height-helf">
+                        <div class="card-body card-item-right">
+                            <div class="d-flex align-items-top">
+                                <div class="bg-danger-light rounded">
+                                    <img alt="image" class="style-img img-fluid m-auto"
+                                         src="/admin/assets/images/product/05.png">
+                                </div>
+                                <div class="style-text text-left">
+                                    <h5 class="mb-2">Bottle Cup Set</h5>
+                                    <p class="mb-2">Total Sell : 44359</p>
+                                    <p class="mb-0">Total Earned : $45,50 M</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="card card-block card-stretch card-height-helf">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top justify-content-between">
+                                <div class="">
+                                    <p class="mb-0">Income</p>
+                                    <h5>$ 98,7800 K</h5>
+                                </div>
+                                <div class="card-header-toolbar d-flex align-items-center">
+                                    <div class="dropdown">
+                                      <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
+                                            id="dropdownMenuButton003">
+                                          This Month<i class="ri-arrow-down-s-line ml-1"></i>
+                                      </span>
+                                        <div aria-labelledby="dropdownMenuButton003"
+                                             class="dropdown-menu dropdown-menu-right shadow-none">
+                                            <a class="dropdown-item" href="#">Year</a>
+                                            <a class="dropdown-item" href="#">Month</a>
+                                            <a class="dropdown-item" href="#">Week</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layout-chart-1" id="layout1-chart-3"></div>
+                        </div>
+                    </div>
+                    <div class="card card-block card-stretch card-height-helf">
+                        <div class="card-body">
+                            <div class="d-flex align-items-top justify-content-between">
+                                <div class="">
+                                    <p class="mb-0">Expenses</p>
+                                    <h5>$ 45,8956 K</h5>
+                                </div>
+                                <div class="card-header-toolbar d-flex align-items-center">
+                                    <div class="dropdown">
+                                      <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
+                                            id="dropdownMenuButton004">
+                                          This Month<i class="ri-arrow-down-s-line ml-1"></i>
+                                      </span>
+                                        <div aria-labelledby="dropdownMenuButton004"
+                                             class="dropdown-menu dropdown-menu-right shadow-none">
+                                            <a class="dropdown-item" href="#">Year</a>
+                                            <a class="dropdown-item" href="#">Month</a>
+                                            <a class="dropdown-item" href="#">Week</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="layout-chart-2" id="layout1-chart-4"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="card card-block card-stretch card-height">
+                        <div class="card-header d-flex justify-content-between">
+                            <div class="header-title">
+                                <h4 class="card-title">Order Summary</h4>
+                            </div>
+                            <div class="card-header-toolbar d-flex align-items-center">
+                                <div class="dropdown">
+                                  <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
+                                        id="dropdownMenuButton005">
+                                      This Month<i class="ri-arrow-down-s-line ml-1"></i>
+                                  </span>
+                                    <div aria-labelledby="dropdownMenuButton005"
+                                         class="dropdown-menu dropdown-menu-right shadow-none">
+                                        <a class="dropdown-item" href="#">Year</a>
+                                        <a class="dropdown-item" href="#">Month</a>
+                                        <a class="dropdown-item" href="#">Week</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex flex-wrap align-items-center mt-2">
+                                <div class="d-flex align-items-center progress-order-left">
+                                    <div class="progress progress-round m-0 orange conversation-bar" data-percent="46">
+                                      <span class="progress-left">
+                                          <span class="progress-bar"></span>
+                                      </span>
+                                        <span class="progress-right">
+                                          <span class="progress-bar"></span>
+                                      </span>
+                                        <div class="progress-value text-secondary">46%</div>
+                                    </div>
+                                    <div class="progress-value ml-3 pr-5 border-right">
+                                        <h5>$12,6598</h5>
+                                        <p class="mb-0">Average Orders</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center ml-5 progress-order-right">
+                                    <div class="progress progress-round m-0 primary conversation-bar" data-percent="46">
+                                      <span class="progress-left">
+                                          <span class="progress-bar"></span>
+                                      </span>
+                                        <span class="progress-right">
+                                          <span class="progress-bar"></span>
+                                      </span>
+                                        <div class="progress-value text-primary">46%</div>
+                                    </div>
+                                    <div class="progress-value ml-3">
+                                        <h5>$59,8478</h5>
+                                        <p class="mb-0">Top Orders</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body pt-0">
+                            <div id="layout1-chart-5"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Page end  -->
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+
+
+<!-- Footer Start -->
+<footer class="iq-footer" th:fragment="footer">
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <ul class="list-inline mb-0">
+                            <li class="list-inline-item"><a href="../backend/privacy-policy.html">Privacy Policy</a>
+                            </li>
+                            <li class="list-inline-item"><a href="../backend/terms-of-service.html">Terms of Use</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-lg-6 text-right">
+                        <span class="mr-1"><script>document.write(new Date().getFullYear())</script>©</span> <a class=""
+                                                                                                                href="#">POS
+                        Dash</a>.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer End -->
+
+<!-- Script Start -->
+<div th:fragment="script">
+    <!-- Backend Bundle JavaScript -->
+    <script src="/admin/assets/js/backend-bundle.min.js"></script>
+
+    <!-- Table Treeview JavaScript -->
+    <script src="/admin/assets/js/table-treeview.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script src="/admin/assets/js/customizer.js"></script>
+
+    <!-- Chart Custom JavaScript -->
+    <script async src="/admin/assets/js/chart-custom.js"></script>
+
+    <!-- app JavaScript -->
+    <script src="/admin/assets/js/app.js"></script>
+</div>
+<!-- Script End-->
+
+</body>
+</html>
