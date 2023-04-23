@@ -14,7 +14,7 @@
 
     <div class="content-page">
         <div class="container-fluid">
-            <!-- Check if Blog already exists -->
+            <!-- Check if User already exists -->
             <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${err}">
                 <strong>Error: </strong> [[${err}]]
                 <button aria-label="Close" class="close" data-dismiss="alert" type="button">
@@ -25,10 +25,8 @@
                 <div class="col-lg-12">
                     <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
                         <div>
-                            <h4 class="mb-3">Blog List</h4>
+                            <h4 class="mb-3">Comment List</h4>
                         </div>
-                        <a class="btn btn-primary add-list" th:href="@{/admin/blog/new}"><i
-                                class="las la-plus mr-3"></i>Add Blog</a>
                     </div>
                 </div>
                 <div class="col-lg-12">
@@ -37,37 +35,45 @@
                             <thead class="bg-white text-uppercase">
                             <tr class="ligth ligth-data">
                                 <th>ID</th>
-                                <th>Title</th>
-                                <th>Image</th>
-                                <th>Category</th>
-                                <th>Tag</th>
+                                <th>User</th>
+                                <th>Blog</th>
+                                <th>Review</th>
                                 <th>Actions</th>
                             </tr>
                             </thead>
                             <tbody class="ligth-body">
-                            <th:block th:each="b, iState : ${blogs}">
+                            <th:block th:each="r, iState : ${comments}">
                                 <tr>
-                                    <td th:text="${b.id}"></td>
-                                    <td><a th:text="${b.title}"></a></td>
-                                    <td><img alt="IMG-LOGO"
-                                             style="width: 130px; height: 100px;" th:src="@{${b.image}}"></td>
-                                    <td><span th:text="${categoryForBlog.getId(b.categoryBlogId).type}"></span></td>
+                                    <td th:text="${r.id}"></td>
                                     <td>
-                                        <span th:each="blogDTO : ${b.tags}" th:if="${b.tags.size() > 1}">[[${blogDTO.type}]], </span>
-                                        <span th:each="blogDTO : ${b.tags}" th:if="${b.tags.size() == 1}">[[${blogDTO.type}]]</span>
+                                        <div class="align-items-center">
+                                            <p class="mb-0">ID: <span th:text="${usersMap.get(r.reviewerId).id}"></span>
+                                            </p>
+                                            <p class="mb-0">Name: <span
+                                                    th:text="${usersMap.get(r.reviewerId).name}"></span></p>
+                                        </div>
                                     </td>
                                     <td>
+                                        <div class="d-flex align-items-center">
+                                            <img alt="image"
+                                                 class="img-fluid rounded avatar-50 mr-3"
+                                                 style="height:60px; width:60px;object-fit: cover;"
+                                                 th:src="@{${blogsMap.get(r.blogId).image}}">
+                                            <div>
+                                                <p class="mb-0">Title:
+                                                    <span class="name"
+                                                          th:text="${blogsMap.get(r.blogId).title}"></span>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td th:text="${r.comment}"></td>
+                                    <td>
                                         <div class="d-flex align-items-center list-action">
-                                            <a class="badge bg-success mr-2" data-original-title="Edit"
-                                               data-placement="top"
-                                               th:href="@{'/admin/blog/edit?id=' + ${b.id}}"
-                                               title=""><i class="ri-pencil-line mr-0"></i></a>
-
                                             <a class="badge bg-warning mr-2" data-original-title="Delete"
                                                data-target="#deleteModal"
                                                data-toggle="modal"
-                                               data-placement="top"
-                                               th:href="@{'/admin/blog/delete/' + ${b.id}}"
+                                               th:href="@{'/admin/review/delete/blog/' + ${r.id}}"
                                                title=""><i class="ri-delete-bin-line mr-0"></i></a>
                                         </div>
                                     </td>
@@ -93,12 +99,12 @@
          role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Delete Blog</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Delete Review</h5>
                 <button aria-label="Close" class="close" data-dismiss="modal" type="button">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form th:action="@{/admin/blog/delete/}">
+            <form th:action="@{/admin/review/delete}">
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
                     <button class="btn btn-primary" type="submit">Save changes</button>
@@ -121,20 +127,22 @@
     $(document).ready(function () {
         $(".tbl-server-info").on("click", ".bg-warning", function () {
             var id = $(this).closest("tr").find("td:eq(0)").text();
-            $("#deleteModal form").attr("action", "/admin/blog/delete/" + id);
+            $("#deleteModal form").attr("action", "/admin/review/delete/" + id);
             $("#deleteModal input[name='id']").val(id);
         });
 
         $(".dataTables").DataTable({
+            lengthMenu: [10, 25, 50, 100], // show entries
             'columnDefs': [
                 {
                     'searchable': false,
-                    'targets': [2] // cac truong k cho search
+                    'targets': [4] // cac truong k cho search
+                    // see https://datatables.net/reference/option/columns.searchable
                 },
                 {
                     'orderable': false,
-                    'targets': [2, 5]
-                }
+                    'targets': [1, 2, 3, 4] // cac truong k cho filter
+                },
             ]
         });
     });

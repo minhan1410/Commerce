@@ -25,7 +25,7 @@ public class ProfileController {
     @GetMapping()
     public String info(Model model) {
         model.addAttribute("user", userService.getCurrentUser());
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         return "informationUser";
     }
 

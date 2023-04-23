@@ -16,7 +16,7 @@ public class ContactController {
     @GetMapping("/contact")
     public String contact(Model model) {
         userService.getCurrentUser(model);
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         return "contact";
     }
 }

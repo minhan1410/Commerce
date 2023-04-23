@@ -16,7 +16,7 @@ public class AboutController {
     @GetMapping("/about")
     public String aboutUs(Model model) {
         userService.getCurrentUser(model);
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         return "about";
     }
 }

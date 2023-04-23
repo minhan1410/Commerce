@@ -19,13 +19,13 @@
                     <div class="card">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Add Blog</h4>
+                                <h4 class="card-title">Edit Blog</h4>
                             </div>
                         </div>
                         <div class="card-body">
                             <form enctype="multipart/form-data"
                                   method="post" style="margin: 0 auto;"
-                                  th:action="@{/admin/blog/new}" th:object="${blog}">
+                                  th:action="@{/admin/blog/edit}" th:object="${blog}">
 
                                 <div th:if="${err}">
                                     <p style="color : red; text-align: center" th:text="${err}"></p><br>
@@ -41,10 +41,13 @@
                                                    th:field="*{img}"
                                                    type="file">
                                             <p><img alt="Image Preview" id="thumbnail1"
-                                                    style="height:200px; width:200px;object-fit: contain;display: none">
+                                                    th:src="@{${blog.image}}"
+                                                    style="height:200px; width:200px;object-fit: contain">
                                             </p>
                                         </div>
                                     </div>
+
+                                    <input class="form-control mb-2 mr-sm-2" name="id" th:field="*{id}" type="hidden">
 
                                     <div class="col-md-6">
                                         <div class="form-group">
@@ -72,12 +75,13 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Tag * </label>
-                                                <div th:each="tag,iter : ${listTags}" class="checkbox d-inline-block mr-3">
-                                                    <input type="checkbox" class="checkbox-input" name="tagId" th:value="${tag.id}">
-                                                    <label th:text="${tag.type}"></label>
-                                                </div>
+                                            <div th:each="tag,iter : ${listTags}" class="checkbox d-inline-block mr-3">
+                                                <input type="checkbox" class="checkbox-input" name="tagId"
+                                                       th:checked="${tags.contains(tag.id)}"  th:value="${tag.id}">
+                                                <label th:text="${tag.type}"></label>
+                                            </div>
 
-                                                <div class="help-block with-errors"></div>
+                                            <div class="help-block with-errors"></div>
                                         </div>
                                     </div>
 
@@ -89,7 +93,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="btn btn-primary mr-2" type="submit">Add Blog</button>
+                                <button class="btn btn-primary mr-2" type="submit">Edit Blog</button>
                                 <button class="btn btn-danger" id="reset" type="reset">Reset</button>
                             </form>
                         </div>

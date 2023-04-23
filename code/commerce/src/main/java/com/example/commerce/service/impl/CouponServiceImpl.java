@@ -48,19 +48,30 @@ public class CouponServiceImpl implements CouponService {
     @Override
     @Transactional
     public List<CouponDTO> getAll() {
-        List<Coupon> list = couponRepository.getByDeletedFalse();
-        list.stream().filter(coupon -> coupon.getExpirationDate().before(new Date())).toList().forEach(coupon ->
-        {
-            coupon.setDeleted(true);
-            couponRepository.save(coupon);
-        });
-        return list.stream().map(dto -> mapper.map(dto, CouponDTO.class)).toList();
+        List<Coupon> list = couponRepository.findAll().stream().sorted(Comparator.comparing(Coupon::getDeleted)).toList();
+//        Xoá mã giảm giá hết hạn
+        list.stream().filter(coupon -> !coupon.getDeleted() && coupon.getExpirationDate().before(new Date())).toList()
+                .forEach(coupon -> {
+                    coupon.setDeleted(true);
+                    couponRepository.save(coupon);
+                });
+
+        return list.stream().filter(coupon -> coupon.getExpirationDate().after(new Date()))
+                .sorted(Comparator.comparing(Coupon::getDiscount)).map(dto -> mapper.map(dto, CouponDTO.class)).toList();
     }
 
     @Override
-    public void getByExpirationDate(Model model) {
-        List<CouponDTO> couponDTOS = getAll().stream().filter(coupon -> coupon.getExpirationDate().after(new Date())).sorted(Comparator.comparing(CouponDTO::getDiscount)).toList();
-        model.addAttribute("coupon", couponDTOS.size() == 0 ? "There is no discount code" : couponDTOS.get(0).getCode() + " - " + couponDTOS.get(0).getDiscount() + "%");
+    public void getByDiscountMax(Model model) {
+        List<CouponDTO> couponDTOS = getAll().stream().filter(c -> !c.getDeleted()).toList();
+        model.addAttribute("coupon", couponDTOS.size() == 0 ? "There is no discount code" :
+                couponDTOS.get(0).getCode() + " - " + couponDTOS.get(0).getDiscount() + "%");
         model.addAttribute("coupons", couponDTOS);
+    }
+
+    @Override
+    public void delete(Long id) {
+        Optional<Coupon> byId = couponRepository.findByIdAndDeletedFalse(id);
+        byId.get().setDeleted(true);
+        couponRepository.save(byId.get());
     }
 }

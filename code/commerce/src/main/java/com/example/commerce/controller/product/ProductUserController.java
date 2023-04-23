@@ -28,7 +28,7 @@ public class ProductUserController {
         if (product == null) {
             return "/error/notFound";
         }
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         model.addAttribute("categoriesService", categoriesService);
         model.addAttribute("numberOfReview", reviewService.countProduct(id));
         model.addAttribute("reviews", reviewService.getByProductId(id));
@@ -43,7 +43,7 @@ public class ProductUserController {
 
     @GetMapping(value = "/product")
     public String getAllProductForProductPage(Model model, HttpServletRequest request) {
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         model.addAttribute("cate", categoriesService.getAll());
         model.addAttribute("categoriesService", categoriesService);
         return productService.getAllProductForProductPage(model, request);

@@ -11,6 +11,8 @@ public interface BlogService {
 
     List<BlogDTO> getCategoryBlogId(Long id);
 
+    BlogDTO getById(Long id);
+
     BlogDTO getById(Long id, Model model);
 
     String add(BlogDTO dto, List<Long> tagId, Model model);

@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="en">
+<head th:replace="admin/template :: header"></head>
+<body class="  ">
+<!-- loader Start -->
+<div th:replace="admin/template :: loading"></div>
+<!-- loader END -->
+
+<!-- Wrapper Start -->
+<div class="wrapper">
+    <div th:replace="admin/template :: sidebar"></div>
+    <div th:replace="admin/template :: navbar"></div>
+    <div th:replace="admin/template :: new-order"></div>
+
+    <div class="content-page">
+        <div class="container-fluid">
+            <!-- Check if category already exists -->
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${err}">
+                <strong>Error: </strong> [[${err}]]
+                <button aria-label="Close" class="close" data-dismiss="alert" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
+                        <div>
+                            <h4 class="mb-3">Coupon List</h4>
+                        </div>
+                        <a class="btn btn-primary add-list" data-target="#addModal"
+                           data-toggle="modal" th:href="@{/admin/coupon/new}"><i
+                                class="las la-plus mr-3"></i>Add Coupon</a>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="table-responsive rounded mb-3">
+                        <table class="dataTables table mb-0 tbl-server-info">
+                            <thead class="bg-white text-uppercase">
+                            <tr class="ligth ligth-data">
+                                <th>ID</th>
+                                <th>Code</th>
+                                <th>Discount</th>
+                                <th>Expiration Date (d/m/y)</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody class="ligth-body">
+                            <th:block th:each="c, iState : ${coupons}">
+                                <tr>
+                                    <td th:text="${c.id}"></td>
+                                    <td th:text="${c.code}"></td>
+                                    <td th:text="${c.discount}"></td>
+                                    <td th:text="${#dates.format(c.expirationDate, 'dd/MM/yyyy')}"></td>
+                                    <td>
+                                        <div class="d-flex align-items-center list-action">
+                                            <a class="badge bg-success mr-2" data-original-title="Edit"
+                                               data-target="#editModal"
+                                               data-toggle="modal"
+                                               th:attr="data-cate-id=${c.id}"
+                                               th:href="@{'/admin/coupon/update/' + ${c.id}}"
+                                               title=""><i class="ri-pencil-line mr-0"></i></a>
+
+                                            <a th:if="${c.deleted}" class="badge bg-warning mr-2"
+                                               data-original-title="Delete"
+                                               data-target="#deleteModal"
+                                               data-toggle="modal"
+                                               th:href="@{'/admin/coupon/delete/' + ${c.id}}"
+                                               title=""><i class="ri-delete-bin-line mr-0"></i></a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </th:block>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Page end  -->
+        </div>
+    </div>
+</div>
+<!-- Wrapper End-->
+
+<!-- Add Modal -->
+<div aria-hidden="true"
+     aria-labelledby="exampleModalCenteredScrollableTitle"
+     class="modal fade" id="addModal"
+     role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Add Coupon</h5>
+                <button aria-label="Close" class="close"
+                        data-dismiss="modal"
+                        type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form method="post" th:action="@{/admin/coupon/new}">
+                <div class="modal-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control mb-2 mr-sm-2" name="id"
+                                   type="hidden"/>
+
+                            <label class="mr-sm-2">Code:</label>
+                            <input class="form-control mb-2 mr-sm-2" name="code"/>
+
+                            <label class="mr-sm-2">Discount:</label>
+                            <input class="form-control mb-2 mr-sm-2" name="discount"/>
+
+                            <label class="mr-sm-2">Expiration date:</label>
+                            <input class="form-control mb-2 mr-sm-2" name="expiration_date"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Modal -->
+<div aria-hidden="true"
+     aria-labelledby="exampleModalCenteredScrollableTitle"
+     class="modal fade" id="editModal"
+     role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title"
+                    id="exampleModalCenteredScrollableTitle">
+                    Exit Coupon</h5>
+                <button aria-label="Close" class="close"
+                        data-dismiss="modal"
+                        type="button">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form method="post" th:action="@{/admin/coupon/update}">
+                <div class="modal-body">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <input class="form-control mb-2 mr-sm-2" name="id"
+                                   type="hidden"/>
+
+                            <label class="mr-sm-2">Code:</label>
+                            <input class="form-control mb-2 mr-sm-2" name="code"/>
+
+                            <label class="mr-sm-2">Discount:</label>
+                            <input class="form-control mb-2 mr-sm-2" name="discount"/>
+
+                            <label class="mr-sm-2">Expiration date:</label>
+                            <input class="form-control mb-2 mr-sm-2" name="expiration_date"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div aria-hidden="true"
+     aria-labelledby="exampleModalCenteredScrollableTitle"
+     class="modal fade" id="deleteModal"
+     role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered"
+         role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Coupon</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/admin/coupon/delete/}">
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Footer Start -->
+<footer th:replace="admin/template :: footer"></footer>
+<!-- Footer End -->
+
+
+<div th:replace="admin/template :: script"></div>
+
+
+<script>
+    $(document).ready(function () {
+        // Khi người dùng bấm vào nút Edit trong mỗi hàng
+        $(".tbl-server-info").on("click", ".bg-success", function () {
+            // Lấy giá trị của loại từ cột "Type" tương ứng với hàng đó
+            var type = $(this).closest("tr").find("td:eq(1)").text();
+            // Đưa giá trị này vào trường nhập liệu loại trong modal
+            $("#editModal input[name='type']").val(type);
+
+            var id = $(this).closest("tr").find("td:eq(0)").text();
+            $("#editModal input[name='id']").val(id);
+        });
+
+        $(".tbl-server-info").on("click", ".bg-warning", function () {
+            var id = $(this).closest("tr").find("td:eq(0)").text();
+            $("#deleteModal form").attr("action", "/admin/coupon/delete/" + id);
+            $("#deleteModal input[name='id']").val(id);
+        });
+
+        $(".dataTables").DataTable({
+            'columnDefs': [
+                {
+                    'searchable': false,
+                    'targets': [2] // cac truong k cho search
+                },
+                {
+                    'orderable': false,
+                    'targets': [2]
+                }
+            ]
+        });
+    });
+</script>
+</body>
+</html>

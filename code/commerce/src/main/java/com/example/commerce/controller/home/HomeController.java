@@ -24,7 +24,7 @@ public class HomeController {
     @GetMapping(value = {"/", "/home"})
     public String home(Model model, HttpServletRequest request) {
         productService.getAllProductForProductPage(model, request);
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         model.addAttribute("cate", categoriesService.getAll());
         model.addAttribute("categoriesService", categoriesService);
         model.addAttribute("products", productService.getAllDistinctName());
@@ -34,7 +34,7 @@ public class HomeController {
     @PostMapping(value = "/search")
     public String search(Model model, @RequestParam(name = "name", defaultValue = "") String name) {
         userService.getCurrentUser(model);
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         model.addAttribute("products", productService.searchProduct(name));
         model.addAttribute("categoriesService", categoriesService);
         return "index";

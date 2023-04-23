@@ -169,6 +169,36 @@
                         </ul>
                     </li>
                     <li class=" ">
+                        <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#review">
+                            <svg class="svg-icon" fill="none" height="20" id="p-dash18"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                <polyline points="13 2 13 9 20 9"></polyline>
+                            </svg>
+                            <span class="ml-4">Review</span>
+                            <svg class="svg-icon iq-arrow-right arrow-active" fill="none" height="20"
+                                 stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                 stroke-width="2" viewBox="0 0 24 24" width="20" xmlns="http://www.w3.org/2000/svg">
+                                <polyline points="10 15 15 20 20 15"></polyline>
+                                <path d="M4 4h7a4 4 0 0 1 4 4v12"></path>
+                            </svg>
+                        </a>
+                        <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="review">
+                            <li class="">
+                                <a th:href="@{/admin/review}">
+                                    <i class="las la-minus"></i><span>List Product Review</span>
+                                </a>
+                            </li>
+                            <li class="">
+                                <a th:href="@{/admin/review/blog}">
+                                    <i class="las la-minus"></i><span>List Blog Comment</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class=" ">
                         <a aria-expanded="false" class="collapsed" data-toggle="collapse" href="#sale">
                             <svg class="svg-icon" fill="none" height="20" id="p-dash4" stroke="currentColor"
                                  stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"
@@ -186,13 +216,8 @@
                         </a>
                         <ul class="iq-submenu collapse" data-parent="#iq-sidebar-toggle" id="sale">
                             <li class="">
-                                <a href="../backend/page-list-sale.html">
-                                    <i class="las la-minus"></i><span>List Sale</span>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a href="../backend/page-add-sale.html">
-                                    <i class="las la-minus"></i><span>Add Sale</span>
+                                <a th:href="@{/admin/coupon}">
+                                    <i class="las la-minus"></i><span>List Coupon</span>
                                 </a>
                             </li>
                         </ul>

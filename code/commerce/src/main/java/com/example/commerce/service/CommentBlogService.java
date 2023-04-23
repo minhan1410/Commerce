@@ -9,4 +9,8 @@ public interface CommentBlogService {
     List<CommentBlogDTO> getComment(Long id);
 
     void add(CommentBlogDTO commentBlogDTO, Model model);
+
+    List<CommentBlogDTO> getAll();
+
+    void delete(Long id);
 }

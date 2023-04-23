@@ -31,4 +31,16 @@ public class CommentBlogServiceImpl implements CommentBlogService {
         commentBlogDTO.setReviewerId(userService.getCurrentUser().getId());
         commentBlogRepository.save(mapper.map(commentBlogDTO, CommentBlog.class));
     }
+
+    @Override
+    public List<CommentBlogDTO> getAll() {
+        return commentBlogRepository.getByDeletedFalse().stream().map(dto -> mapper.map(dto, CommentBlogDTO.class)).toList();
+    }
+
+    @Override
+    public void delete(Long id) {
+        CommentBlog byId = commentBlogRepository.getById(id);
+        byId.setDeleted(true);
+        commentBlogRepository.save(byId);
+    }
 }

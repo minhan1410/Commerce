@@ -19,7 +19,7 @@ public class BillUserController {
     @GetMapping("purchase-history")
     public String purchaseHistory(Model model) {
         userService.getCurrentUser(model);
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         model.addAttribute("bills", billService.getAllByCurrentUser());
         return "purchase-history";
     }

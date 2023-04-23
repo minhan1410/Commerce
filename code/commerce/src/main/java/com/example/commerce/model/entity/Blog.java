@@ -46,9 +46,6 @@ public class Blog {
         this.title = dto.getTitle();
         this.content = dto.getContent();
         this.categoryBlogId = dto.getCategoryBlogId();
-        this.createdTime = dto.getCreatedTime();
-        this.createdDay = dto.getCreatedDay();
-        this.createdMonth = dto.getCreatedMonth();
         return this;
     }
 }

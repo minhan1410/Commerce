@@ -12,5 +12,7 @@ public interface CouponService {
 
     List<CouponDTO> getAll();
 
-    void getByExpirationDate(Model model);
+    void getByDiscountMax(Model model);
+
+    void delete(Long id);
 }

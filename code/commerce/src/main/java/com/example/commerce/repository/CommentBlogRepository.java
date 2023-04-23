@@ -10,4 +10,6 @@ import java.util.List;
 public interface CommentBlogRepository extends JpaRepository<CommentBlog, Long> {
     List<CommentBlog> getByBlogIdAndDeletedFalse(Long blogId);
 
+    List<CommentBlog> getByDeletedFalse();
+
 }

@@ -23,7 +23,7 @@ public class CartUserController {
     @GetMapping("/cart")
     public String getAllCartItem(Model model) {
         userService.getCurrentUser(model);
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         return "shoping-cart";
     }
 

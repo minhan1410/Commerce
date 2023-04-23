@@ -52,7 +52,7 @@ public class BlogAdminController {
         model.addAttribute("blog", byId);
         model.addAttribute("categoryForBlog", categoriesBlogService.getAll());
         model.addAttribute("tags", blogTagService.getByBlogId(id).stream().map(BlogTagDTO::getTagId).toList());
-        return "/admin/editBlog";
+        return "/admin/blog/edit-blog";
     }
 
     @PostMapping("/edit")

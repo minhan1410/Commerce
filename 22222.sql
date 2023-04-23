@@ -1,8 +1,10 @@
--- MySQL dump 10.13  Distrib 8.0.29, for Win64 (x86_64)
+CREATE DATABASE  IF NOT EXISTS `commerce` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `commerce`;
+-- MySQL dump 10.13  Distrib 8.0.33, for macos13 (x86_64)
 --
 -- Host: localhost    Database: commerce
 -- ------------------------------------------------------
--- Server version	8.0.29
+-- Server version	8.0.32
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -29,10 +31,10 @@ CREATE TABLE `bill` (
   `coupon_id` int DEFAULT NULL,
   `total_cart` int DEFAULT NULL,
   `price_total` double DEFAULT NULL,
-  `status` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `receiver_name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `phone_number` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `shipping_address` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `status` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `receiver_name` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `phone_number` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `shipping_address` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `confirm_time` datetime DEFAULT NULL,
   `delivery_time` datetime DEFAULT NULL,
@@ -45,7 +47,7 @@ CREATE TABLE `bill` (
   CONSTRAINT `fk_bill_cart` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`),
   CONSTRAINT `fk_bill_coupon` FOREIGN KEY (`coupon_id`) REFERENCES `coupon` (`id`),
   CONSTRAINT `fk_bill_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=158 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -68,17 +70,17 @@ DROP TABLE IF EXISTS `blog`;
 CREATE TABLE `blog` (
   `id` int NOT NULL AUTO_INCREMENT,
   `category_blog_id` int DEFAULT NULL,
-  `title` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `content` varchar(5000) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `created_time` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `title` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `content` varchar(5000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `created_time` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `created_day` int DEFAULT NULL,
-  `created_month` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `image` varchar(1000) COLLATE utf8_bin DEFAULT NULL,
+  `created_month` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `image` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`),
   KEY `fk_blog_category_idx` (`category_blog_id`),
   CONSTRAINT `fk_blog_cate` FOREIGN KEY (`category_blog_id`) REFERENCES `categories_blog` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=90 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=218 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +89,7 @@ CREATE TABLE `blog` (
 
 LOCK TABLES `blog` WRITE;
 /*!40000 ALTER TABLE `blog` DISABLE KEYS */;
-INSERT INTO `blog` VALUES (1,1,'8 Inspiring Ways to Wear Dresses in the Winter','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet est vel orci luctus sollicitudin. Duis eleifend vestibulum justo, varius semper lacus condimentum dictum. Donec pulvinar a magna ut malesuada. In posuere felis diam, vel sodales metus accumsan in. Duis viverra dui eu pharetra pellentesque. Donec a eros leo. Quisque sed ligula vitae lorem efficitur faucibus. Praesent sit amet imperdiet ante. Nulla id tellus auctor, dictum libero a, malesuada nisi. Nulla in porta nibh, id vestibulum ipsum. Praesent dapibus tempus erat quis aliquet. Donec ac purus id sapien condimentum feugiat.','23:21:57',2,'MARCH','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676098967/wallpaperflare.com_wallpaper_4_jqueet.jpg',_binary ''),(3,2,'The Great Big List of Men’s Gifts for the Holidays','Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius','23:33:52',10,'May','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676098993/blog-05_mrjigt.jpg',_binary ''),(4,3,'5 Winter-to-Spring Fashion Trends to Try Now','Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius','07:44:18',9,'July','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676099012/blog-06_mpwlvn.jpg',_binary '\0'),(49,1,'Facebook','The God has given humankind above the animal','08:05:26',28,'September','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676099040/24_ewjemi.jpg',_binary ''),(50,2,'Toronto-Based Artist Collaborates with Emporio Armani + More Fashion News','To mark the 40th anniversary of Emporio Armani, Toronto-based artist Maxwell N. Burnstein was tapped to interpret the storied fashion brand’s history and future. Burnstein, who is self-taught, has done so in a series of collages that illustrate how the Italian fashion house has stayed true to its heritage while simultaneously adapting to metropolitan living. The masterful collages are set to be displayed on the W1 Screens along Oxford Street in London, England, as a site-specific installation. Yet another instance of Canadian talent being carried across the world.','09:44:12',29,'September','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676099059/wallpaperflare.com_wallpaper_2_araoyo.jpg',_binary ''),(51,3,'Recyclable Sneaker Brand Thousand Fell Comes to Canada','Thousand Fell, a NYC-based brand, says it has created the world’s “first recyclable sneaker.” Made of materials like upcycled clothing, plastic water bottles and even food waste, the brand has filled a gap in the notoriously wasteful footwear industry. The minimalistic vegan shoes have generated a lot of buzz and racked up hefty waitlists — and as of September 22, they’re available in Canada, too.','09:45:16',29,'September','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676099073/19_mz17fa.jpg',_binary '\0'),(88,4,'t','t','23:20:0',10,'MARCH','http://res.cloudinary.com/dpvehgfmo/image/upload/v1678465303/bun3da85o19ydq57kto3.png',_binary '\0'),(89,4,'t','t','23:21:57',10,'MARCH','http://res.cloudinary.com/dpvehgfmo/image/upload/v1678465320/yvqjh0macfwsbihq2q2w.png',_binary '');
+INSERT INTO `blog` VALUES (1,1,'8 Inspiring Ways to Wear Dresses in the Winter','Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet est vel orci luctus sollicitudin. Duis eleifend vestibulum justo, varius semper lacus condimentum dictum. Donec pulvinar a magna ut malesuada. In posuere felis diam, vel sodales metus accumsan in. Duis viverra dui eu pharetra pellentesque. Donec a eros leo. Quisque sed ligula vitae lorem efficitur faucibus. Praesent sit amet imperdiet ante. Nulla id tellus auctor, dictum libero a, malesuada nisi. Nulla in porta nibh, id vestibulum ipsum. Praesent dapibus tempus erat quis aliquet. Donec ac purus id sapien condimentum feugiat.','23:21:57',2,'MARCH','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676098967/wallpaperflare.com_wallpaper_4_jqueet.jpg',_binary ''),(3,2,'The Great Big List of Men’s Gifts for the Holidays','Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius','23:33:52',10,'May','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676098993/blog-05_mrjigt.jpg',_binary ''),(4,3,'5 Winter-to-Spring Fashion Trends to Try Now','Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius','07:44:18',9,'July','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676099012/blog-06_mpwlvn.jpg',_binary '\0'),(49,1,'Facebook','The God has given humankind above the animal','08:05:26',28,'September','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676099040/24_ewjemi.jpg',_binary ''),(50,2,'Toronto-Based Artist Collaborates with Emporio Armani + More Fashion News','To mark the 40th anniversary of Emporio Armani, Toronto-based artist Maxwell N. Burnstein was tapped to interpret the storied fashion brand’s history and future. Burnstein, who is self-taught, has done so in a series of collages that illustrate how the Italian fashion house has stayed true to its heritage while simultaneously adapting to metropolitan living. The masterful collages are set to be displayed on the W1 Screens along Oxford Street in London, England, as a site-specific installation. Yet another instance of Canadian talent being carried across the world.','09:44:12',29,'September','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676099059/wallpaperflare.com_wallpaper_2_araoyo.jpg',_binary ''),(51,3,'Recyclable Sneaker Brand Thousand Fell Comes to Canada','Thousand Fell, a NYC-based brand, says it has created the world’s “first recyclable sneaker.” Made of materials like upcycled clothing, plastic water bottles and even food waste, the brand has filled a gap in the notoriously wasteful footwear industry. The minimalistic vegan shoes have generated a lot of buzz and racked up hefty waitlists — and as of September 22, they’re available in Canada, too.','09:45:16',29,'September','https://res.cloudinary.com/dpvehgfmo/image/upload/v1676099073/19_mz17fa.jpg',_binary '\0'),(88,4,'t','t','23:20:0',10,'MARCH','http://res.cloudinary.com/dpvehgfmo/image/upload/v1678465303/bun3da85o19ydq57kto3.png',_binary '\0'),(89,4,'t','t','23:21:57',10,'MARCH','http://res.cloudinary.com/dpvehgfmo/image/upload/v1678465320/yvqjh0macfwsbihq2q2w.png',_binary ''),(214,4,'Chụp ảnh màn hình','cmd ship 4',NULL,NULL,NULL,'http://res.cloudinary.com/dpvehgfmo/image/upload/v1682225439/pyhzpf1rua9xs1l2u3vs.jpg',_binary ''),(215,1,'test','1234hhh',NULL,NULL,NULL,'http://res.cloudinary.com/dpvehgfmo/image/upload/v1682240203/j5adys4bxpjfpdf7bfy7.jpg',_binary ''),(216,1,'abcd','abcd',NULL,NULL,NULL,'http://res.cloudinary.com/dpvehgfmo/image/upload/v1682240647/wojfeqcc2ehfb24tasfy.jpg',_binary ''),(217,1,'1','14102001','16:8:30',23,'APRIL','http://res.cloudinary.com/dpvehgfmo/image/upload/v1682240912/wa2swi5xfw7oh22blxkk.jpg',_binary '\0');
 /*!40000 ALTER TABLE `blog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -108,7 +110,7 @@ CREATE TABLE `blog_tag` (
   KEY `fk_tag_idx` (`tag_id`),
   CONSTRAINT `fk_blog` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`id`),
   CONSTRAINT `fk_tag` FOREIGN KEY (`tag_id`) REFERENCES `tag` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -117,7 +119,7 @@ CREATE TABLE `blog_tag` (
 
 LOCK TABLES `blog_tag` WRITE;
 /*!40000 ALTER TABLE `blog_tag` DISABLE KEYS */;
-INSERT INTO `blog_tag` VALUES (3,1,1,_binary ''),(4,1,2,_binary '\0'),(1,44,3,_binary ''),(49,1,4,_binary ''),(49,4,5,_binary ''),(49,7,6,_binary ''),(49,44,7,_binary ''),(49,45,8,_binary ''),(50,6,9,_binary ''),(50,7,10,_binary ''),(50,45,11,_binary ''),(51,4,12,_binary '\0'),(51,5,13,_binary '\0'),(51,6,14,_binary '\0'),(1,1,15,_binary ''),(1,2,16,_binary ''),(1,3,17,_binary ''),(88,1,18,_binary '\0'),(88,2,19,_binary '\0'),(88,5,20,_binary '\0'),(88,44,21,_binary '\0'),(88,45,22,_binary '\0'),(89,1,23,_binary ''),(89,2,24,_binary ''),(89,5,25,_binary ''),(89,44,26,_binary ''),(89,45,27,_binary '');
+INSERT INTO `blog_tag` VALUES (3,1,1,_binary ''),(4,1,2,_binary '\0'),(1,44,3,_binary ''),(49,1,4,_binary ''),(49,4,5,_binary ''),(49,7,6,_binary ''),(49,44,7,_binary ''),(49,45,8,_binary ''),(50,6,9,_binary ''),(50,7,10,_binary ''),(50,45,11,_binary ''),(51,4,12,_binary '\0'),(51,5,13,_binary '\0'),(51,6,14,_binary '\0'),(1,1,15,_binary ''),(1,2,16,_binary ''),(1,3,17,_binary ''),(88,1,18,_binary '\0'),(88,2,19,_binary '\0'),(88,5,20,_binary '\0'),(88,44,21,_binary '\0'),(88,45,22,_binary '\0'),(89,1,23,_binary ''),(89,2,24,_binary ''),(89,5,25,_binary ''),(89,44,26,_binary ''),(89,45,27,_binary ''),(214,1,28,_binary ''),(214,5,29,_binary ''),(214,2,30,_binary ''),(214,45,31,_binary ''),(214,3,32,_binary ''),(215,1,33,_binary ''),(216,2,34,_binary ''),(216,3,35,_binary ''),(217,4,36,_binary '\0');
 /*!40000 ALTER TABLE `blog_tag` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -134,7 +136,7 @@ CREATE TABLE `cart` (
   `deleted` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`),
   KEY `fk_cart_user_idx` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=40 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,10 +189,10 @@ DROP TABLE IF EXISTS `categories`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `categories` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=214 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -212,10 +214,10 @@ DROP TABLE IF EXISTS `categories_blog`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `categories_blog` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `type` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `type` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -239,14 +241,14 @@ CREATE TABLE `comment_blog` (
   `id` int NOT NULL AUTO_INCREMENT,
   `blog_id` int DEFAULT NULL,
   `reviewer_id` int DEFAULT NULL,
-  `comment` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `comment` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`),
   KEY `fk_comment_blog_idx` (`blog_id`),
   KEY `fk_comment_user_idx` (`reviewer_id`),
   CONSTRAINT `fk_comment_blog` FOREIGN KEY (`blog_id`) REFERENCES `blog` (`id`),
   CONSTRAINT `fk_comment_user` FOREIGN KEY (`reviewer_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=84 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=221 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -255,7 +257,7 @@ CREATE TABLE `comment_blog` (
 
 LOCK TABLES `comment_blog` WRITE;
 /*!40000 ALTER TABLE `comment_blog` DISABLE KEYS */;
-INSERT INTO `comment_blog` VALUES (1,51,29,'Very useful article',_binary '\0'),(3,51,52,'This blog is so nice',_binary '\0'),(76,1,29,'hay',_binary '\0'),(83,50,29,'hay',_binary '\0');
+INSERT INTO `comment_blog` VALUES (1,51,29,'Very useful article',_binary ''),(3,51,52,'This blog is so nice',_binary ''),(76,1,29,'hay',_binary ''),(83,50,29,'hay',_binary ''),(218,217,146,'Hay qua',_binary '\0'),(219,4,146,'Like',_binary '\0'),(220,51,29,'10đ',_binary '\0');
 /*!40000 ALTER TABLE `comment_blog` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,13 +270,13 @@ DROP TABLE IF EXISTS `coupon`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `coupon` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `code` varchar(45) COLLATE utf8_bin DEFAULT NULL,
+  `code` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `discount` int DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   `expiration_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `code_UNIQUE` (`code`)
-) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -305,7 +307,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (214);
+INSERT INTO `hibernate_sequence` VALUES (221);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -331,6 +333,7 @@ CREATE TABLE `persistent_logins` (
 
 LOCK TABLES `persistent_logins` WRITE;
 /*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
+INSERT INTO `persistent_logins` VALUES ('surivato98@gmail.com','1/CFabvMgvGkyoah60RMdw==','D4Z0OXVc5ERYsCv5m8Y2tw==','2023-04-23 15:17:51'),('duyanhtutran@gmail.com','Fsk/BTCSRvBGnwPahhpOuw==','c5UIjXLzSA5vDIUM7xllMA==','2023-04-23 15:17:04'),('surivato98@gmail.com','PQZ/RSsSmcMqZIzSvlJJLw==','ijGYz+V6A6KD4UvBaIIFXQ==','2023-04-23 18:17:11');
 /*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -343,22 +346,22 @@ DROP TABLE IF EXISTS `product`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `product` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin NOT NULL,
+  `name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin NOT NULL,
   `price` bigint NOT NULL,
-  `description` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `description` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `categories_id` int DEFAULT NULL,
-  `img_main` varchar(1000) COLLATE utf8_bin DEFAULT NULL,
-  `img_hover` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `img_sub` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `material` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `color` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `size` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `img_main` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `img_hover` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `img_sub` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `material` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `color` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `size` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `quantity` int DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`),
   KEY `fk_pro_cate_idx` (`categories_id`),
   CONSTRAINT `fk_pro_cate` FOREIGN KEY (`categories_id`) REFERENCES `categories` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=210 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=210 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -380,7 +383,7 @@ DROP TABLE IF EXISTS `review`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `review` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `review` varchar(300) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `review` varchar(300) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `star_number` int DEFAULT NULL,
   `review_date` datetime DEFAULT NULL,
   `reviewer_id` int DEFAULT NULL,
@@ -391,7 +394,7 @@ CREATE TABLE `review` (
   KEY `fk_review_product_idx` (`product_id`) /*!80000 INVISIBLE */,
   CONSTRAINT `fk_review_product` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`),
   CONSTRAINT `fk_review_user` FOREIGN KEY (`reviewer_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=204 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -400,7 +403,7 @@ CREATE TABLE `review` (
 
 LOCK TABLES `review` WRITE;
 /*!40000 ALTER TABLE `review` DISABLE KEYS */;
-INSERT INTO `review` VALUES (16,'There\'s nothing left to criticize',4,'2021-08-31 21:41:14',52,2,_binary '\0'),(17,'That\'s cool',4,'2021-09-02 16:58:59',52,2,_binary '\0'),(18,'Nice ',2,'2021-09-02 17:16:00',52,5,_binary '\0'),(19,'Okay',1,'2021-09-02 17:16:27',52,5,_binary '\0'),(20,'I\'m really like it',5,'2021-09-02 17:17:14',52,5,_binary '\0'),(21,'Everything is so nice',5,'2021-09-14 16:16:11',52,3,_binary '\0'),(22,'Material of this shirt?',5,'2021-09-14 16:18:59',52,4,_binary '\0'),(24,'It\'s really nice and worth the money, I bought one',5,'2021-09-30 02:19:31',54,56,_binary '\0'),(70,'Dep',4,NULL,29,1,_binary ''),(71,'Dep',4,NULL,29,52,_binary '\0'),(72,'Dep',4,NULL,29,62,_binary '\0'),(73,'Dep',4,NULL,29,68,_binary '\0'),(192,'11',4,'2023-03-31 00:21:48',146,19,_binary '\0'),(193,'dep',3,'2023-03-31 11:10:08',29,92,_binary '\0'),(194,'10',3,'2023-03-31 11:29:57',29,92,_binary '\0'),(195,'ưersd',0,'2023-03-31 11:32:24',29,92,_binary '\0'),(196,'xx',3,'2023-03-31 11:34:12',29,92,_binary '\0'),(197,'xx',3,'2023-03-31 11:34:14',29,92,_binary '\0'),(198,'xx',3,'2023-03-31 11:34:15',29,92,_binary '\0'),(199,'xx',3,'2023-03-31 11:34:16',29,92,_binary '\0'),(200,'xx',3,'2023-03-31 11:34:16',29,92,_binary '\0'),(201,'xx',3,'2023-03-31 11:34:22',29,92,_binary '\0'),(202,'xx',3,'2023-03-31 11:34:24',29,92,_binary '\0'),(203,'xx',3,'2023-03-31 11:34:33',29,92,_binary '\0');
+INSERT INTO `review` VALUES (16,'There\'s nothing left to criticize',4,'2021-08-31 21:41:14',52,2,_binary '\0'),(17,'That\'s cool',4,'2021-09-02 16:58:59',52,2,_binary '\0'),(18,'Nice ',2,'2021-09-02 17:16:00',52,5,_binary '\0'),(19,'Okay',1,'2021-09-02 17:16:27',52,5,_binary '\0'),(20,'I\'m really like it',5,'2021-09-02 17:17:14',52,5,_binary '\0'),(21,'Everything is so nice',5,'2021-09-14 16:16:11',52,3,_binary '\0'),(22,'Material of this shirt?',5,'2021-09-14 16:18:59',52,4,_binary '\0'),(24,'It\'s really nice and worth the money, I bought one',5,'2021-09-30 02:19:31',54,56,_binary '\0'),(70,'Dep',4,NULL,29,1,_binary ''),(71,'Dep',4,NULL,29,52,_binary '\0'),(72,'Dep',4,NULL,29,62,_binary '\0'),(73,'Dep',4,NULL,29,68,_binary '\0'),(192,'11',4,'2023-03-31 00:21:48',146,19,_binary '\0'),(193,'dep',3,'2023-03-31 11:10:08',29,92,_binary ''),(194,'10',3,'2023-03-31 11:29:57',29,92,_binary ''),(195,'ưersd',0,'2023-03-31 11:32:24',29,92,_binary ''),(196,'xx',3,'2023-03-31 11:34:12',29,92,_binary ''),(197,'xx',3,'2023-03-31 11:34:14',29,92,_binary ''),(198,'xx',3,'2023-03-31 11:34:15',29,92,_binary ''),(199,'xx',3,'2023-03-31 11:34:16',29,92,_binary ''),(200,'xx',3,'2023-03-31 11:34:16',29,92,_binary ''),(201,'xx',3,'2023-03-31 11:34:22',29,92,_binary '\0'),(202,'xx',3,'2023-03-31 11:34:24',29,92,_binary ''),(203,'xx',3,'2023-03-31 11:34:33',29,92,_binary '');
 /*!40000 ALTER TABLE `review` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -413,10 +416,10 @@ DROP TABLE IF EXISTS `tag`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `tag` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `type` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `type` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=51 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -438,27 +441,27 @@ DROP TABLE IF EXISTS `user`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `mail` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `password` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `phone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `address` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `state` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
-  `city` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `mail` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `password` varchar(120) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `name` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `phone` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `address` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `state` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
+  `city` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `country_id` int DEFAULT NULL,
   `created_time` timestamp NULL DEFAULT NULL,
-  `role` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `role` varchar(45) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `enabled` tinyint DEFAULT NULL,
-  `auth_provider` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `auth_provider` varchar(15) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `postal_code` int DEFAULT NULL,
-  `avatar` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8_general_ci DEFAULT NULL,
-  `one_time_password` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8_bin DEFAULT NULL,
+  `avatar` varchar(1000) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `one_time_password` varchar(64) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `otp_requested_time` datetime DEFAULT NULL,
   `deleted` bit(1) DEFAULT b'0',
-  `verification_code` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `verification_code` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
   `verification_code_expiry` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8mb3 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=205 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -480,4 +483,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-04-22 18:38:40
+-- Dump completed on 2023-04-24  1:24:45

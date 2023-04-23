@@ -26,14 +26,14 @@ public class BlogUserController {
     @GetMapping("/blog")
     public String blog(Model model, HttpServletRequest request) {
         userService.getCurrentUser(model);
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         return blogService.getBlogForBlogPage(model, request);
     }
 
     @GetMapping("/blog-detail")
     public String blogDetail(@RequestParam(name = "id") Long id, Model model, HttpServletRequest request) {
         userService.getCurrentUser(model);
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         model.addAttribute("userService", userService);
         return blogService.blogDetail(id, model, request);
     }
@@ -41,7 +41,7 @@ public class BlogUserController {
     @PostMapping("/blog-detail/review")
     public String commentBlog(@ModelAttribute CommentBlogDTO commentBlogDTO, Model model) {
         userService.getCurrentUser(model);
-        couponService.getByExpirationDate(model);
+        couponService.getByDiscountMax(model);
         commentBlogService.add(commentBlogDTO, model);
         return "redirect:/blog-detail?id=" + commentBlogDTO.getBlogId();
     }

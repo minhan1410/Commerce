@@ -44,6 +44,11 @@ public class BlogServiceImpl implements BlogService {
     }
 
     @Override
+    public BlogDTO getById(Long id) {
+        return mapper.map(blogRepository.getByIdAndDeletedFalse(id), BlogDTO.class);
+    }
+
+    @Override
     public BlogDTO getById(Long id, Model model) {
         Optional<Blog> findBlog = blogRepository.findById(id);
         if (findBlog.isEmpty() || findBlog.get().getDeleted()) {
