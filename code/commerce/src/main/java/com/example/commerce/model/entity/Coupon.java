@@ -3,6 +3,7 @@ package com.example.commerce.model.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -21,7 +22,7 @@ public class Coupon {
     private Integer discount;
 
     @Column(name = "expiration_date")
-    private Date expirationDate;
+    private LocalDate expirationDate;
 
     @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;

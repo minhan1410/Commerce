@@ -10,8 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import java.time.LocalDate;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,7 +29,7 @@ public class CouponServiceImpl implements CouponService {
             return null;
         }
         Coupon coupon = optional.get();
-        if (new Date().after(coupon.getExpirationDate())) {
+        if (LocalDate.now().isAfter(coupon.getExpirationDate())) {
             model.addAttribute("err", "code het han");
         }
         return mapper.map(coupon, CouponDTO.class);
@@ -37,9 +37,10 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     @Transactional
-    public void add(CouponDTO dto) {
+    public void add(CouponDTO dto, Model model) {
         Optional<Coupon> optional = couponRepository.findByCodeAndDeleted(dto.getCode(), false);
         if (optional.isPresent()) {
+            model.addAttribute("err", "Code is already exist");
             return;
         }
         couponRepository.save(mapper.map(dto, Coupon.class));
@@ -49,20 +50,20 @@ public class CouponServiceImpl implements CouponService {
     @Transactional
     public List<CouponDTO> getAll() {
         List<Coupon> list = couponRepository.findAll().stream().sorted(Comparator.comparing(Coupon::getDeleted)).toList();
+
 //        Xoá mã giảm giá hết hạn
-        list.stream().filter(coupon -> !coupon.getDeleted() && coupon.getExpirationDate().before(new Date())).toList()
+        list.stream().filter(coupon -> !coupon.getDeleted() &&  coupon.getExpirationDate().isBefore(LocalDate.now())).toList()
                 .forEach(coupon -> {
                     coupon.setDeleted(true);
                     couponRepository.save(coupon);
                 });
 
-        return list.stream().filter(coupon -> coupon.getExpirationDate().after(new Date()))
-                .sorted(Comparator.comparing(Coupon::getDiscount)).map(dto -> mapper.map(dto, CouponDTO.class)).toList();
+        return list.stream().sorted(Comparator.comparing(Coupon::getDiscount)).map(dto -> mapper.map(dto, CouponDTO.class)).toList();
     }
 
     @Override
     public void getByDiscountMax(Model model) {
-        List<CouponDTO> couponDTOS = getAll().stream().filter(c -> !c.getDeleted()).toList();
+        List<CouponDTO> couponDTOS = getAll().stream().filter(c -> !c.getDeleted() && c.getExpirationDate().isAfter(LocalDate.now())).toList();
         model.addAttribute("coupon", couponDTOS.size() == 0 ? "There is no discount code" :
                 couponDTOS.get(0).getCode() + " - " + couponDTOS.get(0).getDiscount() + "%");
         model.addAttribute("coupons", couponDTOS);

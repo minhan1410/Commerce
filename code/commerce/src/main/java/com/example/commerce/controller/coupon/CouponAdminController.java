@@ -1,6 +1,5 @@
 package com.example.commerce.controller.coupon;
 
-import com.example.commerce.model.dto.CategoriesDTO;
 import com.example.commerce.model.dto.CouponDTO;
 import com.example.commerce.service.CouponService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +20,8 @@ public class CouponAdminController {
     }
 
     @PostMapping("/new")
-    public String add(@ModelAttribute("category") CouponDTO dto, Model model) {
-        couponService.add(dto);
+    public String add(@ModelAttribute("coupon") CouponDTO dto, Model model) {
+        couponService.add(dto, model);
         return "redirect:/admin/coupon";
     }
 

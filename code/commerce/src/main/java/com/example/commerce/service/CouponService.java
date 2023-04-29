@@ -8,7 +8,7 @@ import java.util.List;
 public interface CouponService {
     CouponDTO findCode(String code, Model model);
 
-    void add(CouponDTO dto);
+    void add(CouponDTO dto, Model model);
 
     List<CouponDTO> getAll();
 
