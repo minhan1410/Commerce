@@ -14,5 +14,6 @@ public class CouponDTO {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expirationDate;
     private Integer discount;
+    private Boolean expires = false;
     private Boolean deleted = false;
 }

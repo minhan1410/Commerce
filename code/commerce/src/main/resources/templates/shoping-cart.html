@@ -3,39 +3,39 @@
 <head>
     <title>Shoping Cart</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" th:href="@{/images/icons/favicon.png}"/>
+    <link rel="icon" th:href="@{/images/icons/favicon.png}" type="image/png"/>
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/fonts/linearicons-v1.0.0/icon-font.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/linearicons-v1.0.0/icon-font.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/animate/animate.css}">
+    <link rel="stylesheet" th:href="@{/vendor/animate/animate.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/css-hamburgers/hamburgers.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/css-hamburgers/hamburgers.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/animsition/css/animsition.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/animsition/css/animsition.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/select2/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/select2/select2.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/perfect-scrollbar/perfect-scrollbar.css}">
+    <link rel="stylesheet" th:href="@{/vendor/perfect-scrollbar/perfect-scrollbar.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/util.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
     <!--===============================================================================================-->
     <!-- MDB -->
     <link
@@ -52,53 +52,55 @@
 <!-- breadcrumb -->
 <div class="container">
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-        <a th:href="@{/home}" class="stext-109 cl8 hov-cl1 trans-04"> Home
-            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        <a class="stext-109 cl8 hov-cl1 trans-04" th:href="@{/home}"> Home
+            <i aria-hidden="true" class="fa fa-angle-right m-l-9 m-r-10"></i>
         </a> <span class="stext-109 cl4"> Shoping Cart </span>
     </div>
 </div>
 
 
 <!-- Shoping CartItem -->
-<form class="bg0 p-t-75 p-b-85" th:action="@{/checkout}" method="post">
+<form class="bg0 p-t-75 p-b-85" method="post" th:action="@{/checkout}">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
                 <div class="m-l-25 m-r--38 m-lr-0-xl">
                     <div class="wrap-table-shopping-cart">
 
-                        <table class="table-shopping-cart">
-                            <tr class="table_head">
-                                <th class="column-1">Product</th>
-                                <th class="column-2"></th>
-                                <th class="column-3">Size</th>
-                                <th class="column-4">Color</th>
-                                <th class="column-5">Price</th>
-                                <th class="column-6">Quantity</th>
-                                <th class="column-7"></th>
+                        <table class="table-shopping-cart dataTables table mb-0 tbl-server-info">
+                            <thead class="bg-white text-uppercase table_head">
+                            <tr class="ligth ligth-data">
+                                <th>Product</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Action</th>
                             </tr>
+                            </thead>
+                            <tbody class="ligth-body">
                             <th:block th:each="entry: ${#session.getAttribute('cart')}">
-                                <tr class="table_row">
-                                    <td class="column-1">
-                                        <div class="how-itemcart1">
-                                            <img th:src="@{${entry.value.product.imgMain}}"
-                                                 alt="IMG">
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center align-middle">
+                                            <img alt="image"
+                                                 class="img-fluid rounded avatar-50 mr-3"
+                                                 style="height:80px; width:80px;object-fit: cover;"
+                                                 th:src="@{${entry.value.product.imgMain}}">
+                                            <div>
+                                                <b class="name" th:text="${entry.value.product.name}"></b>
+                                                <p class="mb-0">
+                                                    <small th:text="${'Size: ' + entry.value.product.size}"></small>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <small th:text="${'Color: ' + entry.value.product.color}"></small>
+                                                </p>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td class="column-2" th:text="${entry.value.product.name}">Fresh
-                                        Strawberries
-                                    </td>
-                                    <td class="column-3" th:text="${entry.value.product.size}">Fresh
-                                        Strawberries
-                                    </td>
-                                    <td class="column-4" th:text="${entry.value.product.color}">Fresh
-                                        Strawberries
-                                    </td>
-                                    <td class="column-5" name="price1"
-                                        th:text="${entry.value.product.price} + '$'">$ 36.00
-                                    </td>
-                                    <td class="column-6">
-                                        <div class="wrap-num-product flex-w m-l-auto m-r-0">
+
+                                    <td class="align-middle" th:text="${entry.value.product.price} + '$'"></td>
+
+                                    <td class="align-middle">
+                                        <div class="wrap-num-product flex-w">
                                             <a th:href="@{'/update-cart?id='+${entry.key} +'&quantity='+${1 * -1}}">
                                                 <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
                                                     <i class="fs-16 zmdi zmdi-minus"></i>
@@ -106,8 +108,8 @@
                                             </a>
 
                                             <input class="mtext-104 cl3 txt-center num-product"
-                                                   type="number" name="num-product1" min="1"
-                                                   th:value="${entry.value.quantity}">
+                                                   min="1" name="num-product1" th:value="${entry.value.quantity}"
+                                                   type="number">
 
                                             <a th:href="@{'/update-cart?id='+${entry.key} +'&quantity='+${1}}">
                                                 <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
@@ -117,34 +119,32 @@
                                         </div>
                                     </td>
 
-                                    </td>
-
-
-                                    <td class="column-7">
-                                        <a th:href="@{'/delete-from-cart?id='+${entry.key}}"
-                                           class="btn btn-danger"> <span class="glyphicon glyphicon-trash">Trash</span>
+                                    <td class="align-middle">
+                                        <a class="btn btn-danger"
+                                           th:href="@{'/delete-from-cart?id='+${entry.key}}"> <span
+                                                class="glyphicon glyphicon-trash">Trash</span>
                                         </a>
-
                                     </td>
                                 </tr>
 
                             </th:block>
+                            </tbody>
                         </table>
                     </div>
 
-                    <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
+                    <div class="flex-w flex-sb-m bor15 p-t-18 p-b-15 p-lr-20 p-lr-15-sm">
                         <form style="display: none"></form>
 
-                        <form th:action="@{/coupon-cart}" method="post" class="flex-w flex-m m-tb-5">
-                            <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" type="text"
-                                   name="coupon" placeholder="Coupon Code">
+                        <form class="flex-w flex-m m-tb-5" method="post" th:action="@{/coupon-cart}">
+                            <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" name="coupon"
+                                   placeholder="Coupon Code" type="text">
                             <button class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
                                 Apply coupon
                             </button>
                         </form>
 
-                        <a th:href="@{/product}"
-                           class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
+                        <a class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10"
+                           th:href="@{/product}">
                             Keep shopping
                         </a>
                     </div>
@@ -168,7 +168,8 @@
                         </div>
                     </div>
 
-                    <div class="flex-w flex-t bor12 p-t-15 p-b-15" th:if="${session.totalPriceAfterApplyCoupon != null}">
+                    <div class="flex-w flex-t bor12 p-t-15 p-b-15"
+                         th:if="${session.totalPriceAfterApplyCoupon != null}">
                         <div class="size-208">
                             <span class="stext-110 cl2"> Apply Coupon: </span>
                         </div>
@@ -201,8 +202,8 @@
                                 <span class="stext-112 cl8"> Receiver name </span>
 
                                 <div class="bor8 bg0 m-b-12">
-                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"
-                                           name="receiverName" th:value="${user.name}">
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" name="receiverName"
+                                           th:value="${user.name}" type="text">
                                 </div>
                             </div>
 
@@ -210,8 +211,8 @@
                                 <span class="stext-112 cl8"> Shipping Address </span>
 
                                 <div class="bor8 bg0 m-b-12">
-                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"
-                                           name="shippingAddress" th:value="${user.address}">
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" name="shippingAddress"
+                                           th:value="${user.address}" type="text">
                                 </div>
                             </div>
 
@@ -219,17 +220,17 @@
                                 <span class="stext-112 cl8"> Phone number </span>
 
                                 <div class="bor8 bg0 m-b-12">
-                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" type="text"
-                                           name="phoneNumber" th:value="${user.phone}">
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" name="phoneNumber"
+                                           th:value="${user.phone}" type="text">
                                 </div>
                             </div>
 
-<!--                            <div class="flex-w">-->
-<!--                                <div-->
-<!--                                        class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">-->
-<!--                                    Update Totals-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                            <div class="flex-w">-->
+                            <!--                                <div-->
+                            <!--                                        class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">-->
+                            <!--                                    Update Totals-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
                         </div>
                     </div>
 
@@ -245,8 +246,8 @@
                     </div>
 
                     <div class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer"
-                         data-mdb-toggle="modal"
-                         data-mdb-target="#exampleModal" th:if="${session.cart != null}">
+                         data-mdb-target="#exampleModal"
+                         data-mdb-toggle="modal" th:if="${session.cart != null}">
                         Proceed to Checkout
                     </div>
                 </div>
@@ -254,13 +255,13 @@
 
 
             <!-- modal -->
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                 aria-hidden="true" style="top: 150px;">
+            <div aria-hidden="true" aria-labelledby="exampleModalLabel" class="modal fade" id="exampleModal"
+                 style="top: 150px;" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header border-bottom-0">
-                            <button type="button" class="btn-close" data-mdb-dismiss="modal"
-                                    aria-label="Close"></button>
+                            <button aria-label="Close" class="btn-close" data-mdb-dismiss="modal"
+                                    type="button"></button>
                         </div>
                         <div class="modal-body text-start text-black p-4">
                             <h2 class="mb-5" style="color: #35558a;text-align: center">Thanks for your order</h2>
@@ -274,9 +275,11 @@
                                    th:text="'$' + ${session.totalPrice}">$1750.00</p>
                             </div>
 
-                            <div class="d-flex justify-content-between" th:if="${session.totalPriceAfterApplyCoupon != null}">
+                            <div class="d-flex justify-content-between"
+                                 th:if="${session.totalPriceAfterApplyCoupon != null}">
                                 <p class="fw-bold mb-0">Apply Coupon</p>
-                                <p class="text-muted mb-0" th:text="'$' + ${session.totalPriceAfterApplyCoupon}">$1750.00</p>
+                                <p class="text-muted mb-0" th:text="'$' + ${session.totalPriceAfterApplyCoupon}">
+                                    $1750.00</p>
                             </div>
 
                             <div class="d-flex justify-content-between">
@@ -287,7 +290,8 @@
                             <div class="d-flex justify-content-between">
                                 <p class="fw-bold">Total</p>
                                 <p class="fw-bold" style="color: #35558a;" th:if="${session.cart != null}"
-                                   th:text="'$' + (${session.totalPriceAfterApplyCoupon != null} ? ${session.totalPriceAfterApplyCoupon} : ${session.totalPrice})">$2125.00</p>
+                                   th:text="'$' + (${session.totalPriceAfterApplyCoupon != null} ? ${session.totalPriceAfterApplyCoupon} : ${session.totalPrice})">
+                                    $2125.00</p>
                             </div>
 
                         </div>
@@ -319,7 +323,7 @@
 </div>
 
 <!-- MDB -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js" type="text/javascript"></script>
 <!--===============================================================================================-->
 <script th:src="@{/vendor/jquery/jquery-3.2.1.min.js}"></script>
 <!--===============================================================================================-->

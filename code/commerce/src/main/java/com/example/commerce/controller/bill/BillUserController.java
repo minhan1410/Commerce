@@ -21,6 +21,7 @@ public class BillUserController {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
         model.addAttribute("bills", billService.getAllByCurrentUser());
+        model.addAttribute("billService", billService);
         return "purchase-history";
     }
 

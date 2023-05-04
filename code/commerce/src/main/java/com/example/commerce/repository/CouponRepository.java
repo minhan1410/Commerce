@@ -11,6 +11,8 @@ import java.util.Optional;
 public interface CouponRepository extends JpaRepository<Coupon, Long> {
     Optional<Coupon> findByCodeAndDeleted(String code, Boolean deleted);
 
+    Optional<Coupon> getByCodeAndExpiresFalseAndDeletedFalse(String code);
+
     List<Coupon> getByDeletedFalse();
 
     Optional<Coupon> findByIdAndDeletedFalse(Long id);

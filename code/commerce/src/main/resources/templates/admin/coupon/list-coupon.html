@@ -46,7 +46,7 @@
                             </thead>
                             <tbody class="ligth-body">
                             <th:block th:each="c, iState : ${coupons}">
-                                <tr>
+                                <tr th:style="${c.expires} ? 'background-color: #ff7989' : ''">
                                     <td th:text="${c.id}"></td>
                                     <td th:text="${c.code}"></td>
                                     <td th:text="${c.discount}"></td>
@@ -60,7 +60,7 @@
                                                th:href="@{'/admin/coupon/update/' + ${c.id}}"
                                                title=""><i class="ri-pencil-line mr-0"></i></a>
 
-                                            <a th:if="${!c.deleted}" class="badge bg-warning mr-2"
+                                            <a th:if="${!c.expires}" class="badge bg-warning mr-2"
                                                data-original-title="Delete"
                                                data-target="#deleteModal"
                                                data-toggle="modal"
@@ -201,16 +201,6 @@
 
 <script>
     $(document).ready(function () {
-        document.getElementsByName("input[name='expirationDate']").forEach(value => {
-            // Lấy ngày hiện tại
-            const today = new Date();
-            const year = today.getFullYear();
-            let month = today.getMonth() + 1;
-            month = month < 10 ? '0' + month : month; // Thêm số 0 phía trước nếu tháng chỉ có 1 chữ số
-            let day = today.getDate();
-            day = day < 10 ? '0' + day : day; // Thêm số 0 phía trước nếu ngày chỉ có 1 chữ số
-            value.setAttribute("min", `${year}-${month}-${day}`)
-        })
         // Khi người dùng bấm vào nút Edit trong mỗi hàng
         $(".tbl-server-info").on("click", ".bg-success", function () {
             // Lấy giá trị của loại từ cột "Type" tương ứng với hàng đó
@@ -220,8 +210,9 @@
 
             $("#editModal input[name='discount']").val($(this).closest("tr").find("td:eq(2)").text());
 
-            var dateString = $(this).closest("tr").find("td:eq(3)").text()
-            $("#editModal input[name='expirationDate']").val(dateString);
+            var dateString = $(this).closest("tr").find("td:eq(3)").text().split('/');
+            $("#editModal input[name='expirationDate']")
+                .val(`${dateString[2]}-${dateString[1].padStart(2, '0')}-${dateString[0].padStart(2, '0')}`);
 
             var id = $(this).closest("tr").find("td:eq(0)").text();
             $("#editModal input[name='id']").val(id);
@@ -237,11 +228,11 @@
             'columnDefs': [
                 {
                     'searchable': false,
-                    'targets': [2] // cac truong k cho search
+                    'targets': [4] // cac truong k cho search
                 },
                 {
                     'orderable': false,
-                    'targets': [2]
+                    'targets': [4]
                 }
             ]
         });

@@ -26,12 +26,14 @@ public class CouponAdminController {
     }
 
     @PostMapping("/update")
-    public String update(Model model){
-        return "redirect:/admin/coupon";
+    public String update(@ModelAttribute("coupon") CouponDTO dto, Model model) {
+        couponService.update(dto, model);
+        model.addAttribute("coupons", couponService.getAll());
+        return "/admin/coupon/list-coupon";
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, Model model){
+    public String delete(@PathVariable("id") Long id, Model model) {
         couponService.delete(id);
         return "redirect:/admin/coupon";
     }

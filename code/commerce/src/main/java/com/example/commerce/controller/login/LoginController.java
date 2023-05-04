@@ -1,4 +1,4 @@
-package com.example.commerce.controller;
+package com.example.commerce.controller.login;
 
 import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.service.UserService;

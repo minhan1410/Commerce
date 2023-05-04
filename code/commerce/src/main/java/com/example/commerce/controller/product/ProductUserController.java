@@ -2,7 +2,10 @@ package com.example.commerce.controller.product;
 
 import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.model.dto.ReviewDTO;
-import com.example.commerce.service.*;
+import com.example.commerce.service.CategoriesService;
+import com.example.commerce.service.CouponService;
+import com.example.commerce.service.ProductService;
+import com.example.commerce.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequiredArgsConstructor
 public class ProductUserController {
-    private final UserService userService;
     private final ProductService productService;
     private final CategoriesService categoriesService;
     private final ReviewService reviewService;

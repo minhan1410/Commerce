@@ -2,6 +2,7 @@ package com.example.commerce.service.impl;
 
 import com.example.commerce.model.dto.BillDTO;
 import com.example.commerce.model.dto.CartDTO;
+import com.example.commerce.model.dto.CartItemDTO;
 import com.example.commerce.model.entity.Bill;
 import com.example.commerce.repository.BillRepository;
 import com.example.commerce.service.BillService;
@@ -54,5 +55,19 @@ public class BillServiceImpl implements BillService {
     public void getBillDetail(Long id, Model model) {
         model.addAttribute("bill", getById(id));
         model.addAttribute("products", productService.getByListId(billRepository.getByProductId(id)));
+    }
+
+    @Override
+    public List<CartItemDTO> getCartItemById(Long id) {
+        return billRepository.getByCartItemId(id).stream().map(cartItem -> {
+            CartItemDTO cartItemDTO = CartItemDTO.builder()
+                    .id(cartItem.getId())
+                    .cartId(cartItem.getCartId())
+                    .quantity(cartItem.getQuantity())
+                    .product(productService.getById(cartItem.getProductId()))
+                    .deleted(cartItem.getDeleted())
+                    .build();
+            return cartItemDTO;
+        }).toList();
     }
 }

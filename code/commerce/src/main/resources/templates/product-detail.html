@@ -160,6 +160,10 @@
                             </div>
 
                             <div class="flex-w flex-r-m p-b-10">
+                                <div class="size-203 flex-c-m respon6">
+                                    Quantity
+                                </div>
+
                                 <div class="size-204 flex-w flex-m respon6-next">
                                     <div class="wrap-num-product flex-w m-r-20 m-tb-10">
                                         <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
@@ -705,6 +709,29 @@
 <!--===============================================================================================-->
 <script th:src="@{/js/main.js}"></script>
 
+<script th:src="@{/webjars/stompjs/2.3.3/stomp.min.js}"></script>
+<script th:src="@{/js/comment.js}"></script>
+<script th:inline="javascript">
+    var webSocket = new WebSocket("[[${#websocketUrl('/review') | replaceFirst('http', 'ws') }]]");
+
+    webSocket.onmessage = function (event) {
+        var productRating = JSON.parse(event.data);
+        console.log(productRating);
+    };
+
+    document.getElementById('comment-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        var form = event.target;
+        var formData = new FormData(form);
+        var review = {};
+        formData.forEach(function (value, key) {
+            review[key] = value;
+        });
+        var json = JSON.stringify(review);
+        webSocket.send(json);
+        form.reset();
+    });
+</script>
 </body>
 
 </html>

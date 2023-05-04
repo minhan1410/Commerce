@@ -3,39 +3,39 @@
 <head>
     <title>Shoping Cart</title>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta content="width=device-width, initial-scale=1" name="viewport">
     <!--===============================================================================================-->
-    <link rel="icon" type="image/png" th:href="@{/images/icons/favicon.png}"/>
+    <link rel="icon" th:href="@{/images/icons/favicon.png}" type="image/png"/>
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/bootstrap/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/fonts/linearicons-v1.0.0/icon-font.min.css}">
+    <link rel="stylesheet" th:href="@{/fonts/linearicons-v1.0.0/icon-font.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/animate/animate.css}">
+    <link rel="stylesheet" th:href="@{/vendor/animate/animate.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/css-hamburgers/hamburgers.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/css-hamburgers/hamburgers.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/animsition/css/animsition.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/animsition/css/animsition.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/select2/select2.min.css}">
+    <link rel="stylesheet" th:href="@{/vendor/select2/select2.min.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css"
-          th:href="@{/vendor/perfect-scrollbar/perfect-scrollbar.css}">
+    <link rel="stylesheet" th:href="@{/vendor/perfect-scrollbar/perfect-scrollbar.css}"
+          type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" type="text/css" th:href="@{/css/util.css}">
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
+    <link rel="stylesheet" th:href="@{/css/util.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
     <!--===============================================================================================-->
 
 </head>
@@ -48,59 +48,68 @@
 <!-- breadcrumb -->
 <div class="container">
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-        <a th:href="@{/home}" class="stext-109 cl8 hov-cl1 trans-04"> Home
-            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        <a class="stext-109 cl8 hov-cl1 trans-04" th:href="@{/home}"> Home
+            <i aria-hidden="true" class="fa fa-angle-right m-l-9 m-r-10"></i>
         </a> <span class="stext-109 cl4"> Purchase History </span>
     </div>
-</div>
 
-<div class="container">
     <div class="row">
         <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
             <div class="m-l-25 m-r--38 m-lr-0-xl">
-                <div class="wrap-table-shopping-cart">
-
-                <table class="table-shopping-cart" id="tableOne">
-                    <thead>
-                    <tr class="table_head">
-                        <th>Cart ID</th>
-                        <th>Total</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th></th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <th:block th:each="bill: ${bills}">
-                        <tr class="table_row">
-                            <td th:text="${bill.cart.id}">
-                            </td>
-                            <td th:text="${bill.totalCart}">Fresh
-                                Strawberries
-                            </td>
-                            <td
-                                    th:text="${'$'+bill.priceTotal}">$ 36.00
-                            </td>
-                            <td th:text="${bill.status}"></td>
-
-                            </td>
-
-                            <td>
-                                <a th:href="@{'/bill-detail?id='+${bill.id}}"
-                                   class="btn btn-info"> <span>Info</span>
-                                </a>
-
-                            </td>
+                <div class="wrap-table-purchase-history">
+                    <table class="table-purchase-history dataTables table mb-0 tbl-server-info">
+                        <thead class="bg-white text-uppercase table_head">
+                        <tr class="ligth ligth-data">
+                            <th class="text-center">STT</th>
+                            <th class="text-center">Product</th>
+                            <th class="text-center">Price</th>
+                            <th class="text-center">Action</th>
                         </tr>
+                        </thead>
+                        <tbody class="ligth-body" style="">
+                        <th:block th:each="bill, iState: ${bills}">
+                            <tr th:each="ci, i: ${billService.getCartItemById(bill.id)}"
+                                th:style="${i.index + 1== billService.getCartItemById(bill.id).size()? 'padding: 10px; border-bottom: 5px solid #f0f0f0;' : ''}">
+                                <td class="align-middle text-center"
+                                    th:attr="rowspan=${ i.index == 0 ? billService.getCartItemById(bill.id).size()  : ''}"
+                                    th:if="${i.index == 0}"
+                                    th:text="${iState.index + 1}"></td>
 
-                    </th:block>
-                    </tbody>
+                                <td>
+                                    <div class="d-flex align-items-center align-middle">
+                                        <img alt="image"
+                                             class="img-fluid rounded avatar-50 mr-3"
+                                             style="height:80px; width:80px;object-fit: cover;"
+                                             th:src="@{${ci.product.imgMain}}">
+                                        <div>
+                                            <b class="name" th:text="${ci.product.name}"></b>
+                                            <p class="mb-0">
+                                                <small th:text="${'Size: ' + ci.product.size}"></small>
+                                            </p>
+                                            <p class="mb-0">
+                                                <small th:text="${'Color: ' + ci.product.color}"></small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </td>
 
-                </table>
+                                <td class="align-middle text-center" th:text="${ci.product.price} + '$'"></td>
+
+                                <td class="align-middle text-center"
+                                    th:attr="rowspan=${ i.index == 0 ? billService.getCartItemById(bill.id).size()  : ''}"
+                                    th:if="${i.index == 0}">
+                                    <a class="btn cl2 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5"
+                                       href="#">
+                                        <span class="glyphicon glyphicon-trash">Info</span>
+                                    </a>
+                                </td>
+                            </tr>
+                        </th:block>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-            </div>
-
     </div>
 </div>
 

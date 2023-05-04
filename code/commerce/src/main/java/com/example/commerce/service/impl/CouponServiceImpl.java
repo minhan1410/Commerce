@@ -23,7 +23,7 @@ public class CouponServiceImpl implements CouponService {
 
     @Override
     public CouponDTO findCode(String code, Model model) {
-        Optional<Coupon> optional = couponRepository.findByCodeAndDeleted(code, false);
+        Optional<Coupon> optional = couponRepository.getByCodeAndExpiresFalseAndDeletedFalse(code);
         if (optional.isEmpty()) {
             model.addAttribute("err", "khong ton tai");
             return null;
@@ -49,24 +49,36 @@ public class CouponServiceImpl implements CouponService {
     @Override
     @Transactional
     public List<CouponDTO> getAll() {
-        List<Coupon> list = couponRepository.findAll().stream().sorted(Comparator.comparing(Coupon::getDeleted)).toList();
+        List<Coupon> list = couponRepository.getByDeletedFalse();
 
 //        Xoá mã giảm giá hết hạn
-        list.stream().filter(coupon -> !coupon.getDeleted() &&  coupon.getExpirationDate().isBefore(LocalDate.now())).toList()
+        list.stream().filter(coupon -> coupon.getExpirationDate().isBefore(LocalDate.now())).toList()
                 .forEach(coupon -> {
-                    coupon.setDeleted(true);
+                    coupon.setExpires(true);
                     couponRepository.save(coupon);
                 });
 
-        return list.stream().sorted(Comparator.comparing(Coupon::getDiscount)).map(dto -> mapper.map(dto, CouponDTO.class)).toList();
+        return list.stream().sorted(Comparator.comparing(Coupon::getDiscount).reversed()).map(dto -> mapper.map(dto, CouponDTO.class)).toList();
     }
 
     @Override
     public void getByDiscountMax(Model model) {
-        List<CouponDTO> couponDTOS = getAll().stream().filter(c -> !c.getDeleted() && c.getExpirationDate().isAfter(LocalDate.now())).toList();
+        List<CouponDTO> couponDTOS = getAll().stream().filter(c -> !c.getExpires() || c.getExpirationDate().isAfter(LocalDate.now())).toList();
         model.addAttribute("coupon", couponDTOS.size() == 0 ? "There is no discount code" :
                 couponDTOS.get(0).getCode() + " - " + couponDTOS.get(0).getDiscount() + "%");
         model.addAttribute("coupons", couponDTOS);
+    }
+
+    @Override
+    public void update(CouponDTO dto, Model model) {
+        Optional<Coupon> optional = couponRepository.findByCodeAndDeleted(dto.getCode(), false);
+        if (optional.isPresent() && !optional.get().getId().equals(dto.getId())) {
+            model.addAttribute("err", "Code is already exist");
+            return;
+        }
+        Coupon getById = couponRepository.getById(dto.getId());
+        getById.update(dto).setExpires(getById.getExpirationDate().isBefore(LocalDate.now()));
+        couponRepository.save(getById);
     }
 
     @Override

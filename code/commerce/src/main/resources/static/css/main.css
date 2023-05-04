@@ -1950,6 +1950,18 @@ input.num-product::-webkit-inner-spin-button {
     min-width: 680px;
 }
 
+.table-purchase-history {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 680px;
+}
+
+.wrap-table-purchase-history {
+    border-left: 1px solid #e6e6e6;
+    border-right: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
+
 .table-shopping-cart tr {
     border-top: 1px solid #e6e6e6;
     border-bottom: 1px solid #e6e6e6;
