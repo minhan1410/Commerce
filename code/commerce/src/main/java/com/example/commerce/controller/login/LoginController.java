@@ -3,7 +3,6 @@ package com.example.commerce.controller.login;
 import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class LoginController {
     private final UserService userService;
-    private final MessageSource messageSource;
 
     @GetMapping("/login")
     public String login(Model model, HttpServletRequest request) {

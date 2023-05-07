@@ -66,8 +66,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
             return;
         }
         String verificationCode = RandomString.make(20);
-        User user = findMail.isPresent() && findMail.get().getVerificationCodeExpiry() != null ? findMail.get().updateVerificationCodeExpiry()
-                : mapper.map(userDTO, User.class).createUserLocal(passwordEncoder.encode(userDTO.getPassword()), verificationCode);
+        User user = findMail.isPresent() && findMail.get().getVerificationCodeExpiry() != null ? findMail.get().updateVerificationCodeExpiry() : mapper.map(userDTO, User.class).createUserLocal(passwordEncoder.encode(userDTO.getPassword()), verificationCode);
         userRepository.save(user);
 
 //        send email
@@ -130,7 +129,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     @Override
     public UserDTO getById(Long id) {
         Optional<User> optional = Optional.of(userRepository.getById(id));
-        return optional.isEmpty() ? null : mapper.map(optional.get(), UserDTO.class);
+        return optional.map(user -> mapper.map(user, UserDTO.class)).orElse(null);
     }
 
     @Override

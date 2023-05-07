@@ -1,6 +1,5 @@
 package com.example.commerce.service.impl;
 
-import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.model.dto.ReviewDTO;
 import com.example.commerce.model.entity.Review;
 import com.example.commerce.repository.ReviewRepository;
@@ -36,6 +35,17 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public List<ReviewDTO> getByProductIds(List<Long> ids) {
+        List<ReviewDTO> reviewDTOS = reviewRepository.getByProductIdInAndDeletedFalse(ids).stream()
+                .map(review -> mapper.map(review, ReviewDTO.class)).toList();
+        reviewDTOS.forEach(reviewDTO -> {
+            reviewDTO.setReviewer(userService.getById(reviewDTO.getReviewerId()));
+            reviewDTO.setProduct(productService.getById(reviewDTO.getProductId()));
+        });
+        return reviewDTOS;
+    }
+
+    @Override
     public List<ReviewDTO> getByReviewerId(Long reviewerId) {
         return reviewRepository.getByReviewerIdAndDeleted(reviewerId, false).stream()
                 .map(review -> mapper.map(review, ReviewDTO.class)).toList();
@@ -57,20 +67,13 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     @Transactional
-    public String add(ReviewDTO dto) {
-//        userService.getCurrentUser(model);
-
-        dto.setReviewerId(userService.getCurrentUser().getId());
-//        dto.setProductId(dto.getProductId());
-        for (ProductDTO productDTO : productService.getRelatedByName(productService.getById(dto.getProductId()).getName())) {
-//            dto.setProductId(productDTO.getId());
-            Review review = mapper.map(dto, Review.class);
-            review.setProductId(productDTO.getId());
-            review.setReviewDate(LocalDateTime.now());
-            reviewRepository.save(review);
+    public void add(ReviewDTO dto) {
+        Review review = mapper.map(dto, Review.class);
+        review.setReviewDate(LocalDateTime.now());
+        if (review.getReviewerId() == null) {
+            review.setReviewerId(userService.getCurrentUser().getId());
         }
-
-        return "redirect:/product-detail?id=" + dto.getProductId();
+        reviewRepository.save(review);
     }
 
     @Override

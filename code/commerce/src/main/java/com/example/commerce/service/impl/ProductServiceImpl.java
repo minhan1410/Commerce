@@ -175,7 +175,7 @@ public class ProductServiceImpl implements ProductService {
         userService.getCurrentUser(model);
 
         String getCate = request.getParameter("cateId");
-        Long cate = Objects.isNull(getCate) ? -1l : Long.parseLong(getCate);
+        Long cate = Objects.isNull(getCate) ? -1L : Long.parseLong(getCate);
 
         String sort = request.getParameter("sort");
 
@@ -226,21 +226,15 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public ProductDTO productDetail(Long id, Model model) {
         userService.getCurrentUser(model);
-
         ProductDTO product = getById(id);
         if (product == null) {
             return null;
         }
 
-        List<ProductDTO> related = getAllDistinctName().stream().filter(p -> p.getCategoriesId().equals(product.getCategoriesId()))
-                .filter(p -> !p.getName().equals(product.getName())).toList();
         List<ProductDTO> sizes = getSizesByColor(product.getName(), product.getColor());
         List<ProductDTO> colors = getAllDistinctColor(product.getName(), product.getColor());
-        model.addAttribute("userService", userService);
-        model.addAttribute("product", product);
         model.addAttribute("sizes", sizes);
         model.addAttribute("colors", colors);
-        model.addAttribute("related", related);
 
         return product;
     }

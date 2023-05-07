@@ -12,6 +12,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
 
     List<Review> getByProductIdAndDeleted(Long productId, Boolean deleted);
 
+    List<Review> getByProductIdInAndDeletedFalse(List<Long> ids);
+
     List<Review> getByDeleted(Boolean deleted);
 
     long countByProductIdAndDeleted(Long productId, Boolean deleted);
