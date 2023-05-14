@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
-public class BillUserController {
+public class PurchaseHistoryUserController {
     private final UserService userService;
     private final BillService billService;
     private final CouponService couponService;
