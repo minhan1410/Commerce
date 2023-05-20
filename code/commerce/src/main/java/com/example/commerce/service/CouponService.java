@@ -14,7 +14,9 @@ public interface CouponService {
 
     void getByDiscountMax(Model model);
 
-    void update (CouponDTO dto, Model model);
+    void update(CouponDTO dto, Model model);
 
     void delete(Long id);
+
+    CouponDTO getById(Long couponId);
 }

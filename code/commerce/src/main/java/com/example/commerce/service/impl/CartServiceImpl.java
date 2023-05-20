@@ -8,15 +8,18 @@ import com.example.commerce.model.entity.CartItem;
 import com.example.commerce.repository.BillRepository;
 import com.example.commerce.repository.CartItemRepository;
 import com.example.commerce.repository.CartRepository;
+import com.example.commerce.repository.MessageRepository;
 import com.example.commerce.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -30,6 +33,8 @@ public class CartServiceImpl implements CartService {
     private final UserService userService;
     private final BillRepository billRepository;
     private final MailService mailService;
+    private final SimpMessagingTemplate simpMessagingTemplate;
+    private final MessageRepository messageRepository;
 
     @Override
     @Transactional
@@ -162,6 +167,17 @@ public class CartServiceImpl implements CartService {
 
 //        Xoa session
         session.invalidate();
+
+//        Gui thong bao den admin
+        MessageDTO messageDTO = MessageDTO.builder()
+                .fromUser(currentUser.getId())
+                .fromUserDTO(currentUser)
+                .message(currentUser.getName() + " placed an order")
+                .createdAt(LocalDateTime.now())
+                .isSeen(false)
+                .build();
+        simpMessagingTemplate.convertAndSend("/topic/notification/", messageDTO);
+        messageRepository.save(MessageDTO.mapperEntity(messageDTO));
 
 //        Gui thong tin mua hang thanh cong ve mail
         mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);

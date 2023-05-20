@@ -306,7 +306,7 @@
 
 
                                     <!-- Add review -->
-                                    <div class="w-full" id="comment-form"><!--method="post"
+                                    <form class="w-full" id="comment-form" onsubmit="return validate(event)"><!--method="post"
                                           th:action="@{/member/product-detail/review}">-->
                                         <input id="product-id" name="productId" th:value="${product.id}" type="hidden"/>
                                         <h5 class="mtext-108 cl2 p-b-7">
@@ -333,16 +333,16 @@
                                             <div class="col-12 p-b-5">
                                                 <label class="stext-102 cl3" for="review">Your review</label>
                                                 <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 p-tb-10"
-                                                          id="review" name="review"></textarea>
+                                                          id="review" name="review" required></textarea>
                                             </div>
                                         </div>
 
                                         <button
                                                 class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10"
-                                                onclick="send(event)" type="submit">
+                                                type="submit">
                                             Submit
                                         </button>
-                                    </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -600,12 +600,10 @@
 <script th:inline="javascript">
     var socket = new SockJS('/review-ws');
     var stompClient = Stomp.over(socket);
-    var reviews = null;
 
     stompClient.connect({}, function (frame) {
         stompClient.subscribe('/review/product/' + [[${product.name}]], function (result) {
-            reviews = JSON.parse(result.body);
-            console.log('subscribe', reviews)
+            var reviews = JSON.parse(result.body);
 
             var numberReviews = document.getElementById('numberReviews');
             numberReviews.innerHTML = `Reviews (${reviews.length})`
@@ -650,16 +648,22 @@
         var product = [[${product}]];
         var reviewer = [[${user}]]
         var reviewerId = [[${user.id}]]
-        reviews = reviews ? reviews : [[${reviews}]];
-        console.log('send', reviews)
-        
+
         // Kiểm tra xem người dùng đã đăng nhập hay chưa
         if (reviewer.name == null) {
             alert('You need to log in to post a review');
             return;
         }
 
-        stompClient.send("/app/save-review", {"reviews": JSON.stringify(reviews)}, JSON.stringify({
+        document.getElementById('review').value = '';
+        const starIcons = document.querySelectorAll('.item-rating');
+        starIcons.forEach(icon => {
+            icon.classList.remove('zmdi-star');
+            icon.classList.add('zmdi-star-outline');
+        });
+        document.getElementById('starNumber').value = 0;
+
+        stompClient.send("/app/save-review", {}, JSON.stringify({
             'starNumber': starNumber,
             'review': review,
             'product': product,
@@ -667,6 +671,21 @@
             'reviewer': reviewer,
             'reviewerId': reviewerId
         }));
+    }
+
+    function validate(event) {
+        const starNumber = document.getElementById('starNumber').value;
+        console.log("starNumber === 0", starNumber == 0);
+
+        if (starNumber == 0) {
+            event.preventDefault(); // Ngăn chặn gửi request đến server khi dữ liệu không hợp lệ
+            alert('Please enter rating');
+            return false;
+        }
+
+        // Gọi hàm send() để gửi request đến server
+        send(event);
+        return true;
     }
 </script>
 </body>

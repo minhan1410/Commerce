@@ -42,6 +42,8 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css"
             rel="stylesheet"
     />
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body class="animsition">
 
@@ -60,7 +62,7 @@
 
 
 <!-- Shoping CartItem -->
-<form class="bg0 p-t-75 p-b-85" method="post" th:action="@{/checkout}">
+<form class="bg0 p-t-75 p-b-75" method="post" th:action="@{/checkout}">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -120,9 +122,9 @@
                                     </td>
 
                                     <td class="align-middle">
-                                        <a class="btn btn-danger"
-                                           th:href="@{'/delete-from-cart?id='+${entry.key}}"> <span
-                                                class="glyphicon glyphicon-trash">Trash</span>
+                                        <a th:href="@{'/delete-from-cart?id='+${entry.key}}">
+                                            <i class="bi bi-trash flex-c-m cl2 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10 fa-fw"
+                                               style="min-width: 55px; height: 45px;"></i>
                                         </a>
                                     </td>
                                 </tr>
@@ -264,40 +266,39 @@
                                     type="button"></button>
                         </div>
                         <div class="modal-body text-start text-black p-4">
-                            <h2 class="mb-5" style="color: #35558a;text-align: center">Thanks for your order</h2>
-                            <p class="mb-0" style="color: #35558a;">Payment summary</p>
+                            <h2 class="mb-5" style="text-align: center">Thanks for your order</h2>
+                            <p class="mb-0">Payment summary</p>
                             <hr class="mt-2 mb-4"
                                 style="height: 0; background-color: transparent; opacity: .75; border-top: 2px dashed #9e9e9e;">
 
                             <div class="d-flex justify-content-between">
-                                <p class="fw-bold mb-0">Subtotal</p>
-                                <p class="text-muted mb-0" th:if="${session.cart != null}"
+                                <p class="mtext-110 cl2">Subtotal</p>
+                                <p class="mtext-110 cl2" th:if="${session.cart != null}"
                                    th:text="'$' + ${session.totalPrice}">$1750.00</p>
                             </div>
 
                             <div class="d-flex justify-content-between"
                                  th:if="${session.totalPriceAfterApplyCoupon != null}">
-                                <p class="fw-bold mb-0">Apply Coupon</p>
-                                <p class="text-muted mb-0" th:text="'$' + ${session.totalPriceAfterApplyCoupon}">
+                                <p class="mtext-110 cl2">Apply Coupon</p>
+                                <p class="mtext-110 cl2" th:text="'$' + ${session.totalPriceAfterApplyCoupon}">
                                     $1750.00</p>
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <p class="small mb-0">Shipping</p>
-                                <p class="small mb-0">Free</p>
+                                <p class="mtext-110 cl2">Shipping</p>
+                                <p class="mtext-110 cl2">Free</p>
                             </div>
 
                             <div class="d-flex justify-content-between">
-                                <p class="fw-bold">Total</p>
-                                <p class="fw-bold" style="color: #35558a;" th:if="${session.cart != null}"
+                                <p class="mtext-110 cl2">Total</p>
+                                <p class="mtext-110 cl2" style="color: #717fe0;" th:if="${session.cart != null}"
                                    th:text="'$' + (${session.totalPriceAfterApplyCoupon != null} ? ${session.totalPriceAfterApplyCoupon} : ${session.totalPrice})">
                                     $2125.00</p>
                             </div>
 
                         </div>
                         <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
-                            <button class="btn btn-primary btn-lg mb-1"
-                                    style="background-color: #35558a;">
+                            <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
                                 Track your order
                             </button>
                         </div>

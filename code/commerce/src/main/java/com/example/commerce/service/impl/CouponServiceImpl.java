@@ -87,4 +87,10 @@ public class CouponServiceImpl implements CouponService {
         byId.get().setDeleted(true);
         couponRepository.save(byId.get());
     }
+
+    @Override
+    public CouponDTO getById(Long couponId) {
+        Optional<Coupon> byId = couponRepository.findByIdAndDeletedFalse(couponId);
+        return byId.map(coupon -> mapper.map(coupon, CouponDTO.class)).orElse(null);
+    }
 }

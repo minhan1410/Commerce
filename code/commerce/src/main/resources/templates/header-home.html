@@ -30,7 +30,7 @@
                         <a class="flex-c-m trans-04 p-lr-25" href="javascript: document.logoutForm.submit()"
                            role="menuitem"
                            sec:authorize="isAuthenticated()"><img
-                                src="https://res.cloudinary.com/dpvehgfmo/image/upload/v1677682479/cancel_jqb3yb.png"></a>
+                                src="/images/icons/cancel.png"></a>
                         <form method="post" name="logoutForm" th:action="@{/logout}" th:hidden="true">
                             <input hidden type="submit" value="Sign Out"/>
                         </form>
@@ -88,7 +88,7 @@
             <!-- Logo moblie -->
             <div class="logo-mobile">
                 <a th:href="@{/home}"><img alt="IMG-LOGO"
-                                          src="images/icons/logo.png"></a>
+                                           src="images/icons/logo.png"></a>
             </div>
 
             <!-- Icon header -->

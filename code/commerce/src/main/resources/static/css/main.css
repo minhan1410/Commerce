@@ -1946,8 +1946,6 @@ input.num-product::-webkit-inner-spin-button {
 
 .table-shopping-cart {
     border-collapse: collapse;
-    width: 100%;
-    min-width: 680px;
 }
 
 .table-purchase-history {

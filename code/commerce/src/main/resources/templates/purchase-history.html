@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Shoping Cart</title>
+    <title>Purchase History</title>
     <meta charset="UTF-8">
     <meta content="width=device-width, initial-scale=1" name="viewport">
     <!--===============================================================================================-->
@@ -53,61 +53,59 @@
         </a> <span class="stext-109 cl4"> Purchase History </span>
     </div>
 
-    <div class="row">
-        <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
-            <div class="m-l-25 m-r--38 m-lr-0-xl">
-                <div class="wrap-table-purchase-history">
-                    <table class="table-purchase-history dataTables table mb-0 tbl-server-info">
-                        <thead class="bg-white text-uppercase table_head">
-                        <tr class="ligth ligth-data">
-                            <th class="text-center">STT</th>
-                            <th class="text-center">Product</th>
-                            <th class="text-center">Price</th>
-                            <th class="text-center">Action</th>
-                        </tr>
-                        </thead>
-                        <tbody class="ligth-body" style="">
-                        <th:block th:each="bill, iState: ${bills}">
-                            <tr th:each="ci, i: ${billService.getCartItemById(bill.id)}"
-                                th:style="${i.index + 1== billService.getCartItemById(bill.id).size()? 'padding: 10px; border-bottom: 5px solid #f0f0f0;' : ''}">
-                                <td class="align-middle text-center"
-                                    th:attr="rowspan=${ i.index == 0 ? billService.getCartItemById(bill.id).size()  : ''}"
-                                    th:if="${i.index == 0}"
-                                    th:text="${iState.index + 1}"></td>
+    <div class="p-t-75 p-b-75">
+        <div class="m-l-25 m-r--38 m-lr-0-xl">
+            <div class="wrap-table-purchase-history">
+                <table class="table-purchase-history dataTables table mb-0 tbl-server-info">
+                    <thead class="bg-white text-uppercase table_head">
+                    <tr class="ligth ligth-data">
+                        <th class="text-center">STT</th>
+                        <th class="text-center">Product</th>
+                        <th class="text-center">Quantity</th>
+                        <th class="text-center">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody class="ligth-body">
+                    <th:block th:each="bill, iState: ${bills}">
+                        <tr th:each="ci, i: ${bill.cartItem}"
+                            th:style="${i.index + 1== bill.cartItem.size()? 'padding: 10px; border-bottom: 2px solid #f0f0f0;' : ''}">
+                            <td class="align-middle text-center"
+                                th:attr="rowspan=${ i.index == 0 ? bill.cartItem.size()  : ''}"
+                                th:if="${i.index == 0}" th:text="${iState.index + 1}">
+                            </td>
 
-                                <td>
-                                    <div class="d-flex align-items-center align-middle">
-                                        <img alt="image"
-                                             class="img-fluid rounded avatar-50 mr-3"
-                                             style="height:80px; width:80px;object-fit: cover;"
-                                             th:src="@{${ci.product.imgMain}}">
-                                        <div>
-                                            <b class="name" th:text="${ci.product.name}"></b>
-                                            <p class="mb-0">
-                                                <small th:text="${'Size: ' + ci.product.size}"></small>
-                                            </p>
-                                            <p class="mb-0">
-                                                <small th:text="${'Color: ' + ci.product.color}"></small>
-                                            </p>
-                                        </div>
+                            <td>
+                                <div class="d-flex align-items-center align-middle">
+                                    <img alt="image"
+                                         class="img-fluid rounded avatar-50 mr-3"
+                                         style="height:80px; width:80px;object-fit: cover;"
+                                         th:src="@{${ci.product.imgMain}}">
+                                    <div>
+                                        <b class="name" th:text="${ci.product.name}"></b>
+                                        <p class="mb-0">
+                                            <small th:text="${'Size: ' + ci.product.size}"></small>
+                                        </p>
+                                        <p class="mb-0">
+                                            <small th:text="${'Color: ' + ci.product.color}"></small>
+                                        </p>
                                     </div>
-                                </td>
+                                </div>
+                            </td>
 
-                                <td class="align-middle text-center" th:text="${ci.product.price} + '$'"></td>
+                            <td class="align-middle text-center" th:text="${'x '+ ci.quantity}"></td>
 
-                                <td class="align-middle text-center"
-                                    th:attr="rowspan=${ i.index == 0 ? billService.getCartItemById(bill.id).size()  : ''}"
-                                    th:if="${i.index == 0}">
-                                    <a class="btn cl2 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5"
-                                       href="#">
-                                        <span class="glyphicon glyphicon-trash">Info</span>
-                                    </a>
-                                </td>
-                            </tr>
-                        </th:block>
-                        </tbody>
-                    </table>
-                </div>
+                            <td class="align-middle text-center"
+                                th:attr="rowspan=${ i.index == 0 ? bill.cartItem.size()  : ''}"
+                                th:if="${i.index == 0}">
+                                <a class="btn cl2 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5"
+                                   th:href="@{'purchase-history/'+ ${bill.id}}">
+                                    <span class="glyphicon glyphicon-trash">Info</span>
+                                </a>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

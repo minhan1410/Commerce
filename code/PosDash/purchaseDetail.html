@@ -1,0 +1,280 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <style>
+        .container {
+            margin-top: 50px;
+            margin-bottom: 50px
+        }
+
+        .card {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-orient: vertical;
+            -webkit-box-direction: normal;
+            -ms-flex-direction: column;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            /*background-color: #fff;*/
+            /*background-clip: border-box;*/
+            /*border: 1px solid rgba(0, 0, 0, 0.1);*/
+            /*border-radius: 0.10rem*/
+        }
+
+        .card-header:first-child {
+            border-radius: calc(0.37rem - 1px) calc(0.37rem - 1px) 0 0
+        }
+
+        .card-header {
+            /*padding: 0.75rem 1.25rem;*/
+            /*margin-bottom: 0;*/
+            /*background-color: #fff;*/
+            /*border-bottom: 1px solid rgba(0, 0, 0, 0.1)*/
+        }
+
+        .track {
+            position: relative;
+            background-color: #ddd;
+            height: 7px;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            margin-bottom: 60px;
+            margin-top: 50px
+        }
+
+        .track .step {
+            -webkit-box-flex: 1;
+            -ms-flex-positive: 1;
+            flex-grow: 1;
+            width: 25%;
+            margin-top: -18px;
+            text-align: center;
+            position: relative
+        }
+
+        .track .step.active:before {
+            background: #717fe0
+        }
+
+        .track .step::before {
+            height: 7px;
+            position: absolute;
+            content: "";
+            width: 100%;
+            left: 0;
+            top: 18px
+        }
+
+        .track .step.active .icon {
+            background: #717fe0;
+            color: #fff
+        }
+
+        .track .icon {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            position: relative;
+            border-radius: 100%;
+            background: #ddd
+        }
+
+        .track .step.active .text {
+            font-weight: 400;
+            color: #000
+        }
+
+        .track .text {
+            display: block;
+            margin-top: 7px
+        }
+
+        .itemside {
+            position: relative;
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            width: 100%
+        }
+
+        .itemside .aside {
+            position: relative;
+            -ms-flex-negative: 0;
+            flex-shrink: 0
+        }
+
+        .img-sm {
+            width: 80px;
+            height: 80px;
+            padding: 7px
+        }
+
+        ul.row, ul.row-sm {
+            list-style: none;
+            padding: 0
+        }
+
+        .itemside .info {
+            padding-left: 15px;
+            padding-right: 7px
+        }
+
+        .itemside .title {
+            display: block;
+            margin-bottom: 5px;
+            color: #212529
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 1rem
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a class="stext-109 cl8 hov-cl1 trans-04" href="@{/home}"> Home
+            <i aria-hidden="true" class="fa fa-angle-right m-l-9 m-r-10"></i>
+        </a>
+        <a class="stext-109 cl8 hov-cl1 trans-04" href="@{/purchase-history}"> Purchase History
+            <i aria-hidden="true" class="fa fa-angle-right m-l-9 m-r-10"></i>
+        </a>
+        <span class="stext-109 cl4" text="${'ID '+ bill.id}"></span>
+    </div>
+
+    <div class="p-t-75 p-b-75">
+        <div class="m-l-25 m-r--38 m-lr-0-xl">
+            <article class="card">
+                <header class="card-header"> My Orders / Tracking</header>
+                <div class="card-body">
+                    <article class="card">
+                        <div class="card-body row">
+                            <div class="col"><strong>Estimated Delivery time:</strong> <br>29 nov 2019</div>
+                            <div class="col"><strong>Shipping BY:</strong> <br> BLUEDART, | <i
+                                    class="fa fa-phone"></i>
+                                +1598675986
+                            </div>
+                            <div class="col"><strong>Status:</strong> <br> Picked by the courier</div>
+                            <div class="col"><strong>Tracking #:</strong> <br> BD045903594059</div>
+                        </div>
+                    </article>
+                    <div class="track">
+                        <div class="step active"><span class="icon">
+                    <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span>
+                        </div>
+                        <div class="step active"><span class="icon"> <i class="fa fa-user"></i> </span> <span
+                                class="text"> Picked by courier</span>
+                        </div>
+                        <div class="step"><span class="icon"> <i class="fa fa-truck"></i> </span> <span
+                                class="text"> On the way </span></div>
+                        <div class="step"><span class="icon"> <i class="fa fa-box"></i> </span> <span class="text">Ready for pickup</span>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="card shadow-0 border mb-4">
+                        <div class="card-body">
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img alt="Phone"
+                                             class="img-fluid"
+                                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/13.webp">
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0">Samsung Galaxy</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0 small">White</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0 small">Capacity: 64GB</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0 small">Qty: 1</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0 small">$499</p>
+                                    </div>
+                                </div>
+                                <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
+                            </div>
+                            <div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <img alt="Phone"
+                                             class="img-fluid"
+                                             src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/13.webp">
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0">Samsung Galaxy</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0 small">White</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0 small">Capacity: 64GB</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0 small">Qty: 1</p>
+                                    </div>
+                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                                        <p class="mb-0 small">$499</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="d-flex justify-content-between pt-2">
+                        <p class="fw-bold mb-0">Order Details</p>
+                        <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> $898.00</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between pt-2">
+                        <p class="text-muted mb-0">Invoice Number : 788152</p>
+                        <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <p class="text-muted mb-0">Invoice Date : 22 Dec,2019</p>
+                        <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p>
+                    </div>
+
+                    <div class="d-flex justify-content-between mb-5">
+                        <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
+                        <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
+                    </div>
+                </div>
+                <div class="card-footer border-0 px-4 py-5"
+                     style="background-color: #717fe0; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
+                    <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
+                        paid: <span class="h2 mb-0 ms-2">$1040</span></h5>
+                </div>
+            </article>
+        </div>
+    </div>
+</div>
+</body>
+</html>
