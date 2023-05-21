@@ -33,6 +33,12 @@ public class Bill {
     @Column(name = "total_cart")
     private Integer totalCart;
 
+    @Column(name = "total_price")
+    private Double totalPrice;
+
+    @Column(name = "total_apply")
+    private Double totalPriceAfterApplyCoupon;
+
     @Column(name = "price_total")
     private Double priceTotal;
 

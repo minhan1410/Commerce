@@ -156,6 +156,8 @@ public class CartServiceImpl implements CartService {
                 .cartId(cart.getId())
                 .couponId(coupon)
                 .totalCart(totalOfCart)
+                .totalPrice(totalPrice)
+                .totalPriceAfterApplyCoupon(totalPriceAfterApplyCoupon)
                 .priceTotal(price)
                 .receiverName(receiverName)
                 .shippingAddress(shippingAddress)

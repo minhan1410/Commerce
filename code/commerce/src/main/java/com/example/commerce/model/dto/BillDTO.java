@@ -16,6 +16,8 @@ public class BillDTO {
     private Long couponId;
     private CouponDTO coupon;
     private Integer totalCart;
+    private Double totalPrice;
+    private Double totalPriceAfterApplyCoupon;
     private Double priceTotal;
     private String receiverName;
     private String shippingAddress;
