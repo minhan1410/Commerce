@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -23,15 +22,20 @@ public class BillServiceImpl implements BillService {
     private final ModelMapper mapper;
 
     @Override
-    public List<BillDTO> getAllByUser(Long userId) {
-        return billRepository.findByUserIdAndDeletedFalse(userId).stream().map(bill -> {
+    public List<BillDTO> getAll() {
+        return billRepository.getByDeletedFalseOrderByCreateTimeDesc().stream().map(bill -> {
             CartDTO cartDTO = cartService.getById(bill.getCartId());
             BillDTO billDTO = mapper.map(bill, BillDTO.class);
             billDTO.setCart(cartDTO);
             billDTO.setCartItem(getCartItemById(billDTO.getId()));
             billDTO.setCoupon(couponService.getById(billDTO.getCouponId()));
             return billDTO;
-        }).sorted(Comparator.comparing(BillDTO::getCreateTime)).toList();
+        }).toList();
+    }
+
+    @Override
+    public List<BillDTO> getAllByUser(Long userId) {
+        return getAll().stream().filter(bill -> bill.getUserId().equals(userId)).toList();
     }
 
     @Override
@@ -41,7 +45,7 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public BillDTO getById(Long id) {
-        return getAllByCurrentUser().stream().filter(bill -> bill.getId().equals(id)).findFirst().orElse(null);
+        return getAll().stream().filter(bill -> bill.getId().equals(id)).findFirst().orElse(null);
     }
 
     @Override

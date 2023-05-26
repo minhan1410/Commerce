@@ -14,7 +14,7 @@
                 <a th:each="user : ${user}" th:href="@{/member/user}">
                     <img style="border-radius: 50%; height:30px; width:30px; margin:5px" th:if="${user.id != null}"
                          th:src="@{${user.avatar}}">
-                    <img src="https://res.cloudinary.com/dpvehgfmo/image/upload/v1677683288/user_mvyazt.png"
+                    <img src="images/icons/user.png"
                          style="border-radius: 50%; height:30px; width:30px; margin:5px"
                          th:if="${user.id == null}">
                 </a>
@@ -23,7 +23,7 @@
                    th:href="@{/member/user}"><span sec:authentication="name"></span></a>
                 <a class="flex-c-m trans-04 p-lr-25" sec:authorize="isAuthenticated()" th:href="@{/logout}"
                    th:if="${user.id == null}"> <img
-                        src="https://res.cloudinary.com/dpvehgfmo/image/upload/v1677683288/user_mvyazt.png"
+                        src="images/icons/user.png"
                         style="border-radius: 50%; height:30px; width:30px; margin:5px"></a>
             </div>
 

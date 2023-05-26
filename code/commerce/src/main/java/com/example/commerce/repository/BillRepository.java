@@ -11,7 +11,9 @@ import java.util.Optional;
 
 @Repository
 public interface BillRepository extends JpaRepository<Bill, Long> {
-    List<Bill> findByUserIdAndDeletedFalse(Long userId);
+    List<Bill> findByUserIdAndDeletedFalseOrderByCreateTimeDesc(Long userId);
+
+    List<Bill> getByDeletedFalseOrderByCreateTimeDesc();
 
     Optional<Bill> getByIdAndDeletedFalse(Long id);
 

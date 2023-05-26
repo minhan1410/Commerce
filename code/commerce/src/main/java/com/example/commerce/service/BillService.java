@@ -6,6 +6,8 @@ import com.example.commerce.model.dto.CartItemDTO;
 import java.util.List;
 
 public interface BillService {
+    List<BillDTO> getAll();
+
     List<BillDTO> getAllByUser(Long userId);
 
     List<BillDTO> getAllByCurrentUser();
