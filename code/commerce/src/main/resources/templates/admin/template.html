@@ -7,11 +7,27 @@
 
     <!-- Favicon -->
     <link rel="icon" th:href="@{/images/icons/favicon.png}" type="image/png"/>
+    <link rel="icon" th:href="@{/admin/assets/images/icons/favicon.png}" type="image/png"/>
     <link rel="stylesheet" th:href="@{/admin/assets/css/backend-plugin.min.css}">
     <link rel="stylesheet" th:href="@{/admin/assets/css/backend.css?v=1.0.0}">
     <link rel="stylesheet" th:href="@{/admin/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css}">
     <link rel="stylesheet" th:href="@{/admin/assets/vendor/line-awesome/dist/line-awesome/css/line-awesome.min.css}">
     <link rel="stylesheet" th:href="@{/admin/assets/vendor/remixicon/fonts/remixicon.css}">
+
+    <style>
+        .icon-button__badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 10px;
+            height: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            left: 30px;
+        }
+    </style>
 </head>
 <body>
 <!-- loader Start -->
@@ -766,12 +782,6 @@
                         <img alt="IMG-LOGO" th:src="@{/images/icons/logo.png}">
                     </a>
                 </div>
-                <div class="iq-search-bar device-search">
-                    <form action="#" class="searchbox">
-                        <a class="search-link" href="#"><i class="ri-search-line"></i></a>
-                        <input class="text search-input" placeholder="Search here..." type="text">
-                    </form>
-                </div>
                 <div class="d-flex align-items-center">
                     <button aria-controls="navbarSupportedContent" aria-label="Toggle navigation" class="navbar-toggler"
                             data-target="#navbarSupportedContent" data-toggle="collapse"
@@ -780,141 +790,11 @@
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav ml-auto navbar-list align-items-center">
-                            <li class="nav-item nav-icon dropdown">
-                                <a aria-expanded="false" aria-haspopup="true"
-                                   class="search-toggle dropdown-toggle btn border add-btn" data-toggle="dropdown"
-                                   href="#"
-                                   id="dropdownMenuButton02">
-                                    <img alt="img-flag" class="img-fluid image-flag mr-2"
-                                         src="/admin/assets/images/small/flag-01.png">En
-                                </a>
-                                <div aria-labelledby="dropdownMenuButton2" class="iq-sub-dropdown dropdown-menu">
-                                    <div class="card shadow-none m-0">
-                                        <div class="card-body p-3">
-                                            <a class="iq-sub-card" href="#"><img
-                                                    alt="img-flag" class="img-fluid mr-2"
-                                                    src="/admin/assets/images/small/flag-02.png">French</a>
-                                            <a class="iq-sub-card" href="#"><img
-                                                    alt="img-flag" class="img-fluid mr-2"
-                                                    src="/admin/assets/images/small/flag-03.png">Spanish</a>
-                                            <a class="iq-sub-card" href="#"><img
-                                                    alt="img-flag" class="img-fluid mr-2"
-                                                    src="/admin/assets/images/small/flag-04.png">Italian</a>
-                                            <a class="iq-sub-card" href="#"><img
-                                                    alt="img-flag" class="img-fluid mr-2"
-                                                    src="/admin/assets/images/small/flag-05.png">German</a>
-                                            <a class="iq-sub-card" href="#"><img
-                                                    alt="img-flag" class="img-fluid mr-2"
-                                                    src="/admin/assets/images/small/flag-06.png">Japanese</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li>
-                                <a class="btn border add-btn shadow-none mx-2 d-none d-md-block"
-                                   data-target="#new-order"
-                                   data-toggle="modal" href="#"><i class="las la-plus mr-2"></i>New
-                                    Order</a>
-                            </li>
-                            <li class="nav-item nav-icon search-content">
-                                <a aria-expanded="false" aria-haspopup="true" class="search-toggle rounded"
-                                   data-toggle="dropdown"
-                                   href="#" id="dropdownSearch">
-                                    <i class="ri-search-line"></i>
-                                </a>
-                                <div aria-labelledby="dropdownSearch"
-                                     class="iq-search-bar iq-sub-dropdown dropdown-menu">
-                                    <form action="#" class="searchbox p-2">
-                                        <div class="form-group mb-0 position-relative">
-                                            <input class="text search-input font-size-12"
-                                                   placeholder="type here to search..."
-                                                   type="text">
-                                            <a class="search-link" href="#"><i class="las la-search"></i></a>
-                                        </div>
-                                    </form>
-                                </div>
-                            </li>
-                            <li class="nav-item nav-icon dropdown">
-                                <a aria-expanded="false" aria-haspopup="true" class="search-toggle dropdown-toggle"
-                                   data-toggle="dropdown" href="#" id="dropdownMenuButton2">
-                                    <svg class="feather feather-mail" fill="none" height="20" stroke="currentColor"
-                                         stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                         viewBox="0 0 24 24"
-                                         width="20" xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                        </path>
-                                        <polyline points="22,6 12,13 2,6"></polyline>
-                                    </svg>
-                                    <span class="bg-primary"></span>
-                                </a>
-                                <div aria-labelledby="dropdownMenuButton2" class="iq-sub-dropdown dropdown-menu">
-                                    <div class="card shadow-none m-0">
-                                        <div class="card-body p-0 ">
-                                            <div class="cust-title p-3">
-                                                <div class="d-flex align-items-center justify-content-between">
-                                                    <h5 class="mb-0">All Messages</h5>
-                                                    <a class="badge badge-primary badge-card" href="#">3</a>
-                                                </div>
-                                            </div>
-                                            <div class="px-3 pt-0 pb-0 sub-card">
-                                                <a class="iq-sub-card" href="#">
-                                                    <div class="media align-items-center cust-card py-3 border-bottom">
-                                                        <div class="">
-                                                            <img alt="01"
-                                                                 class="avatar-50 rounded-small"
-                                                                 src="/admin/assets/images/user/01.jpg">
-                                                        </div>
-                                                        <div class="media-body ml-3">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <h6 class="mb-0">Emma Watson</h6>
-                                                                <small class="text-dark"><b>12 : 47 pm</b></small>
-                                                            </div>
-                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a class="iq-sub-card" href="#">
-                                                    <div class="media align-items-center cust-card py-3 border-bottom">
-                                                        <div class="">
-                                                            <img alt="02"
-                                                                 class="avatar-50 rounded-small"
-                                                                 src="/admin/assets/images/user/02.jpg">
-                                                        </div>
-                                                        <div class="media-body ml-3">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <h6 class="mb-0">Ashlynn Franci</h6>
-                                                                <small class="text-dark"><b>11 : 30 pm</b></small>
-                                                            </div>
-                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a class="iq-sub-card" href="#">
-                                                    <div class="media align-items-center cust-card py-3">
-                                                        <div class="">
-                                                            <img alt="03"
-                                                                 class="avatar-50 rounded-small"
-                                                                 src="/admin/assets/images/user/03.jpg">
-                                                        </div>
-                                                        <div class="media-body ml-3">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <h6 class="mb-0">Kianna Carder</h6>
-                                                                <small class="text-dark"><b>11 : 21 pm</b></small>
-                                                            </div>
-                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                            </div>
-                                            <a class="right-ic btn btn-primary btn-block position-relative p-2" href="#"
-                                               role="button">
-                                                View All
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
+                            <li class="nav-item nav-icon dropdown"></li>
+                            <li class="nav-item nav-icon dropdown"></li>
+                            <li class="nav-item nav-icon dropdown"></li>
+                            <li class="nav-item nav-icon dropdown"></li>
+                            <li class="nav-item nav-icon dropdown"></li>
                             <li class="nav-item nav-icon dropdown">
                                 <a aria-expanded="false" aria-haspopup="true" class="search-toggle dropdown-toggle"
                                    data-toggle="dropdown" href="#" id="dropdownMenuButton">
@@ -925,7 +805,7 @@
                                         <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
                                         <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
                                     </svg>
-                                    <span class="bg-primary "></span>
+                                    <span th:class="'bg-primary ' + ${noti.size() > 0 ? 'icon-button__badge' : ''}"></span>
                                 </a>
                                 <div aria-labelledby="dropdownMenuButton" class="iq-sub-dropdown dropdown-menu">
                                     <div class="card shadow-none m-0">
@@ -933,61 +813,35 @@
                                             <div class="cust-title p-3">
                                                 <div class="d-flex align-items-center justify-content-between">
                                                     <h5 class="mb-0">Notifications</h5>
-                                                    <a class="badge badge-primary badge-card" href="#">3</a>
+                                                    <a class="badge badge-primary badge-card" href="#"
+                                                       th:text="${noti.size()}"></a>
                                                 </div>
                                             </div>
-                                            <div class="px-3 pt-0 pb-0 sub-card">
-                                                <a class="iq-sub-card" href="#">
+                                            <div class="px-3 pt-0 pb-0 sub-card" th:each="n: ${noti}">
+                                                <a class="iq-sub-card" onclick="removeNotification(this)"
+                                                   th:attr="data-notification-id=${n.id}"
+                                                   th:href="@{'/admin/view-noti/'+${n.id}}">
                                                     <div class="media align-items-center cust-card py-3 border-bottom">
                                                         <div class="">
                                                             <img alt="01"
                                                                  class="avatar-50 rounded-small"
-                                                                 src="/admin/assets/images/user/01.jpg">
+                                                                 th:src="@{${n.fromUserDTO.avatar}}">
                                                         </div>
                                                         <div class="media-body ml-3">
                                                             <div class="d-flex align-items-center justify-content-between">
-                                                                <h6 class="mb-0">Emma Watson</h6>
-                                                                <small class="text-dark"><b>12 : 47 pm</b></small>
+                                                                <h6 class="mb-0" th:text="${n.fromUserDTO.name}"></h6>
+                                                                <small class="text-dark"><b
+                                                                        th:text="${#temporals.format(n.createdAt, 'HH:mm')}">12
+                                                                    : 47 pm</b></small>
                                                             </div>
-                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a class="iq-sub-card" href="#">
-                                                    <div class="media align-items-center cust-card py-3 border-bottom">
-                                                        <div class="">
-                                                            <img alt="02"
-                                                                 class="avatar-50 rounded-small"
-                                                                 src="/admin/assets/images/user/02.jpg">
-                                                        </div>
-                                                        <div class="media-body ml-3">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <h6 class="mb-0">Ashlynn Franci</h6>
-                                                                <small class="text-dark"><b>11 : 30 pm</b></small>
-                                                            </div>
-                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
-                                                        </div>
-                                                    </div>
-                                                </a>
-                                                <a class="iq-sub-card" href="#">
-                                                    <div class="media align-items-center cust-card py-3">
-                                                        <div class="">
-                                                            <img alt="03"
-                                                                 class="avatar-50 rounded-small"
-                                                                 src="/admin/assets/images/user/03.jpg">
-                                                        </div>
-                                                        <div class="media-body ml-3">
-                                                            <div class="d-flex align-items-center justify-content-between">
-                                                                <h6 class="mb-0">Kianna Carder</h6>
-                                                                <small class="text-dark"><b>11 : 21 pm</b></small>
-                                                            </div>
-                                                            <small class="mb-0">Lorem ipsum dolor sit amet</small>
+                                                            <small class="mb-0" th:text="${n.message}"></small>
                                                         </div>
                                                     </div>
                                                 </a>
                                             </div>
-                                            <a class="right-ic btn btn-primary btn-block position-relative p-2" href="#"
-                                               role="button">
+                                            <a class="right-ic btn btn-primary btn-block position-relative p-2"
+                                               role="button"
+                                               th:href="@{/admin/view-all}">
                                                 View All
                                             </a>
                                         </div>
@@ -995,10 +849,13 @@
                                 </div>
                             </li>
                             <li class="nav-item nav-icon dropdown caption-content">
-                                <a aria-expanded="false" aria-haspopup="true" class="search-toggle dropdown-toggle"
-                                   data-toggle="dropdown" href="#" id="dropdownMenuButton4">
-                                    <img alt="user" class="img-fluid rounded" src="/admin/assets/images/user/1.png">
+                                <a aria-expanded="false" aria-haspopup="true"
+                                   class="search-toggle dropdown-toggle"
+                                   data-toggle="dropdown" id="dropdownMenuButton4" th:href="@{/member/user}">
+                                    <img alt="user" class="img-fluid rounded"
+                                         th:src="@{${user.avatar}}">
                                 </a>
+
                                 <div aria-labelledby="dropdownMenuButton" class="iq-sub-dropdown dropdown-menu">
                                     <div class="card shadow-none m-0">
                                         <div class="card-body p-0 text-center">
@@ -1006,11 +863,11 @@
                                                 <img alt="profile-bg" class="rounded-top img-fluid mb-4"
                                                      src="/admin/assets/images/page-img/profile-bg.jpg">
                                                 <img alt="profile-img" class="rounded profile-img img-fluid avatar-70"
-                                                     src="/admin/assets/images/user/1.png">
+                                                     th:src="@{${user.avatar}}">
                                             </div>
                                             <div class="p-3">
-                                                <h5 class="mb-1">JoanDuo@property.com</h5>
-                                                <p class="mb-0">Since 10 march, 2020</p>
+                                                <h5 class="mb-1" th:text="${user.name}"></h5>
+                                                <p class="mb-0" th:text="${user.mail}">/p>
                                                 <div class="d-flex align-items-center justify-content-center mt-3">
                                                     <a class="btn border mr-2"
                                                        href="../app/user-profile.html">Profile</a>
@@ -1466,6 +1323,56 @@
 
     <!-- app JavaScript -->
     <script src="/admin/assets/js/app.js"></script>
+
+    <!--    web socket-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+    <script type="text/javascript">
+        var socket = new SockJS('/notification-ws');
+        var stompClient = Stomp.over(socket);
+
+        stompClient.connect({}, function (frame) {
+            stompClient.subscribe('/notification', function (result) {
+                var mess = result.body;
+                var fragment = document.createRange().createContextualFragment(`
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <button type="button" class="close mr-auto" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        ${mess}
+                    </div>
+                `);
+                console.log(fragment)
+                let contentPage = document.querySelector('.content-page');
+                contentPage.insertBefore(fragment, contentPage.firstChild);
+
+                window.setTimeout(function () {
+                    var alert = contentPage.querySelector('.alert');
+                    if (alert) {
+                        alert.remove();
+                    }
+                }, 5000);
+            });
+        });
+    </script>
+
+    <!--    ajax-->
+    <script>
+        function removeNotification(element) {
+            var notificationId = element.getAttribute('data-notification-id');
+            console.log(notificationId)
+            // Gửi yêu cầu AJAX để xoá dữ liệu
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '/view-noti/' + notificationId, true);
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Xoá phần tử HTML tương ứng
+                    element.closest('.sub-card').remove();
+                }
+            };
+            xhr.send();
+        }
+    </script>
 </div>
 <!-- Script End-->
 

@@ -1,10 +1,10 @@
 CREATE DATABASE  IF NOT EXISTS `commerce` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
 USE `commerce`;
--- MySQL dump 10.13  Distrib 8.0.33, for macos13 (x86_64)
+-- MySQL dump 10.13  Distrib 8.0.30, for macos12 (x86_64)
 --
 -- Host: localhost    Database: commerce
 -- ------------------------------------------------------
--- Server version	8.0.32
+-- Server version	8.0.30
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -49,7 +49,7 @@ CREATE TABLE `bill` (
   CONSTRAINT `fk_bill_cart` FOREIGN KEY (`cart_id`) REFERENCES `cart` (`id`),
   CONSTRAINT `fk_bill_coupon` FOREIGN KEY (`coupon_id`) REFERENCES `coupon` (`id`),
   CONSTRAINT `fk_bill_user` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=352 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=415 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -58,7 +58,7 @@ CREATE TABLE `bill` (
 
 LOCK TABLES `bill` WRITE;
 /*!40000 ALTER TABLE `bill` DISABLE KEYS */;
-INSERT INTO `bill` VALUES (105,29,18,NULL,16,320,'WAIT','Dung','0347705659','30','2023-03-24 02:01:17',NULL,NULL,NULL,0,NULL,NULL),(107,29,19,NULL,1,35,'WAIT','Dung','0347705659','30','2023-03-24 02:35:31',NULL,NULL,NULL,0,NULL,NULL),(113,29,20,NULL,9,590,'WAIT','Dung','0347705659','30','2023-03-24 15:33:52',NULL,NULL,NULL,0,NULL,NULL),(115,29,21,NULL,3,360,'WAIT','Dung','0347705659','30','2023-03-24 15:37:25',NULL,NULL,NULL,0,NULL,NULL),(117,29,22,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 15:42:31',NULL,NULL,NULL,0,NULL,NULL),(119,29,23,NULL,1,40,'WAIT','Dung','0347705659','30','2023-03-24 15:54:48',NULL,NULL,NULL,0,NULL,NULL),(121,29,24,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:00:53',NULL,NULL,NULL,0,NULL,NULL),(123,29,25,NULL,1,120,'WAIT','Dung','0347705659','30','2023-03-24 16:05:24',NULL,NULL,NULL,0,NULL,NULL),(125,29,27,NULL,1,120,'WAIT','Dung','0347705659','30','2023-03-24 16:06:49',NULL,NULL,NULL,0,NULL,NULL),(127,29,28,NULL,1,35,'WAIT','Dung','0347705659','30','2023-03-24 16:09:01',NULL,NULL,NULL,0,NULL,NULL),(129,29,29,NULL,1,120,'WAIT','Dung','0347705659','30','2023-03-24 16:12:34',NULL,NULL,NULL,0,NULL,NULL),(131,29,30,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:41:23',NULL,NULL,NULL,0,NULL,NULL),(133,29,31,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:42:48',NULL,NULL,NULL,0,NULL,NULL),(135,29,32,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:44:58',NULL,NULL,NULL,0,NULL,NULL),(137,29,33,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:48:03',NULL,NULL,NULL,0,NULL,NULL),(139,29,34,NULL,1,100,'WAIT','Dung','0347705659','30','2023-03-24 16:57:30',NULL,NULL,NULL,0,NULL,NULL),(141,29,35,NULL,1,40,'WAIT','Dung','0347705659','30','2023-03-24 17:16:26',NULL,NULL,NULL,0,NULL,NULL),(145,29,36,NULL,4,160,'WAIT','Dung','0347705659','30','2023-03-24 21:57:45',NULL,NULL,NULL,0,NULL,NULL),(149,146,37,74,3,30,'WAIT','Tran Duy Anh Tu','','','2023-03-25 13:33:49',NULL,NULL,NULL,0,NULL,NULL),(152,146,38,NULL,2,420,'WAIT','Tran Duy Anh Tu','','','2023-03-25 13:42:39',NULL,NULL,NULL,0,NULL,NULL),(157,146,39,74,4,167.5,'WAIT','Tran Duy Anh Tu','','','2023-03-27 23:36:19',NULL,NULL,NULL,0,NULL,NULL),(333,146,40,NULL,3,180,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:09:13',NULL,NULL,NULL,0,NULL,NULL),(335,146,41,NULL,1,100,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:12:11',NULL,NULL,NULL,0,NULL,NULL),(337,146,42,NULL,1,120,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:18:04',NULL,NULL,NULL,0,NULL,NULL),(339,146,43,NULL,1,120,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:22:27',NULL,NULL,NULL,0,NULL,NULL),(342,146,44,NULL,2,1100,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:23:35',NULL,NULL,NULL,0,NULL,NULL),(348,146,45,NULL,11,1095,'WAIT','Tran Duy Anh Tu','','K noi','2023-05-22 00:42:02',NULL,NULL,NULL,0,1095,NULL),(351,146,46,74,6,60,'WAIT','Tran Duy Anh Tu','123','K noi','2023-05-22 00:43:14',NULL,NULL,NULL,0,120,60);
+INSERT INTO `bill` VALUES (105,29,18,NULL,16,320,'WAIT','Dung','0347705659','30','2023-03-24 02:01:17',NULL,NULL,NULL,0,NULL,NULL),(107,29,19,NULL,1,35,'WAIT','Dung','0347705659','30','2023-03-24 02:35:31',NULL,NULL,NULL,0,NULL,NULL),(113,29,20,NULL,9,590,'WAIT','Dung','0347705659','30','2023-03-24 15:33:52',NULL,NULL,NULL,0,NULL,NULL),(115,29,21,NULL,3,360,'WAIT','Dung','0347705659','30','2023-03-24 15:37:25',NULL,NULL,NULL,0,NULL,NULL),(117,29,22,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 15:42:31',NULL,NULL,NULL,0,NULL,NULL),(119,29,23,NULL,1,40,'WAIT','Dung','0347705659','30','2023-03-24 15:54:48',NULL,NULL,NULL,0,NULL,NULL),(121,29,24,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:00:53',NULL,NULL,NULL,0,NULL,NULL),(123,29,25,NULL,1,120,'WAIT','Dung','0347705659','30','2023-03-24 16:05:24',NULL,NULL,NULL,0,NULL,NULL),(125,29,27,NULL,1,120,'WAIT','Dung','0347705659','30','2023-03-24 16:06:49',NULL,NULL,NULL,0,NULL,NULL),(127,29,28,NULL,1,35,'WAIT','Dung','0347705659','30','2023-03-24 16:09:01',NULL,NULL,NULL,0,NULL,NULL),(129,29,29,NULL,1,120,'WAIT','Dung','0347705659','30','2023-03-24 16:12:34',NULL,NULL,NULL,0,NULL,NULL),(131,29,30,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:41:23',NULL,NULL,NULL,0,NULL,NULL),(133,29,31,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:42:48',NULL,NULL,NULL,0,NULL,NULL),(135,29,32,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:44:58',NULL,NULL,NULL,0,NULL,NULL),(137,29,33,NULL,1,20,'WAIT','Dung','0347705659','30','2023-03-24 16:48:03',NULL,NULL,NULL,0,NULL,NULL),(139,29,34,NULL,1,100,'WAIT','Dung','0347705659','30','2023-03-24 16:57:30',NULL,NULL,NULL,0,NULL,NULL),(141,29,35,NULL,1,40,'WAIT','Dung','0347705659','30','2023-03-24 17:16:26',NULL,NULL,NULL,0,NULL,NULL),(145,29,36,NULL,4,160,'WAIT','Dung','0347705659','30','2023-03-24 21:57:45',NULL,NULL,NULL,0,NULL,NULL),(149,146,37,74,3,30,'WAIT','Tran Duy Anh Tu','','','2023-03-25 13:33:49',NULL,NULL,NULL,0,NULL,NULL),(152,146,38,NULL,2,420,'WAIT','Tran Duy Anh Tu','','','2023-03-25 13:42:39',NULL,NULL,NULL,0,NULL,NULL),(157,146,39,74,4,167.5,'WAIT','Tran Duy Anh Tu','','','2023-03-27 23:36:19',NULL,NULL,NULL,0,NULL,NULL),(333,146,40,NULL,3,180,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:09:13',NULL,NULL,NULL,0,NULL,NULL),(335,146,41,NULL,1,100,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:12:11',NULL,NULL,NULL,0,NULL,NULL),(337,146,42,NULL,1,120,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:18:04',NULL,NULL,NULL,0,NULL,NULL),(339,146,43,NULL,1,120,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:22:27',NULL,NULL,NULL,0,NULL,NULL),(342,146,44,NULL,2,1100,'WAIT','Tran Duy Anh Tu','k noi','k noi','2023-05-14 23:23:35',NULL,NULL,NULL,0,NULL,NULL),(348,146,45,NULL,11,1095,'WAIT','Tran Duy Anh Tu','','K noi','2023-05-22 00:42:02',NULL,NULL,NULL,0,1095,NULL),(351,146,46,74,6,60,'WAIT','Tran Duy Anh Tu','123','K noi','2023-05-22 00:43:14',NULL,NULL,NULL,0,120,60),(354,146,47,74,1,50,'WAIT','Tran Duy Anh Tu','','','2023-05-28 23:00:55',NULL,NULL,NULL,0,100,50),(357,146,48,NULL,1,100,'WAIT','Tran Duy Anh Tu','','','2023-05-28 23:06:37',NULL,NULL,NULL,0,100,NULL),(360,146,49,74,1,60,'WAIT','Tran Duy Anh Tu','','','2023-05-28 23:37:27',NULL,NULL,NULL,0,120,60),(363,146,50,74,1,50,'WAIT','Tran Duy Anh Tu','','','2023-05-28 23:52:15',NULL,NULL,NULL,0,100,50),(366,146,51,NULL,1,100,'WAIT','Tran Duy Anh Tu','','','2023-05-29 00:00:36',NULL,NULL,NULL,0,100,NULL),(369,146,52,NULL,1,100,'WAIT','Tran Duy Anh Tu','','','2023-05-29 00:14:21',NULL,NULL,NULL,0,100,NULL),(372,146,53,NULL,1,120,'WAIT','Tran Duy Anh Tu','','','2023-05-29 00:17:22',NULL,NULL,NULL,0,120,NULL),(375,146,54,74,1,150,'WAIT','Tran Duy Anh Tu','','','2023-05-29 00:27:50',NULL,NULL,NULL,0,300,150),(378,146,55,NULL,3,300,'WAIT','Tran Duy Anh Tu','','','2023-05-29 00:42:27',NULL,NULL,NULL,0,300,NULL),(381,146,56,NULL,4,400,'WAIT','Tran Duy Anh Tu','','','2023-05-29 00:51:12',NULL,NULL,NULL,0,400,NULL),(384,146,57,NULL,1,35,'WAIT','Tran Duy Anh Tu','','','2023-05-29 00:55:50',NULL,NULL,NULL,0,35,NULL),(387,146,58,NULL,1,40,'WAIT','Tran Duy Anh Tu','','','2023-05-29 00:57:01',NULL,NULL,NULL,0,40,NULL),(390,146,59,NULL,1,1000,'WAIT','Tran Duy Anh Tu','','','2023-05-29 01:00:59',NULL,NULL,NULL,0,1000,NULL),(393,146,60,NULL,1,100,'WAIT','Tran Duy Anh Tu','','','2023-05-29 01:04:20',NULL,NULL,NULL,0,100,NULL),(396,146,61,NULL,1,300,'WAIT','Tran Duy Anh Tu','','','2023-05-29 01:09:21',NULL,NULL,NULL,0,300,NULL),(399,146,62,NULL,1,120,'WAIT','Tran Duy Anh Tu','','','2023-05-29 01:10:07',NULL,NULL,NULL,0,120,NULL),(402,146,63,NULL,3,120,'WAIT','Tran Duy Anh Tu','','','2023-05-29 01:10:55',NULL,NULL,NULL,0,120,NULL),(408,146,64,NULL,5,180,'WAIT','Tran Duy Anh Tu','','','2023-05-29 01:12:38',NULL,NULL,NULL,0,180,NULL),(411,146,65,NULL,1,120,'WAIT','Tran Duy Anh Tu','','','2023-05-29 01:13:10',NULL,NULL,NULL,0,120,NULL),(414,146,66,NULL,1,100,'WAIT','Tran Duy Anh Tu','','','2023-05-29 01:19:55',NULL,NULL,NULL,0,100,NULL);
 /*!40000 ALTER TABLE `bill` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +138,7 @@ CREATE TABLE `cart` (
   `deleted` bit(1) DEFAULT b'0',
   PRIMARY KEY (`id`),
   KEY `fk_cart_user_idx` (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_bin;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +147,7 @@ CREATE TABLE `cart` (
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES (18,29,_binary '\0'),(19,29,_binary '\0'),(20,29,_binary '\0'),(21,29,_binary '\0'),(22,29,_binary '\0'),(23,29,_binary '\0'),(24,29,_binary '\0'),(25,29,_binary '\0'),(26,29,_binary '\0'),(27,29,_binary '\0'),(28,29,_binary '\0'),(29,29,_binary '\0'),(30,29,_binary '\0'),(31,29,_binary '\0'),(32,29,_binary '\0'),(33,29,_binary '\0'),(34,29,_binary '\0'),(35,29,_binary '\0'),(36,29,_binary '\0'),(37,146,_binary '\0'),(38,146,_binary '\0'),(39,146,_binary '\0'),(40,146,_binary '\0'),(41,146,_binary '\0'),(42,146,_binary '\0'),(43,146,_binary '\0'),(44,146,_binary '\0'),(45,146,_binary '\0'),(46,146,_binary '\0');
+INSERT INTO `cart` VALUES (18,29,_binary '\0'),(19,29,_binary '\0'),(20,29,_binary '\0'),(21,29,_binary '\0'),(22,29,_binary '\0'),(23,29,_binary '\0'),(24,29,_binary '\0'),(25,29,_binary '\0'),(26,29,_binary '\0'),(27,29,_binary '\0'),(28,29,_binary '\0'),(29,29,_binary '\0'),(30,29,_binary '\0'),(31,29,_binary '\0'),(32,29,_binary '\0'),(33,29,_binary '\0'),(34,29,_binary '\0'),(35,29,_binary '\0'),(36,29,_binary '\0'),(37,146,_binary '\0'),(38,146,_binary '\0'),(39,146,_binary '\0'),(40,146,_binary '\0'),(41,146,_binary '\0'),(42,146,_binary '\0'),(43,146,_binary '\0'),(44,146,_binary '\0'),(45,146,_binary '\0'),(46,146,_binary '\0'),(47,146,_binary '\0'),(48,146,_binary '\0'),(49,146,_binary '\0'),(50,146,_binary '\0'),(51,146,_binary '\0'),(52,146,_binary '\0'),(53,146,_binary '\0'),(54,146,_binary '\0'),(55,146,_binary '\0'),(56,146,_binary '\0'),(57,146,_binary '\0'),(58,146,_binary '\0'),(59,146,_binary '\0'),(60,146,_binary '\0'),(61,146,_binary '\0'),(62,146,_binary '\0'),(63,146,_binary '\0'),(64,146,_binary '\0'),(65,146,_binary '\0'),(66,146,_binary '\0');
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +178,7 @@ CREATE TABLE `cart_item` (
 
 LOCK TABLES `cart_item` WRITE;
 /*!40000 ALTER TABLE `cart_item` DISABLE KEYS */;
-INSERT INTO `cart_item` VALUES (101,18,1,4,0),(102,18,68,4,0),(103,18,52,2,0),(104,18,62,6,0),(106,19,42,1,0),(108,20,1,2,0),(109,20,3,3,0),(110,20,52,1,0),(111,20,9,1,0),(112,20,45,2,0),(114,21,5,3,0),(116,22,1,1,0),(118,23,2,1,0),(120,24,1,1,0),(122,25,5,1,0),(124,27,5,1,0),(126,28,42,1,0),(128,29,5,1,0),(130,30,1,1,0),(132,31,1,1,0),(134,32,1,1,0),(136,33,1,1,0),(138,34,92,1,0),(140,35,2,1,0),(142,36,1,1,0),(143,36,68,2,0),(144,36,9,1,0),(147,37,1,2,0),(148,37,52,1,0),(150,38,5,1,0),(151,38,21,1,0),(153,39,19,1,0),(154,39,7,1,0),(155,39,42,1,0),(156,39,10,1,0),(331,40,2,2,0),(332,40,10,1,0),(334,41,92,1,0),(336,42,5,1,0),(338,43,5,1,0),(340,44,56,1,0),(341,44,9,1,0),(343,45,6,3,0),(344,45,7,2,0),(345,45,10,4,0),(346,45,92,1,0),(347,45,45,1,0),(350,46,1,6,0);
+INSERT INTO `cart_item` VALUES (101,18,1,4,0),(102,18,68,4,0),(103,18,52,2,0),(104,18,62,6,0),(106,19,42,1,0),(108,20,1,2,0),(109,20,3,3,0),(110,20,52,1,0),(111,20,9,1,0),(112,20,45,2,0),(114,21,5,3,0),(116,22,1,1,0),(118,23,2,1,0),(120,24,1,1,0),(122,25,5,1,0),(124,27,5,1,0),(126,28,42,1,0),(128,29,5,1,0),(130,30,1,1,0),(132,31,1,1,0),(134,32,1,1,0),(136,33,1,1,0),(138,34,92,1,0),(140,35,2,1,0),(142,36,1,1,0),(143,36,68,2,0),(144,36,9,1,0),(147,37,1,2,0),(148,37,52,1,0),(150,38,5,1,0),(151,38,21,1,0),(153,39,19,1,0),(154,39,7,1,0),(155,39,42,1,0),(156,39,10,1,0),(331,40,2,2,0),(332,40,10,1,0),(334,41,92,1,0),(336,42,5,1,0),(338,43,5,1,0),(340,44,56,1,0),(341,44,9,1,0),(343,45,6,3,0),(344,45,7,2,0),(345,45,10,4,0),(346,45,92,1,0),(347,45,45,1,0),(350,46,1,6,0),(353,47,92,1,0),(356,48,19,1,0),(359,49,3,1,0),(362,50,9,1,0),(365,51,7,1,0),(368,52,8,1,0),(371,53,6,1,0),(374,54,20,1,0),(377,55,9,3,0),(380,56,9,4,0),(383,57,42,1,0),(386,58,43,1,0),(389,59,56,1,0),(392,60,92,1,0),(395,61,21,1,0),(398,62,3,1,0),(401,63,2,3,0),(404,64,1,1,0),(405,64,68,2,0),(406,64,92,1,0),(407,64,62,1,0),(410,65,5,1,0),(413,66,19,1,0);
 /*!40000 ALTER TABLE `cart_item` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -310,7 +310,7 @@ CREATE TABLE `hibernate_sequence` (
 
 LOCK TABLES `hibernate_sequence` WRITE;
 /*!40000 ALTER TABLE `hibernate_sequence` DISABLE KEYS */;
-INSERT INTO `hibernate_sequence` VALUES (353);
+INSERT INTO `hibernate_sequence` VALUES (416);
 /*!40000 ALTER TABLE `hibernate_sequence` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -337,7 +337,7 @@ CREATE TABLE `message` (
 
 LOCK TABLES `message` WRITE;
 /*!40000 ALTER TABLE `message` DISABLE KEYS */;
-INSERT INTO `message` VALUES (349,'2023-05-22 00:42:02',146,_binary '\0','Tran Duy Anh Tu placed an order'),(352,'2023-05-22 00:43:14',146,_binary '\0','Tran Duy Anh Tu placed an order');
+INSERT INTO `message` VALUES (349,'2023-05-22 00:42:02',146,_binary '','Tran Duy Anh Tu placed an order'),(352,'2023-05-22 00:43:14',146,_binary '','Tran Duy Anh Tu placed an order'),(355,'2023-05-28 23:00:55',146,_binary '','Tran Duy Anh Tu placed an order'),(358,'2023-05-28 23:06:37',146,_binary '','Tran Duy Anh Tu placed an order'),(361,'2023-05-28 23:37:27',146,_binary '','Tran Duy Anh Tu placed an order'),(364,'2023-05-28 23:52:15',146,_binary '','Tran Duy Anh Tu placed an order'),(367,'2023-05-29 00:00:36',146,_binary '','Tran Duy Anh Tu placed an order'),(370,'2023-05-29 00:14:21',146,_binary '','Tran Duy Anh Tu placed an order'),(373,'2023-05-29 00:17:22',146,_binary '','Tran Duy Anh Tu placed an order'),(376,'2023-05-29 00:27:50',146,_binary '','Tran Duy Anh Tu placed an order'),(379,'2023-05-29 00:42:27',146,_binary '','Tran Duy Anh Tu placed an order'),(382,'2023-05-29 00:51:12',146,_binary '','Tran Duy Anh Tu placed an order'),(385,'2023-05-29 00:55:50',146,_binary '','Tran Duy Anh Tu placed an order'),(388,'2023-05-29 00:57:01',146,_binary '','Tran Duy Anh Tu placed an order'),(391,'2023-05-29 01:00:59',146,_binary '','Tran Duy Anh Tu placed an order'),(394,'2023-05-29 01:04:20',146,_binary '','Tran Duy Anh Tu placed an order'),(397,'2023-05-29 01:09:21',146,_binary '','Tran Duy Anh Tu placed an order'),(400,'2023-05-29 01:10:07',146,_binary '','Tran Duy Anh Tu placed an order'),(403,'2023-05-29 01:10:55',146,_binary '\0','Tran Duy Anh Tu placed an order'),(409,'2023-05-29 01:12:38',146,_binary '\0','Tran Duy Anh Tu placed an order'),(412,'2023-05-29 01:13:10',146,_binary '\0','Tran Duy Anh Tu placed an order'),(415,'2023-05-29 01:19:55',146,_binary '\0','Tran Duy Anh Tu placed an order');
 /*!40000 ALTER TABLE `message` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -363,7 +363,7 @@ CREATE TABLE `persistent_logins` (
 
 LOCK TABLES `persistent_logins` WRITE;
 /*!40000 ALTER TABLE `persistent_logins` DISABLE KEYS */;
-INSERT INTO `persistent_logins` VALUES ('duyanhtutran@gmail.com','KNgk6fk5cfltuFP47MXWyA==','thf3ik14BdRbazet2ylWpw==','2023-05-20 18:41:24'),('surivato98@gmail.com','L7pb5TU8Amzp+H7LGH+uyw==','vNRefwOV3Ujm3JMCpXF42Q==','2023-05-21 17:33:06'),('duyanhtutran@gmail.com','uLo2syGnV/esnrjepYyy5Q==','h+NgyVtw9ctI2WX9nHqPww==','2023-05-21 17:43:14');
+INSERT INTO `persistent_logins` VALUES ('surivato98@gmail.com','JhD1/WOlii/q+Ut9URIGjA==','3dmSugjfLORHMoWPMnfqlg==','2023-05-29 18:34:17'),('surivato98@gmail.com','jIyhVZGuGAkFhfru27KApw==','27OMjsCcFXZc+lLGLoswCQ==','2023-05-29 18:03:49'),('duyanhtutran@gmail.com','qj61K2W6vSwwQNAdnom+ow==','vdE4z09k3m3tyuFyGR0sYw==','2023-05-29 15:47:40');
 /*!40000 ALTER TABLE `persistent_logins` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -503,6 +503,14 @@ LOCK TABLES `user` WRITE;
 INSERT INTO `user` VALUES (21,'ghtkannm7@gmail.com',NULL,'An Nguyễn',NULL,NULL,NULL,NULL,NULL,NULL,'ADMIN',1,'GOOGLE',NULL,'https://lh3.googleusercontent.com/a/AEdFTp71Ztch70v85qEjolR6xM1gDzF2ymcdySCtD29P=s96-c',NULL,NULL,_binary '\0',NULL,NULL),(29,'surivato98@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Dung','0347705659','30','31','32',NULL,NULL,'ADMIN',1,'LOCAL',33,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(52,'iamghost06@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyen Ngoc Bach',NULL,NULL,NULL,NULL,0,NULL,'USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '',NULL,NULL),(54,'iamghost827@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyễn Ngọc Bách','0969374719','64, Nguyễn Văn Trỗi, Hà Đông, Hà Nội','Ha Noi','Ha Noi',100000,NULL,'ADMIN',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png','',NULL,_binary '\0',NULL,NULL),(87,'anmusic1410@gmail.com',NULL,'Minh An Nguyễn',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'GOOGLE',NULL,'https://lh3.googleusercontent.com/a/AGNmyxanjRO2E8sFwTMa6xCp1F0QHqKGPhh1Z1LQT9ca=s96-c',NULL,NULL,_binary '\0',NULL,NULL),(90,'ngocbachnguyen100@gmail.com','$2a$10$Atg/FvU/AOeNbCmaxzH9NewnqfABw6M9zmAZ3FLcl/spS96.L/4xO','Nguyễn Ngọc Bách',NULL,NULL,NULL,NULL,0,'2021-09-24 09:08:31','USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '',NULL,NULL),(91,'buivanhung124@gmail.com','$2a$10$4FkdxuynWWU.vPWQAByiDOkXQvxuaW25bjzaUfLlaV6YZW5KuR2ji','Bui Van Hung',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0','','2023-03-11 23:43:26'),(146,'duyanhtutran@gmail.com','$2a$10$Q4E1eL5Iqid/3tk8oV5dhu3SIMqLn/xQMqXTOVv43uPEfpAGFnEau','Tran Duy Anh Tu',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'LOCAL',NULL,'https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png',NULL,NULL,_binary '\0',NULL,NULL),(204,'minhan14102001@gmail.com',NULL,'Nguyễn An',NULL,NULL,NULL,NULL,NULL,NULL,'USER',1,'FACEBOOK',NULL,'https://scontent.fsgn2-9.fna.fbcdn.net/v/t1.30497-1/84628273_176159830277856_972693363922829312_n.jpg?stp=c15.0.50.50a_cp0_dst-jpg_p50x50&_nc_cat=1&ccb=1-7&_nc_sid=12b3be&_nc_ohc=Yehm_7dYxBQAX-68S2N&_nc_ht=scontent.fsgn2-9.fna&edm=AP4hL3IEAAAA&oh=00_AfD5Zc8W9KDFTuHG2xQDe7rpyv4sSu9vSSJjgDBuWynu4g&oe=644FF419',NULL,NULL,_binary '\0',NULL,NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Dumping events for database 'commerce'
+--
+
+--
+-- Dumping routines for database 'commerce'
+--
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -513,4 +521,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-05-22  0:44:58
+-- Dump completed on 2023-05-30  1:37:09

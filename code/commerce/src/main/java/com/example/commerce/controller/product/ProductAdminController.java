@@ -1,9 +1,7 @@
 package com.example.commerce.controller.product;
 
 import com.example.commerce.model.dto.ProductDTO;
-import com.example.commerce.service.CategoriesService;
-import com.example.commerce.service.ProductService;
-import com.example.commerce.service.ReviewService;
+import com.example.commerce.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,9 +17,13 @@ public class ProductAdminController {
     private final ProductService productService;
     private final CategoriesService categoriesService;
     private final ReviewService reviewService;
+    private final UserService userService;
+    private final MessageService messageService;
 
     @GetMapping()
     public String listProduct(Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         model.addAttribute("products", productService.getAll());
         model.addAttribute("categoriesService", categoriesService);
 //        model.addAttribute("listCategories", categoriesService.getAllUsers());
@@ -30,6 +32,8 @@ public class ProductAdminController {
 
     @GetMapping("/add")
     public String addProduct(Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("listCategories", categoriesService.getAll());
 //        return "/admin/addProduct";
@@ -38,12 +42,16 @@ public class ProductAdminController {
 
     @PostMapping("/add")
     public String addProductNew(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         model.addAttribute("listCategories", categoriesService.getAll());
         return result.hasErrors() ? "/admin/product/add-product" : productService.add(dto, model);
     }
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable(name = "id") Long id, Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         ProductDTO getId = productService.getById(id);
         if (getId == null) {
             return "/error/notFound";
@@ -55,11 +63,15 @@ public class ProductAdminController {
 
     @PostMapping("/update")
     public String updatePost(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         return result.hasErrors() ? "/admin/product/edit-product" : productService.update(dto, model);
     }
 
     @GetMapping("/duplicate/{id}")
     public String duplicate(@PathVariable(name = "id") Long id, Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         ProductDTO getId = productService.getById(id);
         if (getId == null) {
             return "/error/notFound";
@@ -71,11 +83,15 @@ public class ProductAdminController {
 
     @PostMapping("/duplicate")
     public String duplicatePost(@ModelAttribute("product") ProductDTO dto, Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         return productService.duplicate(dto);
     }
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id, Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         reviewService.deleteByProduct(id);
         return productService.delete(id, model);
     }

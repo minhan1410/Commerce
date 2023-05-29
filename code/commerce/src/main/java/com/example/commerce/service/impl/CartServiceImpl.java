@@ -102,6 +102,7 @@ public class CartServiceImpl implements CartService {
             session.setAttribute("totalPriceAfterApplyCoupon", totalPriceAfterApplyCoupon);
             session.setAttribute("totalPrice", totalPrice);
             session.setAttribute("coupon", couponDTO.getId());
+            session.setAttribute("discount", couponDTO.getDiscount());
         }
         return "redirect:/cart";
     }
@@ -178,14 +179,14 @@ public class CartServiceImpl implements CartService {
                 .createdAt(LocalDateTime.now())
                 .isSeen(false)
                 .build();
-        simpMessagingTemplate.convertAndSend("/topic/notification/", messageDTO);
+        simpMessagingTemplate.convertAndSend("/notification", "New orders");
         messageRepository.save(MessageDTO.mapperEntity(messageDTO));
 
 //        Gui thong tin mua hang thanh cong ve mail
-        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);
+//        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);
 
 //        Chuyen toi trang lich su mua hang
-        return "redirect:/cart";
+        return "redirect:/purchase-history";
     }
 
     @Override

@@ -292,16 +292,16 @@
                        th:text="'$' + ${bill.totalPrice}">$1750.00</p>
                 </div>
 
-                <div class="d-flex justify-content-between">
-                    <p>Shipping</p>
-                    <p>Free</p>
-                </div>
-                
                 <div class="d-flex justify-content-between"
                      th:if="${bill.couponId != null}">
                     <p>Discount</p>
-                    <p th:text="${bill.coupon.discount} + ' %'">
+                    <p th:text="${bill.coupon.discount} + '%'">
                         $1750.00</p>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <p>Shipping</p>
+                    <p>Free</p>
                 </div>
 
                 <div class="d-flex justify-content-between">

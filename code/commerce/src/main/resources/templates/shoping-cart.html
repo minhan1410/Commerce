@@ -173,12 +173,12 @@
                     <div class="flex-w flex-t bor12 p-t-15 p-b-15"
                          th:if="${session.totalPriceAfterApplyCoupon != null}">
                         <div class="size-208">
-                            <span class="stext-110 cl2"> Apply Coupon: </span>
+                            <span class="stext-110 cl2"> Discount: </span>
                         </div>
 
                         <div class="size-209">
                             <span class="mtext-110 cl2"
-                                  th:text="'$' + ${session.totalPriceAfterApplyCoupon}"></span>
+                                  th:text="${session.discount} + '%'"></span>
                         </div>
                     </div>
 
@@ -280,7 +280,7 @@
                             <div class="d-flex justify-content-between"
                                  th:if="${session.totalPriceAfterApplyCoupon != null}">
                                 <p class="mtext-110 cl2">Apply Coupon</p>
-                                <p class="mtext-110 cl2" th:text="'$' + ${session.totalPriceAfterApplyCoupon}">
+                                <p class="mtext-110 cl2" th:text="${session.discount} + '%'">
                                     $1750.00</p>
                             </div>
 

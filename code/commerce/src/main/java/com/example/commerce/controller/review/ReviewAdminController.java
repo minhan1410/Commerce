@@ -22,9 +22,12 @@ public class ReviewAdminController {
     private final UserService userService;
     private final CommentBlogService commentBlogService;
     private final BlogService blogService;
+    private final MessageService messageService;
 
     @GetMapping()
     public String getComment(Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         List<ReviewDTO> getAll = reviewService.getAll();
         Map<Long, ProductDTO> productsMap = getAll.stream().map(ReviewDTO::getProductId).distinct().collect(Collectors
                 .toMap(Long::longValue, productId -> productService.getById(productId)));
@@ -38,13 +41,17 @@ public class ReviewAdminController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteReview(@PathVariable(name = "id") Long id) {
+    public String deleteReview(@PathVariable(name = "id") Long id, Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         reviewService.delete(id);
         return "redirect:/admin/review";
     }
 
     @GetMapping("/blog")
-    public String getCommentBlog(Model model){
+    public String getCommentBlog(Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         List<CommentBlogDTO> getAll = commentBlogService.getAll();
         Map<Long, BlogDTO> blogsMap = getAll.stream().map(CommentBlogDTO::getBlogId).distinct().collect(Collectors
                 .toMap(Long::longValue, blogId -> blogService.getById(blogId)));
@@ -58,7 +65,9 @@ public class ReviewAdminController {
     }
 
     @GetMapping("/delete/blog/{id}")
-    public String deleteBlogReview(@PathVariable(name = "id") Long id) {
+    public String deleteBlogReview(@PathVariable(name = "id") Long id, Model model) {
+        userService.getCurrentUser(model);
+        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
         commentBlogService.delete(id);
         return "redirect:/admin/review";
     }
