@@ -16,50 +16,82 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="d-flex flex-wrap flex-wrap align-items-center justify-content-between mb-4">
-                        <div>
-                            <h4 class="mb-3">Purchase List</h4>
-                        </div>
-                        <a class="btn btn-primary add-list" data-target="#addModal"
-                           data-toggle="modal" th:href="@{/admin/coupon/new}"><i
-                                class="las la-plus mr-3"></i>Add Coupon</a>
-                    </div>
-                </div>
-                <div class="col-lg-12">
                     <div class="table-responsive rounded mb-3">
                         <table class="dataTables table mb-0 tbl-server-info">
                             <thead class="bg-white text-uppercase">
                             <tr class="ligth ligth-data">
-                                <th>ID</th>
-                                <th>Code</th>
-                                <th>Discount (%)</th>
-                                <th>Expiration Date (d/m/y)</th>
-                                <th>Action</th>
+                                <th class="text-center">ID</th>
+                                <th class="text-center">User</th>
+                                <th class="text-center">Products</th>
+                                <th class="text-center">Quantity</th>
+                                <th class="text-center">Total Price</th>
+                                <th class="text-center">Action</th>
                             </tr>
                             </thead>
                             <tbody class="ligth-body">
-                            <th:block th:each="c, iState : ${coupons}">
-                                <tr th:style="${c.expires} ? 'background-color: #ff7989' : ''">
-                                    <td th:text="${c.id}"></td>
-                                    <td th:text="${c.code}"></td>
-                                    <td th:text="${c.discount}"></td>
-                                    <td th:text="${#temporals.format(c.expirationDate, 'dd/MM/yyyy')}"></td>
-                                    <td>
-                                        <div class="d-flex align-items-center list-action">
-                                            <a class="badge bg-success mr-2" data-original-title="Edit"
-                                               data-target="#editModal"
-                                               data-toggle="modal"
-                                               th:attr="data-cate-id=${c.id}"
-                                               th:href="@{'/admin/coupon/update/' + ${c.id}}"
-                                               title=""><i class="ri-pencil-line mr-0"></i></a>
+                            <th:block th:each="bill, iState: ${bills}">
+                                <tr th:each="ci, i: ${bill.cartItem}"
+                                    th:style="${i.index + 1== bill.cartItem.size()? 'padding: 10px; border-bottom: 2px solid #f0f0f0;' : ''}">
+                                    <td class="align-middle text-center"
+                                        th:attr="rowspan=${ i.index == 0 ? bill.cartItem.size()  : ''}"
+                                        th:if="${i.index == 0}" th:text="${iState.index + 1}">
+                                    </td>
 
-                                            <a class="badge bg-warning mr-2" data-original-title="Delete"
-                                               data-target="#deleteModal"
-                                               data-toggle="modal"
-                                               th:href="@{'/admin/coupon/delete/' + ${c.id}}"
-                                               th:if="${!c.expires}"
-                                               title=""><i class="ri-delete-bin-line mr-0"></i></a>
+                                    <td class="align-middle"
+                                        th:attr="rowspan=${ i.index == 0 ? bill.cartItem.size()  : ''}"
+                                        th:if="${i.index == 0}">
+                                        <div class="d-flex align-items-center align-middle text-left">
+                                            <img alt="image"
+                                                 class="img-fluid rounded avatar-90 mr-3"
+                                                 style="object-fit: cover;"
+                                                 th:src="@{${bill.cart.user.avatar}}">
+                                            <div>
+                                                <b class="name"
+                                                   th:text="${'Name: ' + bill.receiverName == null ? bill.cart.user.name : bill.receiverName + '(Id: ' + bill.cart.user.id + ')'}"></b>
+                                                <p class="mb-0">
+                                                    <small th:text="${'Order at: ' + #dates.format(bill.createTime, 'HH:mm dd-MM-yyyy')}"></small>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <small th:text="'Phone: ' + ${bill.phoneNumber == null ? bill.cart.user.phone : bill.phoneNumber}"></small>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <small th:text="'Address: ' + ${bill.shippingAddress == null ? bill.cart.user.address : bill.shippingAddress}"></small>
+                                                </p>
+                                            </div>
                                         </div>
+                                    </td>
+
+                                    <td>
+                                        <div class="d-flex align-items-center align-middle text-left">
+                                            <img alt="image"
+                                                 class="img-fluid rounded avatar-50 mr-3"
+                                                 style="height:80px; width:80px;object-fit: cover;"
+                                                 th:src="@{${ci.product.imgMain}}">
+                                            <div>
+                                                <b class="name" th:text="${ci.product.name}"></b>
+                                                <p class="mb-0">
+                                                    <small th:text="${'Size: ' + ci.product.size}"></small>
+                                                </p>
+                                                <p class="mb-0">
+                                                    <small th:text="${'Color: ' + ci.product.color}"></small>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </td>
+
+                                    <td class="align-middle text-center" th:text="${'x '+ ci.quantity}"></td>
+
+                                    <td class="align-middle text-center"
+                                        th:attr="rowspan=${ i.index == 0 ? bill.cartItem.size()  : ''}"
+                                        th:if="${i.index == 0}"><b th:text="${'$' + bill.priceTotal}"></b></td>
+
+                                    <td class="align-middle text-center"
+                                        th:attr="rowspan=${ i.index == 0 ? bill.cartItem.size()  : ''}"
+                                        th:if="${i.index == 0}">
+                                        <a class="btn cl2 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5"
+                                           th:href="@{'purchase-history/'+ ${bill.id}}">
+                                            <span class="glyphicon glyphicon-trash">Info</span>
+                                        </a>
                                     </td>
                                 </tr>
                             </th:block>
