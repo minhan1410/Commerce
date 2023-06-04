@@ -11,7 +11,7 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/review", "/notification"); // cau hinh gui
+        config.enableSimpleBroker("/review", "/notification", "/purchase"); // cau hinh gui
         config.setApplicationDestinationPrefixes("/app"); // cau hinh nhan
     }
 
@@ -19,6 +19,7 @@ public class WebSocketBrokerConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("/review-ws").withSockJS();
         registry.addEndpoint("/notification-ws").withSockJS();
+        registry.addEndpoint("/purchase-ws").withSockJS();
     }
 }
 

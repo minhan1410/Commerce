@@ -1,14 +1,19 @@
 package com.example.commerce.service.impl;
 
+import com.example.commerce.constants.BillStatus;
 import com.example.commerce.model.dto.BillDTO;
 import com.example.commerce.model.dto.CartDTO;
 import com.example.commerce.model.dto.CartItemDTO;
+import com.example.commerce.model.entity.Bill;
 import com.example.commerce.repository.BillRepository;
 import com.example.commerce.service.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -26,9 +31,18 @@ public class BillServiceImpl implements BillService {
         return billRepository.getByDeletedFalseOrderByCreateTimeDesc().stream().map(bill -> {
             CartDTO cartDTO = cartService.getById(bill.getCartId());
             BillDTO billDTO = mapper.map(bill, BillDTO.class);
+
+            List<BillStatus> statusList = new ArrayList<>();
+            if (billDTO.getStatus().equals(BillStatus.WAIT)) statusList.add(BillStatus.CONFIRM);
+            if (billDTO.getStatus().equals(BillStatus.WAIT) || billDTO.getStatus().equals(BillStatus.CONFIRM))
+                statusList.add(BillStatus.DELIVERY);
+            if (billDTO.getStatus().equals(BillStatus.WAIT) || billDTO.getStatus().equals(BillStatus.CONFIRM) || billDTO.getStatus().equals(BillStatus.DELIVERY))
+                statusList.add(BillStatus.RECEIVED);
+
             billDTO.setCart(cartDTO);
             billDTO.setCartItem(getCartItemById(billDTO.getId()));
             billDTO.setCoupon(couponService.getById(billDTO.getCouponId()));
+            billDTO.setStatusNext(statusList);
             return billDTO;
         }).toList();
     }
@@ -51,14 +65,22 @@ public class BillServiceImpl implements BillService {
     @Override
     public List<CartItemDTO> getCartItemById(Long id) {
         return billRepository.getByCartItemId(id).stream().map(cartItem -> {
-            CartItemDTO cartItemDTO = CartItemDTO.builder()
-                    .id(cartItem.getId())
-                    .cartId(cartItem.getCartId())
-                    .quantity(cartItem.getQuantity())
-                    .product(productService.getById(cartItem.getProductId()))
-                    .deleted(cartItem.getDeleted())
-                    .build();
+            CartItemDTO cartItemDTO = CartItemDTO.builder().id(cartItem.getId()).cartId(cartItem.getCartId()).quantity(cartItem.getQuantity()).product(productService.getById(cartItem.getProductId())).deleted(cartItem.getDeleted()).build();
             return cartItemDTO;
         }).toList();
+    }
+
+    @Override
+    @Transactional
+    public void setStatus(Long id, BillStatus status) {
+        Date date = new Date();
+        BillDTO billDTO = getById(id);
+        billDTO.setStatus(status);
+        switch (status) {
+            case CONFIRM -> billDTO.setConfirmTime(date);
+            case DELIVERY -> billDTO.setDeliveryTime(date);
+            case RECEIVED -> billDTO.setReceivedTime(date);
+        }
+        billRepository.save(mapper.map(billDTO, Bill.class));
     }
 }

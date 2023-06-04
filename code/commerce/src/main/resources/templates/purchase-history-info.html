@@ -214,19 +214,22 @@
                 <hr>
 
                 <div class="track">
-                    <div class="step active"><span class="icon">
+                    <div class="step active" id="wait"><span class="icon">
                     <i class="bi bi-credit-card"></i> </span> <span class="text">Order</span>
                     </div>
 
-                    <div th:class="'step ' + ${bill.confirmTime != null ? 'active': ''}"><span class="icon">
+                    <div id="confirm" th:class="'step ' + ${bill.confirmTime != null ? 'active': ''}"><span
+                            class="icon">
                     <i class="fa fa-check"></i> </span> <span class="text">Order confirmed</span>
                     </div>
 
-                    <div th:class="'step ' + ${bill.deliveryTime != null ? 'active': ''}"><span class="icon">
+                    <div id="delivery" th:class="'step ' + ${bill.deliveryTime != null ? 'active': ''}"><span
+                            class="icon">
                         <i class="fa fa-truck"></i> </span> <span class="text"> On the way </span>
                     </div>
 
-                    <div th:class="'step ' + ${bill.receivedTime != null ? 'active': ''}"><span class="icon">
+                    <div id="received" th:class="'step ' + ${bill.receivedTime != null ? 'active': ''}"><span
+                            class="icon">
                         <svg class="bi bi-box2" fill="currentColor" height="16" viewBox="0 0 16 16"
                              width="16" xmlns="http://www.w3.org/2000/svg"><path
                                 d="M2.95.4a1 1 0 0 1 .8-.4h8.5a1 1 0 0 1 .8.4l2.85 3.8a.5.5 0 0 1 .1.3V15a1 1 0 0 1-1 1H1a1 1 0 0 1-1-1V4.5a.5.5 0 0 1 .1-.3L2.95.4ZM7.5 1H3.75L1.5 4h6V1Zm1 0v3h6l-2.25-3H8.5ZM15 5H1v10h14V5Z"/></svg> </span>
@@ -363,5 +366,36 @@
 </script>
 <!--===============================================================================================-->
 <script th:src="@{/js/main.js}"></script>
+
+<!--    web socket-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.6.1/sockjs.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.js"></script>
+<script type="text/javascript">
+    var socket = new SockJS('/purchase-ws');
+    var stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        stompClient.subscribe('/purchase/' + [[${bill.id}]], function (result) {
+            var status = result.body;
+            var fragmentId = null;
+            switch (status) {
+                case "CONFIRM":
+                    fragmentId = "confirm";
+                    break;
+                case "DELIVERY":
+                    fragmentId = "delivery";
+                    break;
+                case "RECEIVED":
+                    fragmentId = "received";
+                    break;
+            }
+
+            if (fragmentId) {
+                var fragment = document.getElementById(fragmentId);
+                fragment.classList.add("active");
+            }
+        });
+    });
+</script>
 </body>
 </html>

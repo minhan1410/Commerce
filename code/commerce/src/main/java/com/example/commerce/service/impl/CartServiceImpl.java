@@ -183,7 +183,7 @@ public class CartServiceImpl implements CartService {
         messageRepository.save(MessageDTO.mapperEntity(messageDTO));
 
 //        Gui thong tin mua hang thanh cong ve mail
-//        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);
+        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);
 
 //        Chuyen toi trang lich su mua hang
         return "redirect:/purchase-history";

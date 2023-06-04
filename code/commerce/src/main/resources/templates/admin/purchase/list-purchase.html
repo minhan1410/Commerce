@@ -88,10 +88,18 @@
                                     <td class="align-middle text-center"
                                         th:attr="rowspan=${ i.index == 0 ? bill.cartItem.size()  : ''}"
                                         th:if="${i.index == 0}">
-                                        <a class="btn cl2 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5"
-                                           th:href="@{'purchase-history/'+ ${bill.id}}">
-                                            <span class="glyphicon glyphicon-trash">Info</span>
-                                        </a>
+                                        <div class="btn-group">
+                                            <button aria-expanded="false" aria-haspopup="true"
+                                                    class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                                    th:text="${bill.status.name == 'WAIT' ? 'Action' : bill.status}"
+                                                    type="button">
+                                            </button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" th:each="status : ${bill.statusNext}"
+                                                   th:href="@{'/admin/purchase/' + ${bill.id} + '?status=' + ${status}}"
+                                                   th:text="${status}">Another action</a>
+                                            </div>
+                                        </div>
                                     </td>
                                 </tr>
                             </th:block>

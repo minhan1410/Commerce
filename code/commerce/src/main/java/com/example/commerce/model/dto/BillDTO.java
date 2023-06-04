@@ -28,5 +28,5 @@ public class BillDTO {
     private Date receivedTime;
     private BillStatus status;
     private Boolean deleted = false;
-
+    private List<BillStatus> statusNext;
 }

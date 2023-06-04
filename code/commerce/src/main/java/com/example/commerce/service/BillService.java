@@ -1,5 +1,6 @@
 package com.example.commerce.service;
 
+import com.example.commerce.constants.BillStatus;
 import com.example.commerce.model.dto.BillDTO;
 import com.example.commerce.model.dto.CartItemDTO;
 
@@ -15,4 +16,6 @@ public interface BillService {
     BillDTO getById(Long id);
 
     List<CartItemDTO> getCartItemById(Long id);
+
+    void setStatus(Long id, BillStatus status);
 }
