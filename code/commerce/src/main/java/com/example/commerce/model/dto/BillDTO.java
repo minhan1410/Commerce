@@ -10,6 +10,7 @@ import java.util.List;
 public class BillDTO {
     private Long id;
     private Long userId;
+    private UserDTO user;
     private Long cartId;
     private CartDTO cart;
     private List<CartItemDTO> cartItem;

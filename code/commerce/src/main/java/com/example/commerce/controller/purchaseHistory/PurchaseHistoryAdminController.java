@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
 @Controller
 @RequestMapping("/admin/purchase")
 @RequiredArgsConstructor
@@ -35,5 +38,11 @@ public class PurchaseHistoryAdminController {
         billService.setStatus(id, status);
         simpMessagingTemplate.convertAndSend("/purchase/" + id, status.name());
         return "redirect:/admin/purchase";
+    }
+
+    @GetMapping("/export")
+    public void export(HttpServletResponse response) throws IOException {
+        billService.export(response);
+//        return "redirect:/admin/purchase";
     }
 }
