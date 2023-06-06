@@ -138,9 +138,11 @@
                         <form style="display: none"></form>
 
                         <form class="flex-w flex-m m-tb-5" method="post" th:action="@{/coupon-cart}">
-                            <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" name="coupon"
+                            <input class="stext-104 cl2 plh4 size-117 bor13 p-lr-20 m-r-10 m-tb-5" id="couponInput"
+                                   name="coupon"
                                    placeholder="Coupon Code" type="text">
-                            <button class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5">
+                            <button class="flex-c-m stext-101 cl2 size-118 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-5"
+                                    id="applyCouponBtn">
                                 Apply coupon
                             </button>
                         </form>
@@ -205,7 +207,7 @@
 
                                 <div class="bor8 bg0 m-b-12">
                                     <input class="stext-111 cl8 plh3 size-111 p-lr-15" name="receiverName"
-                                           th:value="${user.name}" type="text">
+                                           required th:value="${user.name}" type="text">
                                 </div>
                             </div>
 
@@ -213,8 +215,9 @@
                                 <span class="stext-112 cl8"> Shipping Address </span>
 
                                 <div class="bor8 bg0 m-b-12">
-                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" name="shippingAddress"
-                                           th:value="${user.address}" type="text">
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" id="shippingAddress"
+                                           name="shippingAddress"
+                                           required th:value="${user.address}" type="text">
                                 </div>
                             </div>
 
@@ -222,17 +225,11 @@
                                 <span class="stext-112 cl8"> Phone number </span>
 
                                 <div class="bor8 bg0 m-b-12">
-                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" name="phoneNumber"
-                                           th:value="${user.phone}" type="text">
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" id="phoneNumber"
+                                           name="phoneNumber"
+                                           required th:value="${user.phone}" type="text">
                                 </div>
                             </div>
-
-                            <!--                            <div class="flex-w">-->
-                            <!--                                <div-->
-                            <!--                                        class="flex-c-m stext-101 cl2 size-115 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer">-->
-                            <!--                                    Update Totals-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
                         </div>
                     </div>
 
@@ -298,7 +295,8 @@
 
                         </div>
                         <div class="modal-footer d-flex justify-content-center border-top-0 py-4">
-                            <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                            <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer"
+                                    id="trackOrder">
                                 Track your order
                             </button>
                         </div>
@@ -322,6 +320,20 @@
                 class="zmdi zmdi-chevron-up"></i>
 		</span>
 </div>
+
+
+<script>
+    document.getElementById("applyCouponBtn").addEventListener("click", function (event) {
+        var couponInput = document.getElementById("couponInput");
+        var couponValue = couponInput.value;
+
+        if (couponValue === null || couponValue.trim() === "") {
+            event.preventDefault();
+            couponInput.focus();
+            alert("Coupon value not null");
+        }
+    });
+</script>
 
 <!-- MDB -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js" type="text/javascript"></script>

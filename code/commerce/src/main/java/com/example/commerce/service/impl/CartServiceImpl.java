@@ -5,12 +5,14 @@ import com.example.commerce.model.dto.*;
 import com.example.commerce.model.entity.Bill;
 import com.example.commerce.model.entity.Cart;
 import com.example.commerce.model.entity.CartItem;
+import com.example.commerce.model.entity.Message;
 import com.example.commerce.repository.BillRepository;
 import com.example.commerce.repository.CartItemRepository;
 import com.example.commerce.repository.CartRepository;
 import com.example.commerce.repository.MessageRepository;
 import com.example.commerce.service.*;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
@@ -86,16 +88,18 @@ public class CartServiceImpl implements CartService {
         Integer totalOfCart = (Integer) session.getAttribute("totalOfCart");
         Double totalPrice = (Double) session.getAttribute("totalPrice");
 
-        if (Objects.isNull(coupon)) {
-            totalOfCart += quantity;
-            totalPrice += quantity * map.get(id).getProduct().getPrice();
-            CartItemDTO dto = map.get(id);
-            dto.setQuantity(dto.getQuantity() + quantity);
+        if (Strings.isEmpty(coupon)) {
+            if (Objects.nonNull(id)) {
+                totalOfCart += quantity;
+                totalPrice += quantity * map.get(id).getProduct().getPrice();
+                CartItemDTO dto = map.get(id);
+                dto.setQuantity(dto.getQuantity() + quantity);
 
-            session.setAttribute("cart", map);
-            session.setAttribute("totalPriceAfterApplyCoupon", null);
-            session.setAttribute("totalPrice", totalPrice);
-            session.setAttribute("totalOfCart", totalOfCart);
+                session.setAttribute("cart", map);
+                session.setAttribute("totalPriceAfterApplyCoupon", null);
+                session.setAttribute("totalPrice", totalPrice);
+                session.setAttribute("totalOfCart", totalOfCart);
+            }
         } else {
             CouponDTO couponDTO = couponService.findCode(coupon, model);
             double totalPriceAfterApplyCoupon = totalPrice - (totalPrice * couponDTO.getDiscount() / 100);
@@ -179,8 +183,9 @@ public class CartServiceImpl implements CartService {
                 .createdAt(LocalDateTime.now())
                 .isSeen(false)
                 .build();
-        simpMessagingTemplate.convertAndSend("/notification", "New orders");
-        messageRepository.save(MessageDTO.mapperEntity(messageDTO));
+        Message message = messageRepository.save(MessageDTO.mapperEntity(messageDTO));
+        messageDTO.setId(message.getId());
+        simpMessagingTemplate.convertAndSend("/notification", messageDTO);
 
 //        Gui thong tin mua hang thanh cong ve mail
         mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);
