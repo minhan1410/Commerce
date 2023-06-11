@@ -34,7 +34,7 @@
                                 <th class="text-center">Products</th>
                                 <th class="text-center">Quantity</th>
                                 <th class="text-center">Total Price</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">Status</th>
                             </tr>
                             </thead>
                             <tbody class="ligth-body">
@@ -100,7 +100,7 @@
                                         <div class="btn-group">
                                             <button aria-expanded="false" aria-haspopup="true"
                                                     class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
-                                                    th:text="${bill.status.name == 'WAIT' ? 'Action' : bill.status}"
+                                                    th:text="${bill.status.name}"
                                                     type="button">
                                             </button>
                                             <div class="dropdown-menu">

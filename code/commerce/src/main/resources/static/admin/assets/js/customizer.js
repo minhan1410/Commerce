@@ -1,11 +1,11 @@
-/*(function (jQuery) {
+(function (jQuery) {
     "use strict";
     // data-mode="click" for using event
     // data-dark="false" for property
     // icon class // la-sun // la-moon
     const storageDark = localStorage.getItem('dark')
     console.log(storageDark)
-    if($('body').hasClass('dark')){
+    if ($('body').hasClass('dark')) {
         changeMode('true');
     } else {
         changeMode('true');
@@ -13,16 +13,17 @@
     if (storageDark !== 'null') {
         changeMode(storageDark)
     }
-    jQuery(document).on("change", '.change-mode input[type="checkbox"]' ,function (e) {
+    jQuery(document).on("change", '.change-mode input[type="checkbox"]', function (e) {
         const dark = $(this).attr('data-active');
         if (dark === 'true') {
-            $(this).attr('data-active','false')
+            $(this).attr('data-active', 'false')
         } else {
-            $(this).attr('data-active','true')
+            $(this).attr('data-active', 'true')
         }
         changeMode(dark)
     })
-    function changeMode (dark) {
+
+    function changeMode(dark) {
         const body = jQuery('body')
         if (dark === 'true') {
             $('[data-mode="toggle"]').find('i.a-right').removeClass('ri-sun-line');
@@ -42,11 +43,12 @@
             dark = false
         }
         updateLocalStorage(dark)
-        const event = new CustomEvent("ChangeColorMode", {detail: {dark: dark} });
+        const event = new CustomEvent("ChangeColorMode", {detail: {dark: dark}});
         document.dispatchEvent(event);
     }
+
     function updateLocalStorage(dark) {
         localStorage.setItem('dark', dark)
     }
-    
-})(jQuery)*/
+
+})(jQuery)
