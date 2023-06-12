@@ -110,7 +110,8 @@
                                             </a>
 
                                             <input class="mtext-104 cl3 txt-center num-product"
-                                                   min="1" name="num-product1" th:value="${entry.value.quantity}"
+                                                   min="1" name="num-product1"
+                                                   th:value="${entry.value.quantity}"
                                                    type="number">
 
                                             <a th:href="@{'/update-cart?id='+${entry.key} +'&quantity='+${1}}">
@@ -227,7 +228,9 @@
                                 <div class="bor8 bg0 m-b-12">
                                     <input class="stext-111 cl8 plh3 size-111 p-lr-15" id="phoneNumber"
                                            name="phoneNumber"
-                                           required th:value="${user.phone}" type="text">
+                                           pattern="09\d{8}" required th:value="${user.phone}"
+                                           title="Invalid phone number"
+                                           type="tel">
                                 </div>
                             </div>
                         </div>
