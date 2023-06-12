@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -48,7 +49,7 @@ public class CartUserController {
     }
 
     @PostMapping("/checkout")
-    public String checkout(@RequestParam(name = "receiverName") String receiverName, @RequestParam(name = "shippingAddress") String shippingAddress, @RequestParam(name = "phoneNumber") String phoneNumber, HttpServletRequest request) {
-        return cartService.checkout(receiverName, shippingAddress, phoneNumber, request);
+    public String checkout(@RequestParam(name = "receiverName") String receiverName, @RequestParam(name = "shippingAddress") String shippingAddress, @RequestParam(name = "phoneNumber") String phoneNumber, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        return cartService.checkout(receiverName, shippingAddress, phoneNumber, request, redirectAttributes);
     }
 }

@@ -2,6 +2,7 @@ package com.example.commerce.service;
 
 import com.example.commerce.model.dto.CartDTO;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -13,7 +14,7 @@ public interface CartService {
 
     String deleteToCart(Long id, HttpServletRequest req);
 
-    String checkout(String receiverName, String shippingAddress, String phoneNumber, HttpServletRequest request);
+    String checkout(String receiverName, String shippingAddress, String phoneNumber, HttpServletRequest request, RedirectAttributes redirectAttributes);
 
     CartDTO getById(Long id);
 }

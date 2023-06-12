@@ -45,4 +45,6 @@ public interface ProductService {
 
     List<ProductDTO> topFeaturedProducts(int top);
 
+    void saveAll(List<ProductDTO> productDTOS);
+
 }

@@ -243,4 +243,9 @@ public class ProductServiceImpl implements ProductService {
     public List<ProductDTO> topFeaturedProducts(int top) {
         return getAllDistinctName().stream().sorted(Comparator.comparing(ProductDTO::getQuantity).reversed()).limit(top).toList();
     }
+
+    @Override
+    public void saveAll(List<ProductDTO> productDTOS) {
+        productRepository.saveAll(productDTOS.stream().map(productDTO -> mapper.map(productDTO, Product.class)).toList());
+    }
 }

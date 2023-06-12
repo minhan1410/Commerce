@@ -18,6 +18,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -135,9 +136,23 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public String checkout(String receiverName, String shippingAddress, String phoneNumber, HttpServletRequest request) {
+    public String checkout(String receiverName, String shippingAddress, String phoneNumber, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession();
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
+        Collection<CartItemDTO> cartItemDTOS = map.values();
+
+//        Check quantity cartItems
+        if (cartItemDTOS.stream()
+                .peek(cartItemDTO -> {
+                    ProductDTO product = cartItemDTO.getProduct();
+                    if (product.getQuantity() - cartItemDTO.getQuantity() < 0) {
+                        redirectAttributes.addFlashAttribute("err", String.format("The remaining quantity of product %s is %s", product.getName(), product.getQuantity()));
+                    }
+                })
+                .anyMatch(cartItemDTO -> cartItemDTO.getProduct().getQuantity() - cartItemDTO.getQuantity() < 0)) {
+            return "redirect:/cart";
+        }
+
 
         Integer totalOfCart = (Integer) session.getAttribute("totalOfCart");
         Long coupon = (Long) session.getAttribute("coupon");
@@ -152,10 +167,14 @@ public class CartServiceImpl implements CartService {
                 .deleted(false)
                 .build());
 
-        map.values().forEach(cartItemDTO -> cartItemDTO.setCartId(cart.getId()));
-        List<CartItem> cartItems = map.values().stream().map(CartItem::mapper).toList();
+        cartItemDTOS.forEach(cartItemDTO -> {
+            ProductDTO product = cartItemDTO.getProduct();
+            product.setQuantity(product.getQuantity() - cartItemDTO.getQuantity());
+            cartItemDTO.setCartId(cart.getId());
+        });
+        List<CartItem> cartItems = cartItemDTOS.stream().map(CartItem::mapper).toList();
         cartItemRepository.saveAll(cartItems);
-
+        productService.saveAll(map.values().stream().map(cartItemDTO -> cartItemDTO.getProduct()).toList());
         billRepository.save(Bill.builder()
                 .userId(currentUser.getId())
                 .cartId(cart.getId())
