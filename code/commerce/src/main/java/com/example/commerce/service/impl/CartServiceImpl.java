@@ -144,8 +144,9 @@ public class CartServiceImpl implements CartService {
 //        Check quantity cartItems
         if (cartItemDTOS.stream()
                 .peek(cartItemDTO -> {
-                    ProductDTO product = cartItemDTO.getProduct();
+                    ProductDTO product = productService.getById(cartItemDTO.getProduct().getId());
                     if (product.getQuantity() - cartItemDTO.getQuantity() < 0) {
+                        cartItemDTO.setProduct(product);
                         redirectAttributes.addFlashAttribute("err", String.format("The remaining quantity of product %s is %s", product.getName(), product.getQuantity()));
                     }
                 })

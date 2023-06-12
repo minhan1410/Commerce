@@ -40,8 +40,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> getAllDistinctName() {
-        return productRepository.getByDeleted(false).stream().filter(distinctByKey(Product::getName))
-                .map(product -> mapper.map(product, ProductDTO.class)).toList();
+        return productRepository.getByDeleted(false).stream().filter(product -> product.getQuantity() > 0).filter(distinctByKey(Product::getName))
+                .map(product -> mapper.map(product, ProductDTO.class))
+                .sorted(Comparator.comparing(ProductDTO::getId))
+                .toList();
     }
 
     @Override

@@ -70,6 +70,7 @@ public class Product {
         this.size = dto.getSize();
         this.description = dto.getDescription();
         this.price = dto.getPrice();
+        this.quantity = dto.getQuantity();
         return this;
     }
 
