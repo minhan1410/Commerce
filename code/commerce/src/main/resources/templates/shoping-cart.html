@@ -376,5 +376,13 @@
 <!--===============================================================================================-->
 <script th:src="@{/js/main.js}"></script>
 
+<script th:inline="javascript">
+    /* Gán giá trị thuộc tính err vào biến JavaScript */
+    var errMessage = [[${err}]];
+    if (errMessage != null) {
+        alert(errMessage);
+    }
+</script>
+
 </body>
 </html>
