@@ -169,7 +169,7 @@ public class CartServiceImpl implements CartService {
                 .build());
 
         cartItemDTOS.forEach(cartItemDTO -> {
-            ProductDTO product = cartItemDTO.getProduct();
+            ProductDTO product = productService.getById(cartItemDTO.getProduct().getId());
             product.setQuantity(product.getQuantity() - cartItemDTO.getQuantity());
             cartItemDTO.setCartId(cart.getId());
         });
