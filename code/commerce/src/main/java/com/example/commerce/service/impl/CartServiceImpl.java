@@ -177,7 +177,7 @@ public class CartServiceImpl implements CartService {
         });
         List<CartItem> cartItems = cartItemDTOS.stream().map(CartItem::mapper).toList();
         cartItemRepository.saveAll(cartItems);
-        productService.saveAll(map.values().stream().map(cartItemDTO -> cartItemDTO.getProduct()).toList());
+        productService.saveAll(productCartItem);
         billRepository.save(Bill.builder()
                 .userId(currentUser.getId())
                 .cartId(cart.getId())
