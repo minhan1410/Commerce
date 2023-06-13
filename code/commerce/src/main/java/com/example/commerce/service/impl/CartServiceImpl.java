@@ -140,11 +140,12 @@ public class CartServiceImpl implements CartService {
         HttpSession session = request.getSession();
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
         Collection<CartItemDTO> cartItemDTOS = map.values();
+        List<ProductDTO> productCartItem = productService.getByListId(cartItemDTOS.stream().map(cartItemDTO -> cartItemDTO.getProduct().getId()).toList());
 
 //        Check quantity cartItems
         if (cartItemDTOS.stream()
                 .peek(cartItemDTO -> {
-                    ProductDTO product = productService.getById(cartItemDTO.getProduct().getId());
+                    ProductDTO product = productCartItem.stream().filter(productDTO -> productDTO.getId().equals(cartItemDTO.getProduct().getId())).findFirst().orElseThrow();
                     if (product.getQuantity() - cartItemDTO.getQuantity() < 0) {
                         cartItemDTO.setProduct(product);
                         redirectAttributes.addFlashAttribute("err", String.format("The remaining quantity of product %s is %s", product.getName(), product.getQuantity()));
@@ -169,8 +170,9 @@ public class CartServiceImpl implements CartService {
                 .build());
 
         cartItemDTOS.forEach(cartItemDTO -> {
-            ProductDTO product = productService.getById(cartItemDTO.getProduct().getId());
+            ProductDTO product = productCartItem.stream().filter(productDTO -> productDTO.getId().equals(cartItemDTO.getProduct().getId())).findFirst().orElseThrow();
             product.setQuantity(product.getQuantity() - cartItemDTO.getQuantity());
+            cartItemDTO.setProduct(product);
             cartItemDTO.setCartId(cart.getId());
         });
         List<CartItem> cartItems = cartItemDTOS.stream().map(CartItem::mapper).toList();
