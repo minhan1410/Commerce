@@ -46,6 +46,52 @@
     <link rel="stylesheet" th:href="@{/css/util.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
     <!--===============================================================================================-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/6.4.0/css/font-awesome.min.css" />
+    <style>
+        .chat-icon {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            line-height: 60px;
+            cursor: pointer;
+        }
+
+        .chat-popup {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            max-width: 400px;
+            display: none;
+        }
+
+        #chat2 .form-control {
+            border-color: transparent;
+        }
+
+        #chat2 .form-control:focus {
+            border-color: transparent;
+            box-shadow: inset 0px 0px 0px 1px transparent;
+        }
+
+        .card-body {
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+
+        .divider:after,
+        .divider:before {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #eee;
+        }
+    </style>
 </head>
 <body class="animsition">
 
@@ -498,6 +544,148 @@
 		</span>
 </div>
 
+<!--Chat bot-->
+<div>
+    <div class="chat-icon" style="display: none" onclick="toggleChatPopup()">
+        <i class="fa-light fa-message-bot fa-bounce"></i>
+    </div>
+    <div class="chat-popup" id="chatPopup">
+        <div class="row d-flex justify-content-center">
+            <div>
+
+                <div class="card" id="chat2">
+                    <div class="card-header d-flex justify-content-between align-items-center p-3">
+                        <h5 class="mb-0">Chat</h5>
+                        <button type="button" class="btn btn-primary btn-sm" data-mdb-ripple-color="dark">Let's Chat
+                            App
+                        </button>
+                    </div>
+                    <div class="card-body" data-mdb-perfect-scrollbar="true"
+                         style="position: relative; height: 400px">
+
+                        <div class="d-flex flex-row justify-content-start">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                                 alt="avatar 1" style="width: 45px; height: 100%;">
+                            <div>
+                                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Hi</p>
+                                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">How are
+                                    you ...???
+                                </p>
+                                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">What are
+                                    you doing
+                                    tomorrow? Can we come up a bar?</p>
+                                <p class="small ms-3 mb-3 rounded-3 text-muted">23:58</p>
+                            </div>
+                        </div>
+
+                        <div class="divider d-flex align-items-center mb-4">
+                            <p class="text-center mx-3 mb-0" style="color: #a2aab7;">Today</p>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-end mb-4 pt-1">
+                            <div>
+                                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Hiii, I'm good.</p>
+                                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">How are you
+                                    doing?</p>
+                                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Long time no see!
+                                    Tomorrow
+                                    office. will
+                                    be free on sunday.</p>
+                                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">00:06</p>
+                            </div>
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
+                                 alt="avatar 1" style="width: 45px; height: 100%;">
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-start mb-4">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                                 alt="avatar 1" style="width: 45px; height: 100%;">
+                            <div>
+                                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Okay</p>
+                                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">We will
+                                    go on
+                                    Sunday?</p>
+                                <p class="small ms-3 mb-3 rounded-3 text-muted">00:07</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-end mb-4">
+                            <div>
+                                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">That's awesome!</p>
+                                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">I will meet you
+                                    Sandon Square
+                                    sharp at
+                                    10 AM</p>
+                                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Is that okay?</p>
+                                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">00:09</p>
+                            </div>
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
+                                 alt="avatar 1" style="width: 45px; height: 100%;">
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-start mb-4">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                                 alt="avatar 1" style="width: 45px; height: 100%;">
+                            <div>
+                                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Okay i
+                                    will meet
+                                    you on
+                                    Sandon Square</p>
+                                <p class="small ms-3 mb-3 rounded-3 text-muted">00:11</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-end mb-4">
+                            <div>
+                                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Do you have pictures
+                                    of Matley
+                                    Marriage?</p>
+                                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">00:11</p>
+                            </div>
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
+                                 alt="avatar 1" style="width: 45px; height: 100%;">
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-start mb-4">
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                                 alt="avatar 1" style="width: 45px; height: 100%;">
+                            <div>
+                                <p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">Sorry I
+                                    don't
+                                    have. i
+                                    changed my phone.</p>
+                                <p class="small ms-3 mb-3 rounded-3 text-muted">00:13</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex flex-row justify-content-end">
+                            <div>
+                                <p class="small p-2 me-3 mb-1 text-white rounded-3 bg-primary">Okay then see you on
+                                    sunday!!
+                                </p>
+                                <p class="small me-3 mb-3 rounded-3 text-muted d-flex justify-content-end">00:15</p>
+                            </div>
+                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava4-bg.webp"
+                                 alt="avatar 1" style="width: 45px; height: 100%;">
+                        </div>
+
+                    </div>
+                    <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
+                        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3-bg.webp"
+                             alt="avatar 3" style="width: 40px; height: 100%;">
+                        <input type="text" class="form-control form-control-lg" id="exampleFormControlInput1"
+                               placeholder="Type message">
+                        <a class="ms-1 text-muted" href="#!"><i class="fas fa-paperclip"></i></a>
+                        <a class="ms-3 text-muted" href="#!"><i class="fas fa-smile"></i></a>
+                        <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--===========================================Search====================================================-->
 <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
 
@@ -506,61 +694,6 @@
     $('.aTShirt').click(() => $('#1').click())
     $('.aBag').click(() => $('#2').click())
 </script>
-<!--<script th:inline="javascript">-->
-<!--    /*<![CDATA[*/-->
-
-<!--    (function ($) {-->
-<!--        $('#search-product').on("keyup", function () {-->
-<!--            const value = $(this).val().toLowerCase();-->
-<!--            let products = [[${products}]];-->
-<!--            let clone = products;-->
-<!--            if (value) {-->
-<!--                products = products.filter(p => p.name.toLowerCase().includes(value))-->
-<!--            } else {-->
-<!--                products = clone;-->
-<!--            }-->
-<!--            const idProducts = $("#products")-->
-<!--            idProducts.children().remove();-->
-<!--            console.log(idProducts);-->
-<!--            products.forEach(p => {-->
-<!--                idProducts.append(`-->
-<!--                    <div th:class="'col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item '">-->
-<!--                       <div class="block2">-->
-<!--                        <div class="block2-pic hov-img0">-->
-<!--                            <a th:href="@{'/product-detail?id=' + ${p.id}}">-->
-<!--                                <img src="${p.imgMain}" alt="IMG-PRODUCT"/>-->
-<!--                                <a th:href="@{'/product-detail?id=' + ${p.id}}"-->
-<!--                                   class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04">-->
-<!--                                    View Detail </a>-->
-<!--                            </a>-->
-<!--                        </div>-->
-
-<!--                        <div class="block2-txt flex-w flex-t p-t-14">-->
-<!--                            <div class="block2-txt-child1 flex-col-l ">-->
-<!--                                <a th:href="@{'/product-detail?id=' + ${p.id}}"-->
-<!--                                   class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6"-->
-<!--                                   th:text="${p.name}"> Esprit Ruffle Shirt </a> <span-->
-<!--                                    class="stext-105 cl3" th:text="'$' + ${p.price}"></span>-->
-<!--                            </div>-->
-
-<!--                            <div class="block2-txt-child2 flex-r p-t-3">-->
-<!--                                <a href="#"-->
-<!--                                   class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">-->
-<!--                                    <img class="icon-heart1 dis-block trans-04"-->
-<!--                                         src="images/icons/icon-heart-01.png" alt="ICON"> <img-->
-<!--                                        class="icon-heart2 dis-block trans-04 ab-t-l"-->
-<!--                                        src="images/icons/icon-heart-02.png" alt="ICON">-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>`);-->
-<!--            })-->
-<!--            idProducts.css({"position": "relative", "height": "100%"})-->
-<!--        });-->
-<!--    })(jQuery);-->
-<!--    /*]]>*/-->
-<!--</script>-->
 
 <!--=========================================================LOAD MORE======================================-->
 
@@ -670,6 +803,20 @@
 </script>
 <!--===============================================================================================-->
 <script th:src="@{/js/main.js}"></script>
+<!--=====================================================CHAT BOT==========================================-->
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script>
+    function toggleChatPopup() {
+        var chatPopup = document.getElementById("chatPopup");
+        if (chatPopup.style.display === "none") {
+            chatPopup.style.display = "block";
+        } else {
+            chatPopup.style.display = "none";
+        }
+    }
+</script>
 
 </body>
 </html>

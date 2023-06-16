@@ -32,8 +32,10 @@
     $(window).on('scroll', function () {
         if ($(this).scrollTop() > windowH) {
             $("#myBtn").css('display', 'flex');
+            $(".chat-icon").css('display', 'flex');
         } else {
             $("#myBtn").css('display', 'none');
+            $(".chat-icon").css('display', 'none');
         }
     });
 
