@@ -9,12 +9,12 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "message")
+@Table(name = "notification")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Message {
+public class Notification {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)

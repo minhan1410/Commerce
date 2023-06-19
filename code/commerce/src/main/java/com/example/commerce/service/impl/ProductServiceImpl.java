@@ -2,6 +2,7 @@ package com.example.commerce.service.impl;
 
 import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.model.entity.Product;
+import com.example.commerce.repository.BillRepository;
 import com.example.commerce.repository.ProductRepository;
 import com.example.commerce.service.CloudinaryService;
 import com.example.commerce.service.ProductService;
@@ -27,6 +28,7 @@ public class ProductServiceImpl implements ProductService {
     private final ModelMapper mapper;
     private final CloudinaryService cloudinaryService;
     private final UserService userService;
+    private final BillRepository billRepository;
 
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();

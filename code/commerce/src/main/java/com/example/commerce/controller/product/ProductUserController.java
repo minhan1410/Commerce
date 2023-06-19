@@ -2,6 +2,7 @@ package com.example.commerce.controller.product;
 
 import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.model.dto.ReviewDTO;
+import com.example.commerce.repository.BillRepository;
 import com.example.commerce.service.CategoriesService;
 import com.example.commerce.service.CouponService;
 import com.example.commerce.service.ProductService;
@@ -30,6 +31,7 @@ public class ProductUserController {
     private final ReviewService reviewService;
     private final CouponService couponService;
     private final SimpMessagingTemplate simpMessagingTemplate;
+    private final BillRepository billRepository;
 
     @GetMapping("/product-detail")
     public String getProductById(Model model, @RequestParam(name = "id", required = false) Long id) {
@@ -53,7 +55,7 @@ public class ProductUserController {
                 .filter(p -> !p.getName().equals(product.getName())).toList();
         related.forEach(productDTO -> productDTO.setCategories(categoriesService.getById(productDTO.getCategoriesId())));
         model.addAttribute("related", related);
-
+        model.addAttribute("isOrder", billRepository.hasCartItems((Long) model.getAttribute("id"), id));
         return "product-detail";
     }
 

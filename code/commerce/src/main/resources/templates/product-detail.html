@@ -339,8 +339,9 @@
                                             </div>
                                         </div>
 
-                                        <button
-                                                class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10"
+                                        <button class="flex-c-m stext-101 cl0 size-112 bg7 bor11 hov-btn3 p-lr-15 trans-04 m-b-10"
+                                                id="submitReview"
+                                                th:if="${isOrder}"
                                                 type="submit">
                                             Submit
                                         </button>
@@ -689,6 +690,14 @@
         send(event);
         return true;
     }
+
+    /* Gán giá trị thuộc tính err vào biến JavaScript */
+    document.getElementById("submitReview").addEventListener("click", function () {
+        var isOrder = [[${isOrder}]];
+        if (!isOrder) {
+            alert("Please make a purchase before reviewing");
+        }
+    });
 </script>
 </body>
 

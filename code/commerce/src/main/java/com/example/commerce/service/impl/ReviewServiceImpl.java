@@ -2,6 +2,7 @@ package com.example.commerce.service.impl;
 
 import com.example.commerce.model.dto.ReviewDTO;
 import com.example.commerce.model.entity.Review;
+import com.example.commerce.repository.BillRepository;
 import com.example.commerce.repository.ReviewRepository;
 import com.example.commerce.service.ProductService;
 import com.example.commerce.service.ReviewService;
@@ -22,6 +23,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
     private final UserService userService;
     private final ProductService productService;
+    private final BillRepository billRepository;
 
     @Override
     public List<ReviewDTO> getAll() {
@@ -68,12 +70,14 @@ public class ReviewServiceImpl implements ReviewService {
     @Override
     @Transactional
     public void add(ReviewDTO dto) {
-        Review review = mapper.map(dto, Review.class);
-        review.setReviewDate(LocalDateTime.now());
-        if (review.getReviewerId() == null) {
-            review.setReviewerId(userService.getCurrentUser().getId());
+        if (billRepository.hasCartItems(dto.getReviewerId(), dto.getProductId())) {
+            Review review = mapper.map(dto, Review.class);
+            review.setReviewDate(LocalDateTime.now());
+            if (review.getReviewerId() == null) {
+                review.setReviewerId(userService.getCurrentUser().getId());
+            }
+            reviewRepository.save(review);
         }
-        reviewRepository.save(review);
     }
 
     @Override

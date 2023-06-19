@@ -1,8 +1,8 @@
 package com.example.commerce.service.impl;
 
-import com.example.commerce.model.dto.MessageDTO;
+import com.example.commerce.model.dto.NotificationDTO;
 import com.example.commerce.repository.MessageRepository;
-import com.example.commerce.service.MessageService;
+import com.example.commerce.service.NotificationService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -13,15 +13,15 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class MessageServiceImpl implements MessageService {
+public class NotificationServiceImpl implements NotificationService {
     private final UserService userService;
     private final MessageRepository messageRepository;
     private final ModelMapper mapper;
 
     @Override
-    public List<MessageDTO> getAllMessageIsSeenFalse() {
+    public List<NotificationDTO> getAllMessageIsSeenFalse() {
         return messageRepository.getByIsSeenFalseOrderByCreatedAtDesc().stream().map(message -> {
-            MessageDTO map = mapper.map(message, MessageDTO.class);
+            NotificationDTO map = mapper.map(message, NotificationDTO.class);
             map.setFromUserDTO(userService.getById(message.getFromUser()));
             return map;
         }).toList();

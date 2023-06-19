@@ -18,12 +18,12 @@ public class ProductAdminController {
     private final CategoriesService categoriesService;
     private final ReviewService reviewService;
     private final UserService userService;
-    private final MessageService messageService;
+    private final NotificationService notificationService;
 
     @GetMapping()
     public String listProduct(Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("products", productService.getAll());
         model.addAttribute("categoriesService", categoriesService);
 //        model.addAttribute("listCategories", categoriesService.getAllUsers());
@@ -33,7 +33,7 @@ public class ProductAdminController {
     @GetMapping("/add")
     public String addProduct(Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("product", new ProductDTO());
         model.addAttribute("listCategories", categoriesService.getAll());
 //        return "/admin/addProduct";
@@ -43,7 +43,7 @@ public class ProductAdminController {
     @PostMapping("/add")
     public String addProductNew(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("listCategories", categoriesService.getAll());
         return result.hasErrors() ? "/admin/product/add-product" : productService.add(dto, model);
     }
@@ -51,7 +51,7 @@ public class ProductAdminController {
     @GetMapping("/update/{id}")
     public String update(@PathVariable(name = "id") Long id, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         ProductDTO getId = productService.getById(id);
         if (getId == null) {
             return "/error/notFound";
@@ -64,14 +64,14 @@ public class ProductAdminController {
     @PostMapping("/update")
     public String updatePost(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         return result.hasErrors() ? "/admin/product/edit-product" : productService.update(dto, model);
     }
 
     @GetMapping("/duplicate/{id}")
     public String duplicate(@PathVariable(name = "id") Long id, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         ProductDTO getId = productService.getById(id);
         if (getId == null) {
             return "/error/notFound";
@@ -84,14 +84,14 @@ public class ProductAdminController {
     @PostMapping("/duplicate")
     public String duplicatePost(@ModelAttribute("product") ProductDTO dto, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         return productService.duplicate(dto);
     }
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         reviewService.deleteByProduct(id);
         return productService.delete(id, model);
     }

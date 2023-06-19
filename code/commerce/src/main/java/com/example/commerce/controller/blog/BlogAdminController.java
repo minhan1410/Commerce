@@ -21,12 +21,12 @@ public class BlogAdminController {
     private final TagService tagService;
     private final BlogTagService blogTagService;
     private final UserService userService;
-    private final MessageService messageService;
+    private final NotificationService notificationService;
 
     @GetMapping()
     public String listBlog(Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("blogs", blogService.getAll());
         model.addAttribute("categoryForBlog", categoryBlogService);
         return "/admin/blog/list-blog";
@@ -35,7 +35,7 @@ public class BlogAdminController {
     @GetMapping("/new")
     public String newBlog(Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("listTags", tagService.getAll());
         model.addAttribute("blog", new BlogDTO());
         model.addAttribute("categoryForBlog", categoriesBlogService.getAll());
@@ -45,14 +45,14 @@ public class BlogAdminController {
     @PostMapping("/new")
     public String saveNewBlog(@ModelAttribute(name = "blog") BlogDTO blogDTO, @RequestParam(value = "tagId") List<Long> tagId, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         return blogService.add(blogDTO, tagId, model);
     }
 
     @GetMapping("/edit")
     public String editBlog(Model model, Long id) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         BlogDTO byId = blogService.getById(id, model);
         if (byId == null) return "error/notFound";
         model.addAttribute("listTags", tagService.getAll());
@@ -65,14 +65,14 @@ public class BlogAdminController {
     @PostMapping("/edit")
     public String editBlogSave(@ModelAttribute("blog") BlogDTO blogDTO, @RequestParam(value = "tagId") List<Long> tagId, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         return blogService.update(blogDTO, tagId, model);
     }
 
     @GetMapping("/delete/{id}")
     public String deleteBlog(@PathVariable(name = "id") Long id, Model model) throws IOException {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         blogService.delete(id, model);
         return "redirect:/admin/blog";
     }

@@ -5,6 +5,7 @@ import com.example.commerce.constants.Role;
 import com.example.commerce.model.custom.CustomOAuth2User;
 import com.example.commerce.model.dto.UserDTO;
 import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -73,13 +74,16 @@ public class User {
     @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
 
+    @Value("${avatar.default}")
+    private String avatarDefault;
+
     public User createUserLocal(String password, String verificationCode) {
         this.password = password;
         this.role = Role.USER;
         this.authProvider = Provider.LOCAL;
         this.verificationCode = verificationCode;
         this.verificationCodeExpiry = new Date();
-        this.avatar = "https://res.cloudinary.com/dpvehgfmo/image/upload/v1664851327/nightfury5387113c0adc6_bik2si.png";
+        this.avatar = avatarDefault;
         return this;
     }
 

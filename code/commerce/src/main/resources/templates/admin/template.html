@@ -478,25 +478,12 @@
                     <div class="card card-block card-stretch card-height">
                         <div class="card-header d-flex justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Overview</h4>
-                            </div>
-                            <div class="card-header-toolbar d-flex align-items-center">
-                                <div class="dropdown">
-                                  <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
-                                        id="dropdownMenuButton001">
-                                      This Month<i class="ri-arrow-down-s-line ml-1"></i>
-                                  </span>
-                                    <div aria-labelledby="dropdownMenuButton001"
-                                         class="dropdown-menu dropdown-menu-right shadow-none">
-                                        <a class="dropdown-item" href="#">Year</a>
-                                        <a class="dropdown-item" href="#">Month</a>
-                                        <a class="dropdown-item" href="#">Week</a>
-                                    </div>
-                                </div>
+                                <h4 class="card-title">Cost</h4>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div id="layout1-chart1"></div>
+                            <!--                            <div id="layout1-chart1"></div>-->
+                            <div id="revenueChart"></div>
                         </div>
                     </div>
                 </div>
@@ -504,154 +491,41 @@
                     <div class="card card-block card-stretch card-height">
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Revenue Vs Cost</h4>
-                            </div>
-                            <div class="card-header-toolbar d-flex align-items-center">
-                                <div class="dropdown">
-                                  <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
-                                        id="dropdownMenuButton002">
-                                      This Month<i class="ri-arrow-down-s-line ml-1"></i>
-                                  </span>
-                                    <div aria-labelledby="dropdownMenuButton002"
-                                         class="dropdown-menu dropdown-menu-right shadow-none">
-                                        <a class="dropdown-item" href="#">Yearly</a>
-                                        <a class="dropdown-item" href="#">Monthly</a>
-                                        <a class="dropdown-item" href="#">Weekly</a>
-                                    </div>
-                                </div>
+                                <h4 class="card-title">Order</h4>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div id="layout1-chart-2" style="min-height: 360px;"></div>
+                            <!--                            <div id="layout1-chart-2" style="min-height: 360px;"></div>-->
+                            <div id="orderChart"></div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="card card-block card-stretch card-height">
                         <div class="card-header d-flex align-items-center justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Top Products</h4>
-                            </div>
-                            <div class="card-header-toolbar d-flex align-items-center">
-                                <div class="dropdown">
-                                  <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
-                                        id="dropdownMenuButton006">
-                                      This Month<i class="ri-arrow-down-s-line ml-1"></i>
-                                  </span>
-                                    <div aria-labelledby="dropdownMenuButton006"
-                                         class="dropdown-menu dropdown-menu-right shadow-none">
-                                        <a class="dropdown-item" href="#">Year</a>
-                                        <a class="dropdown-item" href="#">Month</a>
-                                        <a class="dropdown-item" href="#">Week</a>
-                                    </div>
-                                </div>
+                                <h4 class="card-title">Top 10 best-selling products</h4>
                             </div>
                         </div>
                         <div class="card-body">
                             <ul class="list-unstyled row top-product mb-0">
-                                <li class="col-lg-3">
+                                <li class="col-lg-3" th:each="products: ${topBestSeller}">
                                     <div class="card card-block card-stretch card-height mb-0">
                                         <div class="card-body">
-                                            <div class="bg-warning-light rounded">
+                                            <div class="rounded">
                                                 <img alt="image"
                                                      class="style-img img-fluid m-auto p-3"
-                                                     src="/admin/assets/images/product/01.png">
+                                                     style="width: 192px; height: 192px; object-fit: contain"
+                                                     th:src="@{${products.getKey().imgMain}}">
                                             </div>
                                             <div class="style-text text-left mt-3">
-                                                <h5 class="mb-1">Organic Cream</h5>
-                                                <p class="mb-0">789 Item</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="col-lg-3">
-                                    <div class="card card-block card-stretch card-height mb-0">
-                                        <div class="card-body">
-                                            <div class="bg-danger-light rounded">
-                                                <img alt="image"
-                                                     class="style-img img-fluid m-auto p-3"
-                                                     src="/admin/assets/images/product/02.png">
-                                            </div>
-                                            <div class="style-text text-left mt-3">
-                                                <h5 class="mb-1">Rain Umbrella</h5>
-                                                <p class="mb-0">657 Item</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="col-lg-3">
-                                    <div class="card card-block card-stretch card-height mb-0">
-                                        <div class="card-body">
-                                            <div class="bg-info-light rounded">
-                                                <img alt="image"
-                                                     class="style-img img-fluid m-auto p-3"
-                                                     src="/admin/assets/images/product/03.png">
-                                            </div>
-                                            <div class="style-text text-left mt-3">
-                                                <h5 class="mb-1">Serum Bottle</h5>
-                                                <p class="mb-0">489 Item</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="col-lg-3">
-                                    <div class="card card-block card-stretch card-height mb-0">
-                                        <div class="card-body">
-                                            <div class="bg-success-light rounded">
-                                                <img alt="image"
-                                                     class="style-img img-fluid m-auto p-3"
-                                                     src="/admin/assets/images/product/02.png">
-                                            </div>
-                                            <div class="style-text text-left mt-3">
-                                                <h5 class="mb-1">Organic Cream</h5>
-                                                <p class="mb-0">468 Item</p>
+                                                <h5 class="mb-1"
+                                                    th:text="${products.getKey().name + ': ' + products.getValue()}"></h5>
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="card card-transparent card-block card-stretch mb-4">
-                        <div class="card-header d-flex align-items-center justify-content-between p-0">
-                            <div class="header-title">
-                                <h4 class="card-title mb-0">Best Item All Time</h4>
-                            </div>
-                            <div class="card-header-toolbar d-flex align-items-center">
-                                <div><a class="btn btn-primary view-btn font-size-14" href="#">View All</a></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-block card-stretch card-height-helf">
-                        <div class="card-body card-item-right">
-                            <div class="d-flex align-items-top">
-                                <div class="bg-warning-light rounded">
-                                    <img alt="image" class="style-img img-fluid m-auto"
-                                         src="/admin/assets/images/product/04.png">
-                                </div>
-                                <div class="style-text text-left">
-                                    <h5 class="mb-2">Coffee Beans Packet</h5>
-                                    <p class="mb-2">Total Sell : 45897</p>
-                                    <p class="mb-0">Total Earned : $45,89 M</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="card card-block card-stretch card-height-helf">
-                        <div class="card-body card-item-right">
-                            <div class="d-flex align-items-top">
-                                <div class="bg-danger-light rounded">
-                                    <img alt="image" class="style-img img-fluid m-auto"
-                                         src="/admin/assets/images/product/05.png">
-                                </div>
-                                <div class="style-text text-left">
-                                    <h5 class="mb-2">Bottle Cup Set</h5>
-                                    <p class="mb-2">Total Sell : 44359</p>
-                                    <p class="mb-0">Total Earned : $45,50 M</p>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -893,6 +767,137 @@
                 }
             };
             xhr.send();
+        }
+    </script>
+
+    <script th:inline="javascript">
+        function apexChartUpdate(chart, detail) {
+            let color = getComputedStyle(document.documentElement).getPropertyValue('--dark');
+            if (detail.dark) {
+                color = getComputedStyle(document.documentElement).getPropertyValue('--white');
+            }
+            chart.updateOptions({
+                chart: {
+                    foreColor: color
+                }
+            })
+        }
+
+        if (jQuery("#revenueChart").length) {
+            let revenue = [[${revenueChart}]];
+            console.log("revenueChart: ", revenue)
+            var options = {
+                series: [{
+                    name: "Revenue",
+                    data: revenue
+                }],
+                chart: {
+                    height: 450,
+                    type: 'line',
+                    zoom: {
+                        enabled: false
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                title: {
+                    text: '$' + revenue.reduce((total, currentValue) => total + parseInt(currentValue), 0),
+                    align: 'left',
+                    style: {
+                        fontSize: '20px', // Chỉnh kích thước tiêu đề ở đây
+                        fontWeight: 'bold'
+                    }
+                },
+                grid: {
+                    row: {
+                        colors: ['#f3f3f3', 'transparent'], // takes an array which will be repeated on columns
+                        opacity: 0.5
+                    },
+                },
+                xaxis: {
+                    categories: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                },
+                animations: {
+                    enabled: true, // Bật hiệu ứng
+                    easing: 'easeinout', // Kiểu hiệu ứng
+                    speed: 800, // Tốc độ hiệu ứng (ms)
+                },
+            };
+            (chart = new ApexCharts(document.querySelector("#revenueChart"), options)).render()
+            const body = document.querySelector('body')
+            if (body.classList.contains('dark')) {
+                apexChartUpdate(chart, {
+                    dark: true
+                })
+            }
+
+            document.addEventListener('ChangeColorMode', function (e) {
+                apexChartUpdate(chart, e.detail)
+            })
+        }
+
+        if (jQuery("#orderChart").length) {
+            let monthNames = [[${monthNames}]];
+            console.log("monthNames: ", monthNames)
+            var options = {
+                series: [{
+                    name: "Order",
+                    data: [[${orderChart}]]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 450
+                },
+                animations: {
+                    enabled: true, // Bật hiệu ứng
+                    easing: 'easeinout', // Kiểu hiệu ứng
+                    speed: 800, // Tốc độ hiệu ứng (ms)
+                },
+                plotOptions: {
+                    bar: {
+                        horizontal: true,
+                        dataLabels: {
+                            position: 'top',
+                        },
+                    }
+                },
+                dataLabels: {
+                    enabled: true,
+                    offsetX: -6,
+                    style: {
+                        fontSize: '12px',
+                        colors: ['#f3f3f3', 'transparent']
+                    }
+                },
+                stroke: {
+                    show: true,
+                    width: 1,
+                    colors: ['#f3f3f3', 'transparent']
+                },
+                tooltip: {
+                    shared: true,
+                    intersect: false
+                },
+                xaxis: {
+                    categories: monthNames,
+                }
+            };
+
+            (chart = new ApexCharts(document.querySelector("#orderChart"), options)).render()
+            const body = document.querySelector('body')
+            if (body.classList.contains('dark')) {
+                apexChartUpdate(chart, {
+                    dark: true
+                })
+            }
+
+            document.addEventListener('ChangeColorMode', function (e) {
+                apexChartUpdate(chart, e.detail)
+            })
         }
     </script>
 </div>

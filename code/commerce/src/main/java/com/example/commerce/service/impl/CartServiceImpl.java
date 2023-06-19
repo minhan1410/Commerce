@@ -5,7 +5,7 @@ import com.example.commerce.model.dto.*;
 import com.example.commerce.model.entity.Bill;
 import com.example.commerce.model.entity.Cart;
 import com.example.commerce.model.entity.CartItem;
-import com.example.commerce.model.entity.Message;
+import com.example.commerce.model.entity.Notification;
 import com.example.commerce.repository.BillRepository;
 import com.example.commerce.repository.CartItemRepository;
 import com.example.commerce.repository.CartRepository;
@@ -198,16 +198,16 @@ public class CartServiceImpl implements CartService {
         session.invalidate();
 
 //        Gui thong bao den admin
-        MessageDTO messageDTO = MessageDTO.builder()
+        NotificationDTO notificationDTO = NotificationDTO.builder()
                 .fromUser(currentUser.getId())
                 .fromUserDTO(currentUser)
                 .message(currentUser.getName() + " placed an order")
                 .createdAt(LocalDateTime.now())
                 .isSeen(false)
                 .build();
-        Message message = messageRepository.save(MessageDTO.mapperEntity(messageDTO));
-        messageDTO.setId(message.getId());
-        simpMessagingTemplate.convertAndSend("/notification", messageDTO);
+        Notification notification = messageRepository.save(NotificationDTO.mapperEntity(notificationDTO));
+        notificationDTO.setId(notification.getId());
+        simpMessagingTemplate.convertAndSend("/notification", notificationDTO);
 
 //        Gui thong tin mua hang thanh cong ve mail
         mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);

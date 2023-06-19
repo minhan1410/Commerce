@@ -22,12 +22,12 @@ public class ReviewAdminController {
     private final UserService userService;
     private final CommentBlogService commentBlogService;
     private final BlogService blogService;
-    private final MessageService messageService;
+    private final NotificationService notificationService;
 
     @GetMapping()
     public String getComment(Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         List<ReviewDTO> getAll = reviewService.getAll();
         Map<Long, ProductDTO> productsMap = getAll.stream().map(ReviewDTO::getProductId).distinct().collect(Collectors
                 .toMap(Long::longValue, productId -> productService.getById(productId)));
@@ -43,7 +43,7 @@ public class ReviewAdminController {
     @GetMapping("/delete/{id}")
     public String deleteReview(@PathVariable(name = "id") Long id, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         reviewService.delete(id);
         return "redirect:/admin/review";
     }
@@ -51,7 +51,7 @@ public class ReviewAdminController {
     @GetMapping("/blog")
     public String getCommentBlog(Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         List<CommentBlogDTO> getAll = commentBlogService.getAll();
         Map<Long, BlogDTO> blogsMap = getAll.stream().map(CommentBlogDTO::getBlogId).distinct().collect(Collectors
                 .toMap(Long::longValue, blogId -> blogService.getById(blogId)));
@@ -67,7 +67,7 @@ public class ReviewAdminController {
     @GetMapping("/delete/blog/{id}")
     public String deleteBlogReview(@PathVariable(name = "id") Long id, Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         commentBlogService.delete(id);
         return "redirect:/admin/review";
     }

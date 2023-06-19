@@ -2,7 +2,7 @@ package com.example.commerce.controller.purchaseHistory;
 
 import com.example.commerce.constants.BillStatus;
 import com.example.commerce.service.BillService;
-import com.example.commerce.service.MessageService;
+import com.example.commerce.service.NotificationService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -22,13 +22,13 @@ import java.io.IOException;
 public class PurchaseHistoryAdminController {
     private final BillService billService;
     private final UserService userService;
-    private final MessageService messageService;
+    private final NotificationService notificationService;
     private final SimpMessagingTemplate simpMessagingTemplate;
 
     @GetMapping()
     public String listCoupon(Model model) {
         userService.getCurrentUser(model);
-        model.addAttribute("noti", messageService.getAllMessageIsSeenFalse());
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("bills", billService.getAll());
         return "/admin/purchase/list-purchase";
     }
