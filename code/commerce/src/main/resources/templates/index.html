@@ -12,6 +12,8 @@
     <!--===============================================================================================-->
     <link rel="stylesheet" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}"
           type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+
     <!--===============================================================================================-->
     <link rel="stylesheet" th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}"
           type="text/css">
@@ -46,8 +48,8 @@
     <link rel="stylesheet" th:href="@{/css/util.css}" type="text/css">
     <link rel="stylesheet" th:href="@{/css/main.css}" type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/6.4.0/css/font-awesome.min.css" />
     <style>
+
         .chat-icon {
             position: fixed;
             bottom: 20px;
@@ -60,7 +62,29 @@
             text-align: center;
             line-height: 60px;
             cursor: pointer;
+            padding-top: 25px;
+            display: none;
+            opacity: 0.5;
         }
+
+        .chat-icon:hover {
+            opacity: 1;
+            background-color: #007bff;
+        }
+
+        @media (max-width: 575px) {
+            .chat-icon {
+                bottom: 60px;
+                right: 15px;
+            }
+        }
+
+        .chat-icon i {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
 
         .chat-popup {
             position: fixed;
@@ -546,14 +570,13 @@
 
 <!--Chat bot-->
 <div>
-    <div class="chat-icon" style="display: none" onclick="toggleChatPopup()">
-        <i class="fa-light fa-message-bot fa-bounce"></i>
+    <div class="chat-icon" onclick="toggleChatPopup()">
+        <i class="fa-regular fa-comment fa-flip-horizontal fa-xl"></i>
     </div>
-    <div class="chat-popup" id="chatPopup">
+    <div class="chat-popup" id="chatPopup" style="display: none;">
         <div class="row d-flex justify-content-center">
-            <div>
-
-                <div class="card" id="chat2">
+            <div class="card" id="chat2">
+                <div>
                     <div class="card-header d-flex justify-content-between align-items-center p-3">
                         <h5 class="mb-0">Chat</h5>
                         <button type="button" class="btn btn-primary btn-sm" data-mdb-ripple-color="dark">Let's Chat
@@ -680,8 +703,9 @@
                         <a class="ms-3" href="#!"><i class="fas fa-paper-plane"></i></a>
                     </div>
                 </div>
-
+                </div>
             </div>
+
         </div>
     </div>
 </div>
@@ -808,14 +832,33 @@
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>
 <script>
+    var isToggleClicked = false; // Cờ để kiểm tra xem sự kiện click có xảy ra từ toggleChatPopup() hay không
+
     function toggleChatPopup() {
+        isToggleClicked = true; // Đánh dấu là sự kiện click xảy ra từ toggleChatPopup()
+
         var chatPopup = document.getElementById("chatPopup");
         if (chatPopup.style.display === "none") {
             chatPopup.style.display = "block";
+            document.addEventListener('click', handleClickOutside);
         } else {
             chatPopup.style.display = "none";
+            document.removeEventListener('click', handleClickOutside);
         }
     }
+
+    function handleClickOutside(event) {
+        if (!isToggleClicked) { // Kiểm tra xem sự kiện click có xảy ra từ toggleChatPopup() hay không
+            var targetElement = event.target;
+            var chatPopup = document.getElementById("chatPopup");
+            if (!chatPopup.contains(targetElement)) {
+                chatPopup.style.display = "none";
+            }
+        }
+
+        isToggleClicked = false; // Đặt lại cờ sau khi kiểm tra xong
+    }
+
 </script>
 
 </body>

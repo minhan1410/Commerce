@@ -32,12 +32,15 @@
     $(window).on('scroll', function () {
         if ($(this).scrollTop() > windowH) {
             $("#myBtn").css('display', 'flex');
-            $(".chat-icon").css('display', 'flex');
+            $(".chat-icon").css('display', 'block');
+
         } else {
             $("#myBtn").css('display', 'none');
             $(".chat-icon").css('display', 'none');
+            $("#chatPopup").css('display', 'none');
         }
     });
+
 
     $('#myBtn').on("click", function () {
         $('html, body').animate({scrollTop: 0}, 300);
