@@ -37,7 +37,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/home", "/search", "/login/**", "/sign-up/**", "/oauth/**", "/verify",
                         "/product/**", "/product-detail/**", "/blog/**", "/blog-detail/**", "/about", "/contact",
-                        "/review-ws/**").permitAll()
+                        "/review-ws/**", "/auto-chat").permitAll()
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .anyRequest().authenticated()
                 .and().formLogin().loginPage("/login").usernameParameter("mail").successHandler(successHandler)

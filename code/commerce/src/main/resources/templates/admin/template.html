@@ -518,7 +518,7 @@
                                                      style="width: 192px; height: 192px; object-fit: contain"
                                                      th:src="@{${products.getKey().imgMain}}">
                                             </div>
-                                            <div class="style-text text-left mt-3">
+                                            <div class="style-text text-center mt-3">
                                                 <h5 class="mb-1"
                                                     th:text="${products.getKey().name + ': ' + products.getValue()}"></h5>
                                             </div>
@@ -529,115 +529,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="card card-block card-stretch card-height-helf">
-                        <div class="card-body">
-                            <div class="d-flex align-items-top justify-content-between">
-                                <div class="">
-                                    <p class="mb-0">Income</p>
-                                    <h5>$ 98,7800 K</h5>
-                                </div>
-                                <div class="card-header-toolbar d-flex align-items-center">
-                                    <div class="dropdown">
-                                      <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
-                                            id="dropdownMenuButton003">
-                                          This Month<i class="ri-arrow-down-s-line ml-1"></i>
-                                      </span>
-                                        <div aria-labelledby="dropdownMenuButton003"
-                                             class="dropdown-menu dropdown-menu-right shadow-none">
-                                            <a class="dropdown-item" href="#">Year</a>
-                                            <a class="dropdown-item" href="#">Month</a>
-                                            <a class="dropdown-item" href="#">Week</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layout-chart-1" id="layout1-chart-3"></div>
-                        </div>
-                    </div>
-                    <div class="card card-block card-stretch card-height-helf">
-                        <div class="card-body">
-                            <div class="d-flex align-items-top justify-content-between">
-                                <div class="">
-                                    <p class="mb-0">Expenses</p>
-                                    <h5>$ 45,8956 K</h5>
-                                </div>
-                                <div class="card-header-toolbar d-flex align-items-center">
-                                    <div class="dropdown">
-                                      <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
-                                            id="dropdownMenuButton004">
-                                          This Month<i class="ri-arrow-down-s-line ml-1"></i>
-                                      </span>
-                                        <div aria-labelledby="dropdownMenuButton004"
-                                             class="dropdown-menu dropdown-menu-right shadow-none">
-                                            <a class="dropdown-item" href="#">Year</a>
-                                            <a class="dropdown-item" href="#">Month</a>
-                                            <a class="dropdown-item" href="#">Week</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="layout-chart-2" id="layout1-chart-4"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-8">
+                <div class="col-lg-12">
                     <div class="card card-block card-stretch card-height">
-                        <div class="card-header d-flex justify-content-between">
+                        <div class="card-header d-flex align-items-center justify-content-between">
                             <div class="header-title">
-                                <h4 class="card-title">Order Summary</h4>
-                            </div>
-                            <div class="card-header-toolbar d-flex align-items-center">
-                                <div class="dropdown">
-                                  <span class="dropdown-toggle dropdown-bg btn" data-toggle="dropdown"
-                                        id="dropdownMenuButton005">
-                                      This Month<i class="ri-arrow-down-s-line ml-1"></i>
-                                  </span>
-                                    <div aria-labelledby="dropdownMenuButton005"
-                                         class="dropdown-menu dropdown-menu-right shadow-none">
-                                        <a class="dropdown-item" href="#">Year</a>
-                                        <a class="dropdown-item" href="#">Month</a>
-                                        <a class="dropdown-item" href="#">Week</a>
-                                    </div>
-                                </div>
+                                <h4 class="card-title">Top 10 potential customer</h4>
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="d-flex flex-wrap align-items-center mt-2">
-                                <div class="d-flex align-items-center progress-order-left">
-                                    <div class="progress progress-round m-0 orange conversation-bar" data-percent="46">
-                                      <span class="progress-left">
-                                          <span class="progress-bar"></span>
-                                      </span>
-                                        <span class="progress-right">
-                                          <span class="progress-bar"></span>
-                                      </span>
-                                        <div class="progress-value text-secondary">46%</div>
+                            <ul class="list-unstyled row top-product mb-0">
+                                <li class="col-lg-3" th:each="customer: ${topPotentialCustomer}">
+                                    <div class="card card-block card-stretch card-height mb-0">
+                                        <div class="card-body">
+                                            <div class="rounded">
+                                                <img alt="image"
+                                                     class="style-img img-fluid m-auto p-3"
+                                                     style="width: 192px; height: 192px; object-fit: contain"
+                                                     th:src="@{${customer.getKey().avatar}}">
+                                            </div>
+                                            <div class="style-text text-center mt-3">
+                                                <h5 class="mb-1"
+                                                    th:text="${customer.getKey().name + ': $' + customer.getValue()}"></h5>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="progress-value ml-3 pr-5 border-right">
-                                        <h5>$12,6598</h5>
-                                        <p class="mb-0">Average Orders</p>
-                                    </div>
-                                </div>
-                                <div class="d-flex align-items-center ml-5 progress-order-right">
-                                    <div class="progress progress-round m-0 primary conversation-bar" data-percent="46">
-                                      <span class="progress-left">
-                                          <span class="progress-bar"></span>
-                                      </span>
-                                        <span class="progress-right">
-                                          <span class="progress-bar"></span>
-                                      </span>
-                                        <div class="progress-value text-primary">46%</div>
-                                    </div>
-                                    <div class="progress-value ml-3">
-                                        <h5>$59,8478</h5>
-                                        <p class="mb-0">Top Orders</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div id="layout1-chart-5"></div>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -785,7 +702,6 @@
 
         if (jQuery("#revenueChart").length) {
             let revenue = [[${revenueChart}]];
-            console.log("revenueChart: ", revenue)
             var options = {
                 series: [{
                     name: "Revenue",
@@ -842,7 +758,6 @@
 
         if (jQuery("#orderChart").length) {
             let monthNames = [[${monthNames}]];
-            console.log("monthNames: ", monthNames)
             var options = {
                 series: [{
                     name: "Order",

@@ -3,6 +3,7 @@ package com.example.commerce.controller.home;
 import com.example.commerce.model.dto.BillDTO;
 import com.example.commerce.model.dto.CartItemDTO;
 import com.example.commerce.model.dto.ProductDTO;
+import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.service.BillService;
 import com.example.commerce.service.NotificationService;
 import com.example.commerce.service.UserService;
@@ -46,8 +47,11 @@ public class HomeAdminController {
                     order[month] += 1;
                 });
 
-        List<Map.Entry<ProductDTO, Integer>> entries = bills.stream().map(BillDTO::getCartItem).flatMap(List::stream)
+        List<Map.Entry<ProductDTO, Integer>> topBestSeller = bills.stream().map(BillDTO::getCartItem).flatMap(List::stream)
                 .collect(Collectors.groupingBy(cartItemDTO -> cartItemDTO.getProduct(), Collectors.summingInt(CartItemDTO::getQuantity)))
+                .entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(10).toList();
+
+        List<Map.Entry<UserDTO, Double>> topPotentialCustomer = bills.stream().collect(Collectors.groupingBy(billDTO -> billDTO.getUser(), Collectors.summingDouble(BillDTO::getPriceTotal)))
                 .entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(10).toList();
 
         userService.getCurrentUser(model);
@@ -58,7 +62,8 @@ public class HomeAdminController {
         model.addAttribute("revenueChart", revenue);
         model.addAttribute("orderChart", order);
         model.addAttribute("monthNames", Arrays.copyOfRange(monthNames, 0, currentMonth));
-        model.addAttribute("topBestSeller", entries);
+        model.addAttribute("topBestSeller", topBestSeller);
+        model.addAttribute("topPotentialCustomer", topPotentialCustomer);
         return "admin/index";
     }
 
