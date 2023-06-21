@@ -1,6 +1,7 @@
 package com.example.commerce.service.impl;
 
 import com.example.commerce.constants.BillStatus;
+import com.example.commerce.constants.TelegramNotificationType;
 import com.example.commerce.model.dto.*;
 import com.example.commerce.model.entity.Bill;
 import com.example.commerce.model.entity.Cart;
@@ -38,6 +39,7 @@ public class CartServiceImpl implements CartService {
     private final MailService mailService;
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final MessageRepository messageRepository;
+    private final TelegramNotificationServiceImpl telegramNotificationService;
 
     @Override
     @Transactional
@@ -211,6 +213,9 @@ public class CartServiceImpl implements CartService {
 
 //        Gui thong tin mua hang thanh cong ve mail
         mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);
+
+//        Thong bao mua hang thanh cong telegram
+        telegramNotificationService.sendMessage(TelegramNotificationType.ORDER, "New order from " + currentUser.getName() + " with total price: " + price);
 
 //        Chuyen toi trang lich su mua hang
         return "redirect:/purchase-history";
