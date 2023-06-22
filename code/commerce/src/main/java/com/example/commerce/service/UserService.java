@@ -18,6 +18,7 @@ public interface UserService extends UserDetailsService {
 
     void getCurrentUser(Model model);
 
+
     UserDTO getCurrentUser();
 
     UserDTO getById(Long id);

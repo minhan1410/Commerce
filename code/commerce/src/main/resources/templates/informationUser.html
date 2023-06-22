@@ -39,7 +39,7 @@
 <div class="container text-center">
     <div>
         <H1>
-            <b>Thông tin cá nhân</b>
+            <b>Profile User</b>
         </H1>
     </div>
     <form enctype="multipart/form-data"
@@ -48,7 +48,7 @@
         <div class="m-3">
             <!-- Image 1 -->
             <div class="form-group row">
-                <label class="col-form-label col-sm-4" for="1">Ảnh 1:</label>
+                <label class="col-form-label col-sm-4" for="1">Avatar:</label>
                 <div class="col-sm-8">
                     <input accept="image/png,image/jpeg" id="fileImage1" name="primaryImage" th:field="*{image}"
                            type="file"/>
@@ -64,9 +64,9 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-form-label col-sm-4" for="1">Name:</label>
+                <label class="col-form-label col-sm-4" for="1">Full name:</label>
                 <div class="col-sm-8">
-                    <input class="form-control mb-2 mr-sm-2" id="1"
+                    <input class="form-control mb-2 mr-sm-2" id="1" pattern="[a-zA-ZÀ-ỹ ]{8,50}"
                            placeholder="Nhập tên sản phẩm" th:field="*{name}" type="text">
                 </div>
             </div>
@@ -107,7 +107,7 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-form-label col-sm-4" for="2">Thành phố</label>
+                <label class="col-form-label col-sm-4" for="2">City:</label>
                 <div class="col-sm-8">
                     <input class="form-control mb-2 mr-sm-2" id="2"
                            placeholder="Nhập thành phố" th:field="*{city}" type="text">
@@ -115,7 +115,7 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-form-label col-sm-4" for="2">Mã Bưu Chính:</label>
+                <label class="col-form-label col-sm-4" for="2">Postal code:</label>
                 <div class="col-sm-8">
                     <input class="form-control mb-2 mr-sm-2" id="2"
                            placeholder="Nhập mã bưu chính" th:field="*{postalCode}" type="text">
@@ -210,6 +210,13 @@
         reader.readAsDataURL(file);
     }
 
+</script>
+<script th:inline="javascript">
+    /* Gán giá trị thuộc tính err vào biến JavaScript */
+    var errMessage = [[${apply}]];
+    if (errMessage != null) {
+        alert(errMessage);
+    }
 </script>
 </body>
 </html>

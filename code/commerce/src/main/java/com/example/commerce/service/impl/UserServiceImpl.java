@@ -140,7 +140,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     @Override
     public User updateMember(UserDTO dto) {
-        UserDTO currentUser = getCurrentUser();
+        UserDTO currentUser = getById(dto.getId());
         cloudinaryService.deleteImageMember(dto, currentUser);
         cloudinaryService.uploadImageMember(dto);
         User update = mapper.map(currentUser, User.class).update(dto);

@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.RememberMeConfigurer;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
@@ -40,12 +41,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/review-ws/**", "/auto-chat").permitAll()
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .anyRequest().authenticated()
+
                 .and().formLogin().loginPage("/login").usernameParameter("mail").successHandler(successHandler)
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").deleteCookies("remember-me")
+
                 .and().rememberMe().tokenRepository(persistentTokenRepository())
+
                 .and().oauth2Login().loginPage("/login")
                 .userInfoEndpoint().userService(userService).and()
-                .successHandler(successHandler);
+                .successHandler(successHandler)
+                .and().rememberMe()
+                .tokenRepository(persistentTokenRepository());
     }
 
     @Override
@@ -58,5 +64,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         JdbcTokenRepositoryImpl tokenRepo = new JdbcTokenRepositoryImpl();
         tokenRepo.setDataSource(dataSource);
         return tokenRepo;
+    }
+
+    @Bean
+    public RememberMeConfigurer persistentTokenRememberMeConfigurer() {
+        RememberMeConfigurer rememberMeConfigurer = new RememberMeConfigurer();
+        rememberMeConfigurer.tokenRepository(persistentTokenRepository());
+        rememberMeConfigurer.tokenValiditySeconds(86400); // Số giây trong 1 ngày
+        rememberMeConfigurer.useSecureCookie(false); // Có thể điều chỉnh theo nhu cầu
+        rememberMeConfigurer.key("yourRememberMeKey"); // Thay thế bằng khóa của bạn
+        return rememberMeConfigurer;
     }
 }

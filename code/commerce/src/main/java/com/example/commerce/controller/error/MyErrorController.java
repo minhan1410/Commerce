@@ -18,18 +18,17 @@ public class MyErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request) {
-        Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        Object messageError = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
-        Object urlError = request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+        Integer status = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+        String messageError = (String) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+        String urlError = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
 
         if (status != null) {
-            Integer statusCode = Integer.valueOf(status.toString());
-            if (statusCode != 404)
+            if (status != HttpStatus.NOT_FOUND.value())
                 telegramNotificationService.sendMessage(TelegramNotificationType.ERROR, String.format("STATUS: %s\nURL ERROR: %s\nMESSAGE: %s", status, urlError, messageError));
 
-            if (statusCode == HttpStatus.NOT_FOUND.value()) {
+            if (status == HttpStatus.NOT_FOUND.value()) {
                 return "/error/notFound";
-            } else if (statusCode == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
+            } else if (status == HttpStatus.INTERNAL_SERVER_ERROR.value()) {
                 return "error-500";
             }
         }
