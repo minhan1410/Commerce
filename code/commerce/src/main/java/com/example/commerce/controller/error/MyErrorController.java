@@ -22,9 +22,10 @@ public class MyErrorController implements ErrorController {
         Object messageError = request.getAttribute(RequestDispatcher.ERROR_MESSAGE);
         Object urlError = request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
 
-        telegramNotificationService.sendMessage(TelegramNotificationType.ERROR, String.format("STATUS: %s\nURL ERROR: %s\nMESSAGE: %s", status, urlError, messageError));
         if (status != null) {
             Integer statusCode = Integer.valueOf(status.toString());
+            if (statusCode != 404)
+                telegramNotificationService.sendMessage(TelegramNotificationType.ERROR, String.format("STATUS: %s\nURL ERROR: %s\nMESSAGE: %s", status, urlError, messageError));
 
             if (statusCode == HttpStatus.NOT_FOUND.value()) {
                 return "/error/notFound";
