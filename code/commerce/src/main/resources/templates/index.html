@@ -531,17 +531,7 @@
 										$16.64 </span>
                             </div>
 
-                            <div class="block2-txt-child2 flex-r p-t-3">
-                                <a class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"
-                                   href="#">
-                                    <img alt="ICON"
-                                         class="icon-heart1 dis-block trans-04" src="images/icons/icon-heart-01.png">
-                                    <img
-                                            alt="ICON"
-                                            class="icon-heart2 dis-block trans-04 ab-t-l"
-                                            src="images/icons/icon-heart-02.png">
-                                </a>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -585,9 +575,9 @@
 
                     </div>
                     <div class="card-footer text-muted d-flex justify-content-start align-items-center p-3">
-                        <input type="text" class="form-control form-control-lg" id="messageInput"
-                               placeholder="Type message">
-                        <a class="ms-3" href="#!" id="chatBtn"><i class="fas fa-paper-plane"></i></a>
+                        <textarea class="form-control form-control-lg" id="messageInput"
+                                  placeholder="Type message"></textarea>
+                        <button class="ms-3" id="chatBtn"><i class="fas fa-paper-plane"></i></button>
                     </div>
                 </form>
                 </div>
@@ -750,7 +740,10 @@
 
 <!--Chat-->
 <script>
-    document.getElementById("chatBtn").addEventListener("click", function() {
+    function sendMessage(event){
+        event.preventDefault(); // Ngăn chặn gửi biểu mẫu mặc định
+
+        var chatBtnElement = document.getElementById("chatBtn");
         var messElement = document.getElementById("messageInput");
         var message = messElement.value;
         messElement.value = "";
@@ -770,6 +763,9 @@
         loadingElement.innerHTML = '<p>Loading...</p>';
         document.getElementById("chat2").querySelector(".card-body").appendChild(loadingElement);
 
+        // Chờ server phản hồi mới được phep gửi tin nhắn tiếp theo
+        messElement.disabled = true;
+        chatBtnElement.disabled = true;
 
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "/auto-chat", true);
@@ -777,6 +773,8 @@
         xhr.onreadystatechange = function() {
             if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
                 cardBody.removeChild(loadingElement);
+                messElement.disabled = false;
+                chatBtnElement.disabled = false;
 
                 var response = JSON.parse(xhr.responseText).choices[0].message.content;
                 console.log("response: ",response)
@@ -790,9 +788,20 @@
                     '</div>' +
                     '</div>';
                 cardBody.appendChild(messageElement);
+
+                // Cuộn xuống dưới
+                cardBody.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
             }
         };
         xhr.send("message=" + encodeURIComponent(message));
+    }
+
+    document.getElementById("chatBtn").addEventListener("click", (event) =>  sendMessage(event));
+    document.getElementById("messageInput").addEventListener("keydown", function(event) {
+        if (event.keyCode === 13 && !event.shiftKey) { // Kiểm tra nếu phím nhấn là Enter
+            event.preventDefault(); // Ngăn chặn xuống dòng mặc định
+            sendMessage(event); // Gửi tin nhắn khi nhấn Enter
+        }
     });
 </script>
 

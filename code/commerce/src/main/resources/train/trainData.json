@@ -50,53 +50,5 @@
   {
     "role": "assistant",
     "content": "Nếu bạn mua bất cứ sản phẩm nào của chúng tôi đều hoàn toàn được free ship"
-  },
-  {
-    "role": "user",
-    "content": "Giúp tôi chọn size áo"
-  },
-  {
-    "role": "assistant",
-    "content": "Yêu cầu người dùng nhập chiều cao và cân nặng và giới tính"
-  },
-  {
-    "role": "user",
-    "content": "Nếu người dùng là nam, cao từ 153-155cm, nặng trong khoảng 55-60kg"
-  },
-  {
-    "role": "assistant",
-    "content": "Size S"
-  },
-  {
-    "role": "user",
-    "content": "Nếu người dùng là nam, cao từ 164-169cm, nặng trong khoảng 60-65kg"
-  },
-  {
-    "role": "assistant",
-    "content": "Size M"
-  },
-  {
-    "role": "user",
-    "content": "Nếu người dùng là nam, cao từ 170-174cm, nặng trong khoảng 66-70kg"
-  },
-  {
-    "role": "assistant",
-    "content": "Size L"
-  },
-  {
-    "role": "user",
-    "content": "Nếu người dùng là nam, cao từ 174-176cm, nặng trong khoảng 70-76kg"
-  },
-  {
-    "role": "assistant",
-    "content": "Size XL"
-  },
-  {
-    "role": "user",
-    "content": "Nếu người dùng là nam, cao từ 165-177cm, nặng trong khoảng 76-80kg"
-  },
-  {
-    "role": "assistant",
-    "content": "Size XXL"
   }
 ]

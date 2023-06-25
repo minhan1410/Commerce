@@ -115,9 +115,21 @@
                         Lightweight Jacket
                     </h4>
 
-                    <span class="mtext-106 cl2" th:text="'$' + ${product.price}">
-                            $58.79
-                        </span>
+                    <div class="p-b-14" style="display: flex">
+                        <div style="margin-right: 20px">
+                            <span th:text="${averageRating}"></span>
+                            <span th:each="star : ${#numbers.sequence(1, 5)}">
+                                <span th:classappend="${star <= averageRating} ? 'text-warning' : 'text-secondary'">&#9733;</span>
+                            </span>
+                        </div>
+
+                        <div style="margin-right: 20px" th:text="${'Reviews: ' + reviews.size()}"></div>
+
+                        <div th:text="${'Quantity: ' + product.quantity}"></div>
+                    </div>
+
+
+                    <span class="mtext-106 cl2" th:text="'$' + ${product.price}"></span>
 
                     <p class="stext-102 cl3 p-t-23">
                         <span>[[${product.description}]]</span>

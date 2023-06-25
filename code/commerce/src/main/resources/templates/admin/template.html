@@ -363,9 +363,12 @@
                                                 <h5 class="mb-1" th:text="${user.name}"></h5>
                                                 <p class="mb-0" th:text="${user.mail}">/p>
                                                 <div class="d-flex align-items-center justify-content-center mt-3">
-                                                    <a class="btn border mr-2"
-                                                       href="../app/user-profile.html">Profile</a>
-                                                    <a class="btn border" href="auth-sign-in.html">Sign Out</a>
+                                                    <a class="btn border"
+                                                       href="javascript: document.logoutForm.submit()">Sign Out</a>
+                                                    <form method="post" name="logoutForm" th:action="@{/logout}"
+                                                          th:hidden="true">
+                                                        <input hidden type="submit" value="Sign Out"/>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </div>
