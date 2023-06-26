@@ -1,9 +1,5 @@
 [
   {
-    "role": "system",
-    "content": "Hãy đóng giả làm nhân viên tư vấn cho website bán quần áo và anh Minh An chủ shop và là người thuê bạn làm việc"
-  },
-  {
     "role": "user",
     "content": "Ai là chủ shop này"
   },

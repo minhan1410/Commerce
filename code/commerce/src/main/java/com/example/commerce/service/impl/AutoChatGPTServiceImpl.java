@@ -1,8 +1,16 @@
 package com.example.commerce.service.impl;
 
+import com.example.commerce.model.dto.BillDTO;
+import com.example.commerce.model.dto.CartItemDTO;
+import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.service.AutoChatGPTService;
+import com.example.commerce.service.BillService;
+import com.example.commerce.service.ProductService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
 import org.json.JSONArray;
@@ -13,12 +21,20 @@ import org.springframework.stereotype.Service;
 import javax.annotation.PostConstruct;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class AutoChatGPTServiceImpl implements AutoChatGPTService {
     private static JSONArray cachedTrainData;
+    private final ProductService productService;
+    private final BillService billService;
     @Value("${openai.api.key}")
     private String apiKey;
     @Value("${path.file.train}")
@@ -52,39 +68,93 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
 
     @Override
     public String chat(String message) throws IOException {
-        OkHttpClient client = new OkHttpClient.Builder().readTimeout(2, TimeUnit.MINUTES).build(); // Thiết lập timeout 2 phút
+//        Check xem trong message có chưa tên sản phẩm không?
+        List<ProductDTO> productDTOS = containsProductName(message);
+        boolean checkProduct = productDTOS.size() == 0 || productDTOS.size() > 1;
+        boolean productExist = productDTOS.size() == 1 && containsQuantity(message);
 
-        // Tạo dữ liệu yêu cầu
-        JSONObject requestObject = new JSONObject();
-        requestObject.put("model", "gpt-3.5-turbo");
+        JSONObject requestObject = requestObject();
+        JSONArray messagesJson = messagesJson(productExist, message);
 
-        JSONArray messagesJson = cachedTrainData;
-        messagesJson.put(AutoChatGPTService.createMessage("user", message));
-        requestObject.put("messages", messagesJson);
+        if (containsSelling(message)) {
+            StringBuilder mess = new StringBuilder("Chúng tôi chỉ cung cấp cho bạn/nTop 5 sản phẩm bán chạy nhất: ");
+            billService.getAll().stream().map(BillDTO::getCartItem).flatMap(List::stream)
+                    .collect(Collectors.groupingBy(cartItemDTO -> cartItemDTO.getProduct(), Collectors.summingInt(CartItemDTO::getQuantity)))
+                    .entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(5)
+                    .map(Map.Entry::getKey).toList().forEach(p -> mess.append(p.getName().concat(", ")));
+            return mess.toString();
+        }
+
+        if (checkProduct) {
+            return "Nhập đầy đủ tên của sản phẩm";
+        }
+
+        if (productExist) {
+            ProductDTO product = productDTOS.get(0);
+            StringBuilder mess = new StringBuilder(String.format("Sản phẩm %s: ", product.getName()));
+            productService.getRelatedByName(product.getName()).forEach(p -> mess.append(String.format(" size %s color %s còn lại %d sản phẩm,", p.getSize(), p.getColor(), p.getQuantity())));
+            return mess.toString();
+        }
 
         // Tạo request body
-        RequestBody requestBody = RequestBody.create(
-                okhttp3.MediaType.parse("application/json"), requestObject.toString());
-
-        // Tạo header
-        Headers headers = new Headers.Builder()
-                .add("Content-Type", "application/json")
-                .add("Authorization", "Bearer " + apiKey)
-                .build();
-
+        requestObject.put("messages", messagesJson);
+        RequestBody requestBody = createRequestBody(requestObject);
         // Tạo yêu cầu POST
-        Request request = new Request.Builder()
-                .url("https://api.openai.com/v1/chat/completions")
-                .headers(headers)
-                .post(requestBody)
-                .build();
+        Request request = createRequest(requestBody);
+
+//        Gửi request đến api
+        OkHttpClient client = new OkHttpClient.Builder().readTimeout(2, TimeUnit.MINUTES).build(); // Thiết lập timeout 2 phút
 
         // Gửi yêu cầu và nhận phản hồi
         Response response = client.newCall(request).execute();
-
         if (response.isSuccessful()) {
-            return response.body().string();
+            String body = response.body().string();
+            JsonObject jsonObject = new Gson().fromJson(body, JsonObject.class);
+            return jsonObject.get("choices").getAsJsonArray().get(0).getAsJsonObject().getAsJsonObject("message").get("content").getAsString();
         }
+
         return "Request failed: " + response.code();
+    }
+
+    private List<ProductDTO> containsProductName(String message) {
+        List<ProductDTO> distinctName = productService.getAllDistinctName();
+        return distinctName.stream().filter(p -> message.toLowerCase().contains(p.getName().toLowerCase())).toList();
+    }
+
+    private boolean containsKey(String question, String[] keys) {
+        return Arrays.stream(keys).anyMatch(k -> question.toLowerCase().contains(k.toLowerCase()));
+    }
+
+    private boolean containsQuantity(String question) {
+        String[] quantityKeywords = {"còn lại", "số lượng", "bao nhiêu", "how many", "remaining", "quantity", "còn hàng", "hết hàng", "hàng còn", "tồn kho", "tồn đọng", "sản phẩm có sẵn", "available", "in stock", "stock", "product count", "product availability"};
+        return containsKey(question, quantityKeywords);
+    }
+
+    private boolean containsSelling(String question) {
+        String[] keys = {"bán chạy", "phổ biến", "hàng nổi bật", "best-selling", "popular", "top bán chạy", "hot item"};
+        return containsKey(question, keys);
+    }
+
+    private RequestBody createRequestBody(JSONObject requestObject) {
+        return RequestBody.create(okhttp3.MediaType.parse("application/json"), requestObject.toString());
+    }
+
+    private Request createRequest(RequestBody requestBody) {
+        // Tạo header
+        Headers headers = new Headers.Builder().add("Content-Type", "application/json").add("Authorization", "Bearer " + apiKey).build();
+
+        return new Request.Builder().url("https://api.openai.com/v1/chat/completions").headers(headers).post(requestBody).build();
+    }
+
+    private JSONObject requestObject() {
+        return new JSONObject().put("model", "gpt-3.5-turbo");
+    }
+
+    private JSONArray messagesJson(boolean productExist, String message) {
+        JSONArray messagesJson = new JSONArray();
+        messagesJson.put(AutoChatGPTService.createMessage("system", "Hãy đóng giả làm nhân viên tư vấn cho website bán quần áo và anh Minh An chủ shop và là người thuê bạn làm việc"));
+        if (!productExist) messagesJson.putAll(cachedTrainData);
+        messagesJson.put(AutoChatGPTService.createMessage("user", message));
+        return messagesJson;
     }
 }

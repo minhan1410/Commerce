@@ -776,15 +776,14 @@
                 messElement.disabled = false;
                 chatBtnElement.disabled = false;
 
-                var response = JSON.parse(xhr.responseText).choices[0].message.content;
-                console.log("response: ",response)
+                var response = xhr.responseText; // Thay thế ký tự \n bằng thẻ <br> để tạo dòng mới
 
                 // Xử lý phản hồi từ API chat ở đây, ví dụ: thêm tin nhắn vào giao diện
                 var messageElement = document.createElement("div");
                 messageElement.innerHTML = '<div class="d-flex flex-row justify-content-start mb-4">' +
                     '<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style="width: 45px; height: 100%;">' +
                     '<div>' +
-                    '<p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">' + response + '</p>' +
+                    '<p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">' + response.replace(/\n/g, "<br>") + '</p>' +
                     '</div>' +
                     '</div>';
                 cardBody.appendChild(messageElement);
