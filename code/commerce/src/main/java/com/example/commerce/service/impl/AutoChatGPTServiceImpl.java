@@ -8,6 +8,8 @@ import com.example.commerce.service.BillService;
 import com.example.commerce.service.ProductService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +41,10 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
     private String apiKey;
     @Value("${path.file.train}")
     private String pathFile;
+    private final Cache<String, String> cache = CacheBuilder.newBuilder()
+            .maximumSize(100) // Số lượng mục tối đa trong cache
+            .expireAfterWrite(10, TimeUnit.MINUTES) // Thời gian tồn tại của mỗi mục trong cache
+            .build();
 
     @PostConstruct
     public void init() {
@@ -68,13 +74,19 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
 
     @Override
     public String chat(String message) throws IOException {
+//        Check trong cache
+        if(cache.asMap().containsKey(message)){
+            return cache.getIfPresent(message);
+        }
+
 //        Check xem trong message có chưa tên sản phẩm không?
         List<ProductDTO> productDTOS = containsProductName(message);
-        boolean checkProduct = productDTOS.size() == 0 || productDTOS.size() > 1;
+        boolean checkProduct = productDTOS.size() > 1;
         boolean productExist = productDTOS.size() == 1 && containsQuantity(message);
 
         JSONObject requestObject = requestObject();
         JSONArray messagesJson = messagesJson(productExist, message);
+        String result = null;
 
         if (containsSelling(message)) {
             StringBuilder mess = new StringBuilder("Chúng tôi chỉ cung cấp cho bạn/nTop 5 sản phẩm bán chạy nhất: ");
@@ -82,18 +94,24 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
                     .collect(Collectors.groupingBy(cartItemDTO -> cartItemDTO.getProduct(), Collectors.summingInt(CartItemDTO::getQuantity)))
                     .entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(5)
                     .map(Map.Entry::getKey).toList().forEach(p -> mess.append(p.getName().concat(", ")));
-            return mess.toString();
+            result = mess.toString();
+            cache.put(message, result);
+            return result;
         }
 
         if (checkProduct) {
-            return "Nhập đầy đủ tên của sản phẩm";
+            result = "Nhập đầy đủ tên của sản phẩm";
+            cache.put(message, result);
+            return result;
         }
 
         if (productExist) {
             ProductDTO product = productDTOS.get(0);
-            StringBuilder mess = new StringBuilder(String.format("Sản phẩm %s: ", product.getName()));
+            StringBuilder mess = new StringBuilder(String.format("Sản phẩm %s($%d): ", product.getName(), product.getPrice()));
             productService.getRelatedByName(product.getName()).forEach(p -> mess.append(String.format(" size %s color %s còn lại %d sản phẩm,", p.getSize(), p.getColor(), p.getQuantity())));
-            return mess.toString();
+            result = mess.toString();
+            cache.put(message, result);
+            return result;
         }
 
         // Tạo request body
@@ -110,7 +128,9 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
         if (response.isSuccessful()) {
             String body = response.body().string();
             JsonObject jsonObject = new Gson().fromJson(body, JsonObject.class);
-            return jsonObject.get("choices").getAsJsonArray().get(0).getAsJsonObject().getAsJsonObject("message").get("content").getAsString();
+            result = jsonObject.get("choices").getAsJsonArray().get(0).getAsJsonObject().getAsJsonObject("message").get("content").getAsString();
+            cache.put(message, result);
+            return result;
         }
 
         return "Request failed: " + response.code();
