@@ -34,13 +34,13 @@ public class CartUserController {
     }
 
     @GetMapping("/update-cart")
-    public String updateToCart(@RequestParam(name = "id") Long id, @RequestParam(name = "quantity") int quantity, HttpServletRequest request, Model model) {
-        return cartService.updateCart(id, quantity, null, request, model);
+    public String updateToCart(@RequestParam(name = "id") Long id, @RequestParam(name = "quantity") int quantity, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        return cartService.updateCart(id, quantity, null, request, redirectAttributes);
     }
 
     @PostMapping("/coupon-cart")
-    public String coupon(@RequestParam(name = "coupon") String coupon, HttpServletRequest request, Model model) {
-        return cartService.updateCart(null, 0, coupon, request, model);
+    public String coupon(@RequestParam(name = "coupon") String coupon, HttpServletRequest request, RedirectAttributes redirectAttributes) {
+        return cartService.updateCart(null, 0, coupon, request, redirectAttributes);
     }
 
     @GetMapping("/delete-from-cart")

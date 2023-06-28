@@ -85,7 +85,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     @Transactional
-    public String updateCart(Long id, int quantity, String coupon, HttpServletRequest request, Model model) {
+    public String updateCart(Long id, int quantity, String coupon, HttpServletRequest request, RedirectAttributes redirectAttributes) {
         HttpSession session = request.getSession();
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
         Integer totalOfCart = (Integer) session.getAttribute("totalOfCart");
@@ -104,7 +104,9 @@ public class CartServiceImpl implements CartService {
                 session.setAttribute("totalOfCart", totalOfCart);
             }
         } else {
-            CouponDTO couponDTO = couponService.findCode(coupon, model);
+            CouponDTO couponDTO = couponService.findCode(coupon, redirectAttributes);
+            if(Objects.isNull(couponDTO)) return "redirect:/cart";
+
             double totalPriceAfterApplyCoupon = totalPrice - (totalPrice * couponDTO.getDiscount() / 100);
             session.setAttribute("totalPriceAfterApplyCoupon", totalPriceAfterApplyCoupon);
             session.setAttribute("totalPrice", totalPrice);

@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.Comparator;
@@ -22,15 +23,16 @@ public class CouponServiceImpl implements CouponService {
     private final ModelMapper mapper;
 
     @Override
-    public CouponDTO findCode(String code, Model model) {
+    public CouponDTO findCode(String code, RedirectAttributes redirectAttributes) {
         Optional<Coupon> optional = couponRepository.getByCodeAndExpiresFalseAndDeletedFalse(code);
         if (optional.isEmpty()) {
-            model.addAttribute("err", "khong ton tai");
+            redirectAttributes.addFlashAttribute("err", "The code does not exist");
             return null;
         }
         Coupon coupon = optional.get();
         if (LocalDate.now().isAfter(coupon.getExpirationDate())) {
-            model.addAttribute("err", "code het han");
+            redirectAttributes.addFlashAttribute("err", "Expired code");
+            return null;
         }
         return mapper.map(coupon, CouponDTO.class);
     }

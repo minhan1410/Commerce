@@ -10,7 +10,7 @@ import javax.servlet.http.HttpSession;
 public interface CartService {
     String addToCart(Long id, String size, int numberProducts, HttpSession session, Model model);
 
-    String updateCart(Long id, int quantity, String coupon, HttpServletRequest request, Model model);
+    String updateCart(Long id, int quantity, String coupon, HttpServletRequest request, RedirectAttributes redirectAttributes);
 
     String deleteToCart(Long id, HttpServletRequest req);
 
