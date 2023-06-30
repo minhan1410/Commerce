@@ -2053,29 +2053,11 @@
                 </h4>
 
                 <ul>
-                    <li class="p-b-10">
-                        <a class="stext-107 cl7 hov-cl1 trans-04" href="#">
-                            Women
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a class="stext-107 cl7 hov-cl1 trans-04" href="#">
-                            Men
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a class="stext-107 cl7 hov-cl1 trans-04" href="#">
-                            Shoes
-                        </a>
-                    </li>
-
-                    <li class="p-b-10">
-                        <a class="stext-107 cl7 hov-cl1 trans-04" href="#">
-                            Watches
-                        </a>
-                    </li>
+                    <th:block th:each="cate : ${cate}">
+                        <li class="p-b-10"><a class="stext-107 cl7 hov-cl1 trans-04"
+                                              href="#" th:text="${cate.type}">
+                            Women </a></li>
+                    </th:block>
                 </ul>
             </div>
 
@@ -2117,23 +2099,9 @@
                 </h4>
 
                 <p class="stext-107 cl7 size-201">
-                    Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on
-                    (+1) 96 716 6879
+                    Any questions?</br>
+                    Let us know at the store in Tu Nhien commune, Thuong Tin district, Hanoi, call us at (+84) 965240637
                 </p>
-
-                <div class="p-t-27">
-                    <a class="fs-18 cl7 hov-cl1 trans-04 m-r-16" href="#">
-                        <i class="fa fa-facebook"></i>
-                    </a>
-
-                    <a class="fs-18 cl7 hov-cl1 trans-04 m-r-16" href="#">
-                        <i class="fa fa-instagram"></i>
-                    </a>
-
-                    <a class="fs-18 cl7 hov-cl1 trans-04 m-r-16" href="#">
-                        <i class="fa fa-pinterest-p"></i>
-                    </a>
-                </div>
             </div>
 
             <div class="col-sm-6 col-lg-3 p-b-50">

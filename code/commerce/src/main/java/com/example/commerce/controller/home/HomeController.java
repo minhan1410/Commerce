@@ -29,7 +29,7 @@ public class HomeController {
         products.forEach(productDTO -> productDTO.setCategories(categoriesService.getById(productDTO.getCategoriesId())));
         productService.getAllProductForProductPage(model, request);
         couponService.getByDiscountMax(model);
-        model.addAttribute("cate", categoriesService.getAll());
+        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
         model.addAttribute("products", products);
         return "index";
     }

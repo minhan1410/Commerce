@@ -9,28 +9,10 @@
 
                     <ul>
                         <th:block th:each="cate : ${cate}">
-                            <li class="p-b-10"><a href="#"
-                                                  class="stext-107 cl7 hov-cl1 trans-04" th:text="${cate.type}">
+                            <li class="p-b-10"><a class="stext-107 cl7 hov-cl1 trans-04"
+                                                  href="#" th:text="${cate.type}">
                                 Women </a></li>
                         </th:block>
-
-                        <!-- <li class="p-b-10">
-                            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                                Men
-                            </a>
-                        </li>
-
-                        <li class="p-b-10">
-                            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                                Shoes
-                            </a>
-                        </li>
-
-                        <li class="p-b-10">
-                            <a href="#" class="stext-107 cl7 hov-cl1 trans-04">
-                                Watches
-                            </a>
-                        </li> -->
                     </ul>
                 </div>
 
@@ -38,34 +20,27 @@
                     <h4 class="stext-301 cl0 p-b-30">Help</h4>
 
                     <ul>
-                        <li class="p-b-10"><a href="#"
-                                              class="stext-107 cl7 hov-cl1 trans-04"> Track Order </a></li>
+                        <li class="p-b-10"><a class="stext-107 cl7 hov-cl1 trans-04"
+                                              href="#"> Track Order </a></li>
 
-                        <li class="p-b-10"><a href="#"
-                                              class="stext-107 cl7 hov-cl1 trans-04"> Returns </a></li>
+                        <li class="p-b-10"><a class="stext-107 cl7 hov-cl1 trans-04"
+                                              href="#"> Returns </a></li>
 
-                        <li class="p-b-10"><a href="#"
-                                              class="stext-107 cl7 hov-cl1 trans-04"> Shipping </a></li>
+                        <li class="p-b-10"><a class="stext-107 cl7 hov-cl1 trans-04"
+                                              href="#"> Shipping </a></li>
 
-                        <li class="p-b-10"><a href="#"
-                                              class="stext-107 cl7 hov-cl1 trans-04"> FAQs </a></li>
+                        <li class="p-b-10"><a class="stext-107 cl7 hov-cl1 trans-04"
+                                              href="#"> FAQs </a></li>
                     </ul>
                 </div>
 
                 <div class="col-sm-6 col-lg-3 p-b-50">
                     <h4 class="stext-301 cl0 p-b-30">GET IN TOUCH</h4>
 
-                    <p class="stext-107 cl7 size-201">Any questions? </p>
-
-                    <div class="p-t-27">
-                        <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16"> <i
-                                class="fa fa-facebook"></i>
-                        </a> <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16"> <i
-                            class="fa fa-instagram"></i>
-                    </a> <a href="#" class="fs-18 cl7 hov-cl1 trans-04 m-r-16"> <i
-                            class="fa fa-pinterest-p"></i>
-                    </a>
-                    </div>
+                    <p class="stext-107 cl7 size-201">
+                        Any questions?</br>
+                        Let us know at the store in Tu Nhien commune, Thuong Tin district, Hanoi, call us at (+84)
+                        965240637</p>
                 </div>
 
                 <div class="col-sm-6 col-lg-3 p-b-50">
@@ -73,8 +48,8 @@
 
                     <form>
                         <div class="wrap-input1 w-full p-b-4">
-                            <input class="input1 bg-none plh1 stext-107 cl7" type="text"
-                                   name="email" placeholder="email@example.com">
+                            <input class="input1 bg-none plh1 stext-107 cl7" name="email"
+                                   placeholder="email@example.com" type="text">
                             <div class="focus-input1 trans-04"></div>
                         </div>
 
@@ -90,16 +65,16 @@
 
             <div class="p-t-40">
                 <div class="flex-c-m flex-w p-b-18">
-                    <a href="#" class="m-all-1"> <img
-                            th:src="@{/images/icons/icon-pay-01.png}" alt="ICON-PAY">
-                    </a> <a href="#" class="m-all-1"> <img
-                        th:src="@{/images/icons/icon-pay-02.png}" alt="ICON-PAY">
-                </a> <a href="#" class="m-all-1"> <img
-                        th:src="@{/images/icons/icon-pay-03.png}" alt="ICON-PAY">
-                </a> <a href="#" class="m-all-1"> <img
-                        th:src="@{/images/icons/icon-pay-04.png}" alt="ICON-PAY">
-                </a> <a href="#" class="m-all-1"> <img
-                        th:src="@{/images/icons/icon-pay-05.png}" alt="ICON-PAY">
+                    <a class="m-all-1" href="#"> <img
+                            alt="ICON-PAY" th:src="@{/images/icons/icon-pay-01.png}">
+                    </a> <a class="m-all-1" href="#"> <img
+                        alt="ICON-PAY" th:src="@{/images/icons/icon-pay-02.png}">
+                </a> <a class="m-all-1" href="#"> <img
+                        alt="ICON-PAY" th:src="@{/images/icons/icon-pay-03.png}">
+                </a> <a class="m-all-1" href="#"> <img
+                        alt="ICON-PAY" th:src="@{/images/icons/icon-pay-04.png}">
+                </a> <a class="m-all-1" href="#"> <img
+                        alt="ICON-PAY" th:src="@{/images/icons/icon-pay-05.png}">
                 </a>
                 </div>
 
@@ -110,7 +85,7 @@
                         document.write(new Date().getFullYear());
                     </script>
                     All rights reserved | This template is made with <i
-                        class="fa fa-heart-o" aria-hidden="true"></i> by <a
+                        aria-hidden="true" class="fa fa-heart-o"></i> by <a
                         href="https://colorlib.com" target="_blank">Colorlib</a>.
                     Edited by <a href="http://localhost:8080/" target="_blank">Nguyễn Minh An</a>
                     <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

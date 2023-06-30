@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public enum TelegramNotificationType {
     ORDER("-874498960"),
-    ERROR("-913014444");
+    ERROR("-913014444"),
+    CONTACT("-948337498");
 
     private String chatId;
 }

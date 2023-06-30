@@ -46,20 +46,20 @@
     <div class="container">
         <div class="flex-w flex-tr">
             <div class="size-210 bor10 p-lr-70 p-t-55 p-b-70 p-lr-15-lg w-full-md">
-                <form>
+                <form method="post" th:action="@{/send-help}">
                     <h4 class="mtext-105 cl2 txt-center p-b-30">
                         Send Us A Message
                     </h4>
 
                     <div class="bor8 m-b-20 how-pos4-parent">
-                        <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" name="email"
+                        <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" id="email" name="email"
                                placeholder="Your Email Address"
-                               type="text">
+                               type="email">
                         <img alt="ICON" class="how-pos4 pointer-none" src="images/icons/icon-email.png">
                     </div>
 
                     <div class="bor8 m-b-30">
-                        <textarea class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" name="msg"
+                        <textarea class="stext-111 cl2 plh3 size-120 p-lr-28 p-tb-25" id="mess" name="mess"
                                   placeholder="How Can We Help?"></textarea>
                     </div>
 
@@ -181,6 +181,30 @@
 <script th:src="@{/js/map-custom.js}"></script>
 <!--===============================================================================================-->
 <script th:src="@{/js/main.js}"></script>
+<script>
+    $(document).ready(function () {
+        // Ngăn chặn sự kiện submit mặc định của biểu mẫu
+        $('form').submit(function (e) {
+            e.preventDefault();
 
+            // Lấy dữ liệu từ các trường email và message
+            var email = $('#email').val();
+            var message = $('#mess').val();
+
+            // Gửi yêu cầu POST bất đồng bộ tới "/send-help"
+            $.ajax({
+                url: '/send-help',
+                type: 'POST',
+                data: {email: email, mess: message},
+                success: function (response) {
+                    console.log('Help request sent successfully!');
+                },
+                error: function () {
+                    alert('An error occurred while sending the help request.');
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
