@@ -13,7 +13,6 @@ import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import net.bytebuddy.utility.RandomString;
 import org.modelmapper.ModelMapper;
-import org.quartz.Scheduler;
 import org.springframework.context.MessageSource;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -27,6 +26,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Locale;
@@ -40,7 +40,6 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     private final ModelMapper mapper;
     private final PasswordEncoder passwordEncoder;
     private final MailService mailService;
-    private final Scheduler scheduler;
     private final CloudinaryService cloudinaryService;
 
 
@@ -66,8 +65,9 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
             return;
         }
         String verificationCode = RandomString.make(20);
-        User user = findMail.isPresent() && findMail.get().getVerificationCodeExpiry() != null ? findMail.get().updateVerificationCodeExpiry() : mapper.map(userDTO, User.class).createUserLocal(passwordEncoder.encode(userDTO.getPassword()), verificationCode);
+        User user = findMail.isPresent() && findMail.get().getVerificationCodeExpiry() != null ? findMail.get().updateVerificationCodeExpiry(verificationCode) : mapper.map(userDTO, User.class).createUserLocal(passwordEncoder.encode(userDTO.getPassword()), verificationCode);
         userRepository.save(user);
+        model.addAttribute("mess", "Please check your email to verify your account");
 
 //        send email
         mailService.sendMailRegister(userDTO.getName(), userDTO.getMail(), url + "/verify?code=" + verificationCode);
@@ -89,19 +89,19 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
 
     @Override
     @Transactional
-    public void veryficationCode(String code, Model model, Locale locale) {
+    public void veryficationCode(String code, RedirectAttributes redirectAttributes, Locale locale) {
         Optional<User> findCode = userRepository.findByVerificationCode(code);
         if (findCode.isEmpty()) {
-            model.addAttribute("mess", messageSource.getMessage("Code k ton tai", null, "default message", locale));
+            redirectAttributes.addFlashAttribute("mess", "Invalid authorization code");
             return;
         }
         User user = findCode.get();
         if (System.currentTimeMillis() > user.getVerificationCodeExpiry().getTime() + 300000L) { // wa 5p k xac thuc
-            model.addAttribute("Qua thoi gin xac thuc", messageSource.getMessage("signUpSuccess", null, "default message", locale));
+            redirectAttributes.addFlashAttribute("mess", "The authentication time exceeds 5 minutes. Please register again to refresh the code");
             return;
         }
         userRepository.save(user.veryficationCode());
-        model.addAttribute("mess", messageSource.getMessage("signUpSuccess", null, "default message", locale));
+        redirectAttributes.addFlashAttribute("mess", messageSource.getMessage("signUpSuccess", null, "default message", locale));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package com.example.commerce.controller.user;
 
 import com.example.commerce.model.dto.UserDTO;
+import com.example.commerce.service.CategoriesService;
 import com.example.commerce.service.CouponService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,10 +19,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class ProfileController {
     private final UserService userService;
     private final CouponService couponService;
+    private final CategoriesService categoriesService;
 
     @GetMapping()
     public String info(Model model) {
         model.addAttribute("user", userService.getCurrentUser());
+        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
         couponService.getByDiscountMax(model);
         return "informationUser";
     }

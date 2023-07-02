@@ -1,6 +1,7 @@
 package com.example.commerce.controller.contact;
 
 import com.example.commerce.constants.TelegramNotificationType;
+import com.example.commerce.service.CategoriesService;
 import com.example.commerce.service.CouponService;
 import com.example.commerce.service.TelegramNotificationService;
 import com.example.commerce.service.UserService;
@@ -17,11 +18,14 @@ public class ContactController {
     private final UserService userService;
     private final CouponService couponService;
     private final TelegramNotificationService telegramService;
+    private final CategoriesService categoriesService;
 
     @GetMapping("/contact")
     public String contact(Model model) {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
+        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+
         return "contact";
     }
 

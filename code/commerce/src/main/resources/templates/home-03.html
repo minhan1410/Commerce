@@ -686,37 +686,21 @@
 
                         <ul>
                             <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
+                                <a class="filter-link stext-106 trans-04" th:href="@{/product}">
                                     Default
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
-                                    Popularity
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
-                                    Average rating
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04 filter-link-active" href="#">
-                                    Newness
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
+                                <a class="filter-link stext-106 trans-04"
+                                   th:href="@{'/product?sort=asc' + '&keyword=' + ${keyword} + '&page=' + ${page + 1}+ '&priceStart=' + ${priceStart} + '&priceEnd=' + ${priceEnd }}">
                                     Price: Low to High
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
+                                <a class="filter-link stext-106 trans-04"
+                                   th:href="@{'/product?sort=desc'+ '&keyword=' + ${keyword} + '&page=' + ${page + 1}+ '&priceStart=' + ${priceStart} + '&priceEnd=' + ${priceEnd }}">
                                     Price: High to Low
                                 </a>
                             </li>
@@ -730,142 +714,47 @@
 
                         <ul>
                             <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04 filter-link-active" href="#">
+                                <a class="filter-link stext-106 trans-04 filter-link-active"
+                                   th:href="@{'/product?sort=' + ${sort} + '&keyword=' + ${keyword} + '&page=' + ${page + 1}+ '&priceStart=' + ${priceStart} + '&priceEnd=' + ${priceEnd }}">
                                     All
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
+                                <a class="filter-link stext-106 trans-04"
+                                   th:href="@{'/product?sort=' + ${sort} + '&keyword=' + ${keyword} + '&page=' + ${page + 1}+ '&priceStart=0' + '&priceEnd=50'}">
                                     $0.00 - $50.00
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
+                                <a class="filter-link stext-106 trans-04"
+                                   th:href="@{'/product?sort=' + ${sort} + '&keyword=' + ${keyword} + '&page=' + ${page + 1}+ '&priceStart=50' + '&priceEnd=100'}">
                                     $50.00 - $100.00
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
+                                <a class="filter-link stext-106 trans-04"
+                                   th:href="@{'/product?sort=' + ${sort} + '&keyword=' + ${keyword} + '&page=' + ${page + 1}+ '&priceStart=100' + '&priceEnd=150'}">
                                     $100.00 - $150.00
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
+                                <a class="filter-link stext-106 trans-04"
+                                   th:href="@{'/product?sort=' + ${sort} + '&keyword=' + ${keyword} + '&page=' + ${page + 1}+ '&priceStart=150' + '&priceEnd=200'}">
                                     $150.00 - $200.00
                                 </a>
                             </li>
 
                             <li class="p-b-6">
-                                <a class="filter-link stext-106 trans-04" href="#">
+                                <a class="filter-link stext-106 trans-04"
+                                   th:href="@{'/product?sort=' + ${sort} + '&keyword=' + ${keyword} + '&page=' + ${page + 1}+ '&priceStart=200'}">
                                     $200.00+
                                 </a>
                             </li>
                         </ul>
-                    </div>
-
-                    <div class="filter-col3 p-r-15 p-b-27">
-                        <div class="mtext-102 cl2 p-b-15">
-                            Color
-                        </div>
-
-                        <ul>
-                            <li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #222;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-                                <a class="filter-link stext-106 trans-04" href="#">
-                                    Black
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #4272d7;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-                                <a class="filter-link stext-106 trans-04 filter-link-active" href="#">
-                                    Blue
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #b3b3b3;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-                                <a class="filter-link stext-106 trans-04" href="#">
-                                    Grey
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #00ad5f;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-                                <a class="filter-link stext-106 trans-04" href="#">
-                                    Green
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #fa4251;">
-										<i class="zmdi zmdi-circle"></i>
-									</span>
-
-                                <a class="filter-link stext-106 trans-04" href="#">
-                                    Red
-                                </a>
-                            </li>
-
-                            <li class="p-b-6">
-									<span class="fs-15 lh-12 m-r-6" style="color: #aaa;">
-										<i class="zmdi zmdi-circle-o"></i>
-									</span>
-
-                                <a class="filter-link stext-106 trans-04" href="#">
-                                    White
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div class="filter-col4 p-b-27">
-                        <div class="mtext-102 cl2 p-b-15">
-                            Tags
-                        </div>
-
-                        <div class="flex-w p-t-4 m-r--5">
-                            <a class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5"
-                               href="#">
-                                Fashion
-                            </a>
-
-                            <a class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5"
-                               href="#">
-                                Lifestyle
-                            </a>
-
-                            <a class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5"
-                               href="#">
-                                Denim
-                            </a>
-
-                            <a class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5"
-                               href="#">
-                                Streetstyle
-                            </a>
-
-                            <a class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5"
-                               href="#">
-                                Crafts
-                            </a>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -1458,9 +1347,7 @@
 
                 <ul>
                     <th:block th:each="cate : ${cate}">
-                        <li class="p-b-10"><a class="stext-107 cl7 hov-cl1 trans-04"
-                                              href="#" th:text="${cate.type}">
-                            Women </a></li>
+                        <li class="p-b-10"><a class="stext-107 cl7 hov-cl1 trans-04" href="#" th:text="${cate.type}"></a></li>
                     </th:block>
                 </ul>
             </div>
@@ -1527,41 +1414,6 @@
                     </div>
                 </form>
             </div>
-        </div>
-
-        <div class="p-t-40">
-            <div class="flex-c-m flex-w p-b-18">
-                <a class="m-all-1" href="#">
-                    <img alt="ICON-PAY" src="images/icons/icon-pay-01.png">
-                </a>
-
-                <a class="m-all-1" href="#">
-                    <img alt="ICON-PAY" src="images/icons/icon-pay-02.png">
-                </a>
-
-                <a class="m-all-1" href="#">
-                    <img alt="ICON-PAY" src="images/icons/icon-pay-03.png">
-                </a>
-
-                <a class="m-all-1" href="#">
-                    <img alt="ICON-PAY" src="images/icons/icon-pay-04.png">
-                </a>
-
-                <a class="m-all-1" href="#">
-                    <img alt="ICON-PAY" src="images/icons/icon-pay-05.png">
-                </a>
-            </div>
-
-            <p class="stext-107 cl6 txt-center">
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;<script>document.write(new Date().getFullYear());</script>
-                All rights reserved | This template is made with <i aria-hidden="true" class="fa fa-heart-o"></i> by <a
-                    href="https://colorlib.com" target="_blank">Colorlib</a>.
-                Downloaded from <a href="https://themeslab.org/" target="_blank">Themeslab</a>.
-                Downloaded from <a href="https://themeslab.org/" target="_blank">Themeslab</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-
-            </p>
         </div>
     </div>
 </footer>

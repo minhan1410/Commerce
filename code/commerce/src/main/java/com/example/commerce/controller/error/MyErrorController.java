@@ -19,12 +19,13 @@ public class MyErrorController implements ErrorController {
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request) {
         Integer status = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-        String messageError = (String) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
-        String urlError = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
 
         if (status != null) {
-            if (status != HttpStatus.NOT_FOUND.value())
-                telegramNotificationService.sendMessage(TelegramNotificationType.ERROR, String.format("STATUS: %s\nURL ERROR: %s\nMESSAGE: %s", status, urlError, messageError));
+            if (status != HttpStatus.NOT_FOUND.value()) {
+                Object messageError = request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+                Object urlError = request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
+                telegramNotificationService.sendMessage(TelegramNotificationType.ERROR, String.format("STATUS: %s\nURL ERROR: %s\nMESSAGE: %s", status, urlError.toString(), messageError.toString()));
+            }
 
             if (status == HttpStatus.NOT_FOUND.value()) {
                 return "/error/notFound";

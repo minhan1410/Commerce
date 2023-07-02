@@ -1,10 +1,7 @@
 package com.example.commerce.controller.blog;
 
 import com.example.commerce.model.dto.CommentBlogDTO;
-import com.example.commerce.service.BlogService;
-import com.example.commerce.service.CommentBlogService;
-import com.example.commerce.service.CouponService;
-import com.example.commerce.service.UserService;
+import com.example.commerce.service.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,11 +19,13 @@ public class BlogUserController {
     private final UserService userService;
     private final CommentBlogService commentBlogService;
     private final CouponService couponService;
+    private final CategoriesService categoriesService;
 
     @GetMapping("/blog")
     public String blog(Model model, HttpServletRequest request) {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
+        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
         return blogService.getBlogForBlogPage(model, request);
     }
 
@@ -35,6 +34,7 @@ public class BlogUserController {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
         model.addAttribute("userService", userService);
+        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
         return blogService.blogDetail(id, model, request);
     }
 
@@ -43,6 +43,7 @@ public class BlogUserController {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
         commentBlogService.add(commentBlogDTO, model);
+        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
         return "redirect:/blog-detail?id=" + commentBlogDTO.getBlogId();
     }
 }

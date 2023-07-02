@@ -40,6 +40,7 @@ public class HomeController {
         couponService.getByDiscountMax(model);
         model.addAttribute("products", productService.searchProduct(name));
         model.addAttribute("categoriesService", categoriesService);
+        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
         return "index";
     }
 }

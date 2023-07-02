@@ -1,6 +1,7 @@
 package com.example.commerce.controller.cart;
 
 import com.example.commerce.service.CartService;
+import com.example.commerce.service.CategoriesService;
 import com.example.commerce.service.CouponService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,14 @@ public class CartUserController {
     private final CartService cartService;
     private final UserService userService;
     private final CouponService couponService;
+    private final CategoriesService categoriesService;
 
     @GetMapping("/cart")
     public String getAllCartItem(Model model) {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
+        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+
         return "shoping-cart";
     }
 

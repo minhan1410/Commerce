@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class MyExceptionHandler {
-    @ExceptionHandler(CookieTheftException.class)
+    @ExceptionHandler(value = {CookieTheftException.class, IllegalStateException.class})
     public String cookieTheftException() {
         return "login";
     }

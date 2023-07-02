@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -34,8 +35,8 @@ public class LoginController {
     }
 
     @GetMapping("/verify")
-    public String veryficationCode(@RequestParam(name = "code") String code, Model model, HttpServletRequest request) {
-        userService.veryficationCode(code, model, request.getLocale());
+    public String veryficationCode(@RequestParam(name = "code") String code, RedirectAttributes redirectAttributes, HttpServletRequest request) {
+        userService.veryficationCode(code, redirectAttributes, request.getLocale());
         return "redirect:/login";
     }
 }

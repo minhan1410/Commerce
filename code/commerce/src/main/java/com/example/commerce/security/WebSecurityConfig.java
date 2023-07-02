@@ -2,6 +2,7 @@ package com.example.commerce.security;
 
 import com.example.commerce.config.SimpleAuthenticationSuccessHandler;
 import com.example.commerce.constants.Role;
+import com.example.commerce.controller.error.CustomAuthenticationFailureHandler;
 import com.example.commerce.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .anyRequest().authenticated()
 
-                .and().formLogin().loginPage("/login").usernameParameter("mail").successHandler(successHandler)
+                .and().formLogin().loginPage("/login").usernameParameter("mail").successHandler(successHandler).failureHandler(new CustomAuthenticationFailureHandler())
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").deleteCookies("remember-me")
 
                 .and().oauth2Login().loginPage("/login")

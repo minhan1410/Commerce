@@ -5,7 +5,6 @@ import com.example.commerce.constants.Role;
 import com.example.commerce.model.custom.CustomOAuth2User;
 import com.example.commerce.model.dto.UserDTO;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -13,69 +12,45 @@ import java.util.Date;
 @Entity
 @Data
 public class User {
+    private final String avatarDefault = "https://res.cloudinary.com/dpvehgfmo/image/upload/v1686989829/Avatar/352873771_3563083180588820_2861082734052866640_n_w5hlau.png";
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
     @Column(name = "mail", unique = true)
     private String mail;
-
     @Column(name = "password")
     private String password;
-
     @Column(name = "name")
     private String name;
-
     @Column(name = "phone")
     private String phone;
-
     @Column(name = "address")
     private String address;
-
     @Column(name = "state")
     private String state;
-
     @Column(name = "city")
     private String city;
-
     @Column(name = "created_time")
     private Date createdTime;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
-
     @Column(name = "enabled")
     private Boolean enabled;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "auth_provider")
     private Provider authProvider;
-
     @Column(name = "postal_code")
     private Integer postalCode;
-
     @Column(name = "avatar")
     private String avatar;
-
-    @Column(name = "one_time_password")
-    private String oneTimePassword;
-
-    @Column(name = "otp_requested_time")
-    private Date otpRequestedTime;
-
     @Column(name = "verification_code")
     private String verificationCode;
-
     @Column(name = "verification_code_expiry")
     private Date verificationCodeExpiry;
-
     @Column(name = "deleted", columnDefinition = "boolean default false")
     private Boolean deleted;
-
-    @Value("${avatar.default}")
-    private String avatarDefault;
 
     public User createUserLocal(String password, String verificationCode) {
         this.password = password;
@@ -98,7 +73,8 @@ public class User {
         return this;
     }
 
-    public User updateVerificationCodeExpiry() {
+    public User updateVerificationCodeExpiry(String verificationCode) {
+        this.verificationCode = verificationCode;
         this.verificationCodeExpiry = new Date();
         return this;
     }
