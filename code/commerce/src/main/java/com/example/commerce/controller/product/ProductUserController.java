@@ -56,7 +56,7 @@ public class ProductUserController {
         related.forEach(productDTO -> productDTO.setCategories(categoriesService.getById(productDTO.getCategoriesId())));
         model.addAttribute("related", related);
         model.addAttribute("isOrder", billRepository.hasCartItems((Long) model.getAttribute("id"), id));
-        model.addAttribute("averageRating", reviews.stream().mapToDouble(ReviewDTO::getStarNumber).average().orElse(0));
+        model.addAttribute("averageRating", Math.round(reviews.stream().mapToDouble(ReviewDTO::getStarNumber).average().orElse(0)));
         model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
 
         return "product-detail";
