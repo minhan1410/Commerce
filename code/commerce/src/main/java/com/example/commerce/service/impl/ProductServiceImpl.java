@@ -13,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -103,10 +104,10 @@ public class ProductServiceImpl implements ProductService {
         return optional.orElse(null);
     }
 
-    public Product getId(Long id, Model model) {
+    public Product getId(Long id, RedirectAttributes redirectAttributesl) {
         Optional<Product> findById = productRepository.findByIdAndDeleted(id, false);
         if (findById.isEmpty()) {
-            model.addAttribute("err", "k ton tai");
+            redirectAttributesl.addFlashAttribute("err", "Product not found");
             return null;
         }
         return findById.get();
@@ -119,12 +120,12 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public String add(ProductDTO productDTO, Model model) {
-//        ProductDTO getByName = getByName(productDTO.getName());
-//        if (getByName != null) {
-//            model.addAttribute("err", "ten da ton tai");
-//            return "/admin/addProduct";
-//        }
+    public String add(ProductDTO productDTO, RedirectAttributes redirectAttributes) {
+        ProductDTO getByName = getByName(productDTO.getName());
+        if (getByName != null) {
+            redirectAttributes.addFlashAttribute("err", "The product name already exists");
+            return "/admin/addProduct";
+        }
         cloudinaryService.uploadImageProduct(productDTO);
         productRepository.save(mapper.map(productDTO, Product.class));
         return "redirect:/admin/product";
@@ -141,9 +142,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public String update(ProductDTO productDTO, Model model) {
+    public String update(ProductDTO productDTO, RedirectAttributes redirectAttributes) {
         ProductDTO getById = getById(productDTO.getId());
         if (getById == null) {
+            redirectAttributes.addFlashAttribute("err", "Product not found");
             return "/admin/editProduct";
         }
         cloudinaryService.deleteImageProduct(productDTO, getById);
@@ -154,8 +156,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public String delete(Long id, Model model) {
-        Product getId = getId(id, model);
+    public String delete(Long id, RedirectAttributes redirectAttributes) {
+        Product getId = getId(id, redirectAttributes);
         if (getId != null) {
             productRepository.save(mapper.map(getId, Product.class).delete());
         }
@@ -164,8 +166,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void deletes(List<ProductDTO> productDTOS, Model model) {
-        productDTOS.forEach(productDTO -> delete(productDTO.getId(), model));
+    public void deletes(List<ProductDTO> productDTOS, RedirectAttributes redirectAttributes) {
+        productDTOS.forEach(productDTO -> delete(productDTO.getId(), redirectAttributes));
     }
 
     @Override

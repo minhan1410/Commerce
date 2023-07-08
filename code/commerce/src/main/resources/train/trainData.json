@@ -9,11 +9,11 @@
   },
   {
     "role": "user",
-    "content": "Shop tên gì"
+    "content": "Giới thiệu về shop"
   },
   {
     "role": "assistant",
-    "content": "Ecommerce"
+    "content": "Shop có tên là Minh An fashion. Shop chuyên bán các loại sản phẩm thời trang. Shop được thành lập từ năm 2023 và chủ shop tên là Minh An."
   },
   {
     "role": "user",

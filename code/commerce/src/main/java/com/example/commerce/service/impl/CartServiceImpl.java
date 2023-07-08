@@ -105,7 +105,7 @@ public class CartServiceImpl implements CartService {
             }
         } else {
             CouponDTO couponDTO = couponService.findCode(coupon, redirectAttributes);
-            if(Objects.isNull(couponDTO)) return "redirect:/cart";
+            if (Objects.isNull(couponDTO)) return "redirect:/cart";
 
             double totalPriceAfterApplyCoupon = totalPrice - (totalPrice * couponDTO.getDiscount() / 100);
             session.setAttribute("totalPriceAfterApplyCoupon", totalPriceAfterApplyCoupon);
@@ -165,7 +165,8 @@ public class CartServiceImpl implements CartService {
         Double totalPrice = (Double) session.getAttribute("totalPrice");
         Double totalPriceAfterApplyCoupon = (Double) session.getAttribute("totalPriceAfterApplyCoupon");
         Double price = coupon == null ? totalPrice : totalPriceAfterApplyCoupon;
-        String discount = ((Integer) session.getAttribute("discount")).toString();
+        Object discountNumber = session.getAttribute("discount");
+        String discount = Optional.ofNullable(discountNumber).map(d -> String.valueOf(d)).orElse(null);
 
         UserDTO currentUser = userService.getCurrentUser();
 
