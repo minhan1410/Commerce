@@ -165,6 +165,7 @@ public class CartServiceImpl implements CartService {
         Double totalPrice = (Double) session.getAttribute("totalPrice");
         Double totalPriceAfterApplyCoupon = (Double) session.getAttribute("totalPriceAfterApplyCoupon");
         Double price = coupon == null ? totalPrice : totalPriceAfterApplyCoupon;
+        String discount = ((Integer) session.getAttribute("discount")).toString();
 
         UserDTO currentUser = userService.getCurrentUser();
 
@@ -214,7 +215,7 @@ public class CartServiceImpl implements CartService {
         simpMessagingTemplate.convertAndSend("/notification", notificationDTO);
 
 //        Gui thong tin mua hang thanh cong ve mail
-        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, currentUser);
+        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, discount, currentUser);
 
 //        Thong bao mua hang thanh cong telegram
         telegramNotificationService.sendMessage(TelegramNotificationType.ORDER, "New order from " + currentUser.getName() + " with total price: " + price);

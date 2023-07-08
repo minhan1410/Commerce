@@ -32,13 +32,14 @@ public class MailServiceImpl extends QuartzJobBean implements MailService {
 
     @SneakyThrows
     @Override
-    public void sendMailCart(Map<Long, CartItemDTO> map, Integer totalOfCart, Double totalPrice, Double totalPriceAfterApplyCoupon, UserDTO currentUser) {
+    public void sendMailCart(Map<Long, CartItemDTO> map, Integer totalOfCart, Double totalPrice, Double totalPriceAfterApplyCoupon, String discount, UserDTO currentUser) {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("executeInternal", 2);
 
         jobDataMap.put("cart", map);
         jobDataMap.put("totalOfCart", totalOfCart);
         jobDataMap.put("totalPrice", totalPrice);
+        jobDataMap.put("discount", discount);
         jobDataMap.put("totalPriceAfterApplyCoupon", totalPriceAfterApplyCoupon);
         jobDataMap.put("email", currentUser.getMail());
         jobDataMap.put("name", currentUser.getName());
