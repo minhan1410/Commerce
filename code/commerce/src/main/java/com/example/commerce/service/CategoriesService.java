@@ -9,8 +9,6 @@ public interface CategoriesService {
 
     List<CategoriesDTO> getAll();
 
-    CategoriesDTO getById(Long id, RedirectAttributes redirectAttributes);
-
     CategoriesDTO getById(Long id);
 
     CategoriesDTO getByType(String type, RedirectAttributes redirectAttributes);

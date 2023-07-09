@@ -85,7 +85,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public ProductDTO getById(Long id) {
-        Product getId = getId(id, null);
+        Product getId = getId(id);
         if (getId == null) {
             return null;
         }
@@ -104,10 +104,9 @@ public class ProductServiceImpl implements ProductService {
         return optional.orElse(null);
     }
 
-    public Product getId(Long id, RedirectAttributes redirectAttributesl) {
+    public Product getId(Long id) {
         Optional<Product> findById = productRepository.findByIdAndDeleted(id, false);
         if (findById.isEmpty()) {
-            redirectAttributesl.addFlashAttribute("err", "Product not found");
             return null;
         }
         return findById.get();
@@ -157,7 +156,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     @Transactional
     public String delete(Long id, RedirectAttributes redirectAttributes) {
-        Product getId = getId(id, redirectAttributes);
+        Product getId = getId(id);
         if (getId != null) {
             productRepository.save(mapper.map(getId, Product.class).delete());
         }

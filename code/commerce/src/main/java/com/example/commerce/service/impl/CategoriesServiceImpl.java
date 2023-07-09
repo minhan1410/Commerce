@@ -27,16 +27,6 @@ public class CategoriesServiceImpl implements CategoriesService {
     }
 
     @Override
-    public CategoriesDTO getById(Long id, RedirectAttributes redirectAttributes) {
-        Optional<Categories> findCategory = categoriesRepository.getByIdAndDeletedFalse(id);
-        if (findCategory.isEmpty()) {
-            redirectAttributes.addFlashAttribute("err", "Quantity not found");
-            return null;
-        }
-        return mapper.map(findCategory.get(), CategoriesDTO.class);
-    }
-
-    @Override
     public CategoriesDTO getById(Long id) {
         Optional<Categories> findCategory = categoriesRepository.getByIdAndDeletedFalse(id);
         if (findCategory.isEmpty()) {
@@ -66,7 +56,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     @Override
     @Transactional
     public String update(CategoriesDTO categoriesDTO, RedirectAttributes redirectAttributes) {
-        CategoriesDTO getById = getById(categoriesDTO.getId(), redirectAttributes);
+        CategoriesDTO getById = getById(categoriesDTO.getId());
         if (getById == null || getByType(categoriesDTO.getType(), redirectAttributes) != null)
             return "/admin/category/list-category";
         categoriesRepository.save(mapper.map(getById, Categories.class).update(categoriesDTO));
@@ -76,7 +66,7 @@ public class CategoriesServiceImpl implements CategoriesService {
     @Override
     @Transactional
     public String delete(Long id, RedirectAttributes redirectAttributes) {
-        CategoriesDTO getId = getById(id, redirectAttributes);
+        CategoriesDTO getId = getById(id);
         if (getId != null) {
             getId.setDeleted(true);
             categoriesRepository.save(mapper.map(getId, Categories.class).delete());

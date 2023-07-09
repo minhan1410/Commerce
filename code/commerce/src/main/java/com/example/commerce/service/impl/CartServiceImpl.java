@@ -184,7 +184,7 @@ public class CartServiceImpl implements CartService {
         List<CartItem> cartItems = cartItemDTOS.stream().map(CartItem::mapper).toList();
         cartItemRepository.saveAll(cartItems);
         productService.saveAll(productCartItem);
-        billRepository.save(Bill.builder()
+        Bill bill = billRepository.save(Bill.builder()
                 .userId(currentUser.getId())
                 .cartId(cart.getId())
                 .couponId(coupon)
@@ -216,7 +216,7 @@ public class CartServiceImpl implements CartService {
         simpMessagingTemplate.convertAndSend("/notification", notificationDTO);
 
 //        Gui thong tin mua hang thanh cong ve mail
-        mailService.sendMailCart(map, totalOfCart, totalPrice, totalPriceAfterApplyCoupon, discount, currentUser);
+        mailService.sendMailCart(map, bill, currentUser, discount);
 
 //        Thong bao mua hang thanh cong telegram
         telegramNotificationService.sendMessage(TelegramNotificationType.ORDER, "New order from " + currentUser.getName() + " with total price: " + price);

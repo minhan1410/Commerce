@@ -48,7 +48,7 @@ public class CategoryAdminController {
     public String editCateGet(@PathVariable(name = "id") Long id, Model model, RedirectAttributes redirectAttributes) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
-        model.addAttribute("categories", categoriesService.getById(id, redirectAttributes));
+        model.addAttribute("categories", categoriesService.getById(id));
         return "/admin/editCategories";
     }
 
