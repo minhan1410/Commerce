@@ -2,6 +2,7 @@ package com.example.commerce.service;
 
 import com.example.commerce.model.dto.ProductDTO;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -27,15 +28,15 @@ public interface ProductService {
 
     ProductDTO getByIdAndSize(Long id, String size);
 
-    String add(ProductDTO productDTO, Model model);
+    String add(ProductDTO productDTO, RedirectAttributes redirectAttributes);
 
     String duplicate(ProductDTO productDTO);
 
-    String update(ProductDTO productDTO, Model model);
+    String update(ProductDTO productDTO, RedirectAttributes redirectAttributes);
 
-    String delete(Long id, Model model);
+    String delete(Long id, RedirectAttributes redirectAttributes);
 
-    void deletes(List<ProductDTO> productDTOS, Model model);
+    void deletes(List<ProductDTO> products, RedirectAttributes redirectAttributes);
 
     List<ProductDTO> searchProduct(String name);
 

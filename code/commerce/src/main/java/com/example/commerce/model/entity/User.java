@@ -91,7 +91,6 @@ public class User {
             this.avatar = dto.getAvatar();
         }
         this.name = dto.getName();
-        this.mail = dto.getMail();
         this.phone = dto.getPhone();
         this.address = dto.getAddress();
         this.state = dto.getState();

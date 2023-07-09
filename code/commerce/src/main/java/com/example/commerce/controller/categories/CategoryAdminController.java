@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller()
 @RequestMapping("/admin")
@@ -36,34 +37,34 @@ public class CategoryAdminController {
     }
 
     @PostMapping("categories/new")
-    public String addCategoriesNew(@ModelAttribute("category") CategoriesDTO dto, Model model) {
+    public String addCategoriesNew(@ModelAttribute("category") CategoriesDTO dto, Model model, RedirectAttributes redirectAttributes) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("categories", categoriesService.getAll());
-        return categoriesService.add(dto, model);
+        return categoriesService.add(dto, redirectAttributes);
     }
 
     @GetMapping("categories/update/{id}")
-    public String editCateGet(@PathVariable(name = "id") Long id, Model model) {
+    public String editCateGet(@PathVariable(name = "id") Long id, Model model, RedirectAttributes redirectAttributes) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
-        model.addAttribute("categories", categoriesService.getById(id, model));
+        model.addAttribute("categories", categoriesService.getById(id));
         return "/admin/editCategories";
     }
 
     @PostMapping("categories/update")
-    public String editCatePost(@RequestParam("type") String type, @RequestParam("id") Long id, Model model) {
+    public String editCatePost(@RequestParam("type") String type, @RequestParam("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("categories", categoriesService.getAll());
-        return categoriesService.update(CategoriesDTO.builder().id(id).type(type).deleted(false).build(), model);
+        return categoriesService.update(CategoriesDTO.builder().id(id).type(type).deleted(false).build(), redirectAttributes);
     }
 
     @GetMapping("categories/delete/{id}")
-    public String deleteCategory(@PathVariable("id") Long id, Model model) {
+    public String deleteCategory(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
-        return categoriesService.delete(id, model);
+        return categoriesService.delete(id, redirectAttributes);
     }
 
     //

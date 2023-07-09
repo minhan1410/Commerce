@@ -51,11 +51,11 @@
                     <p style="color : red; text-align: center"> Bạn vừa mới logout</p>
                 </div>
                 <div class="input-field">
-                    <i class="fas fa-user"></i> <input name="mail"
-                                                       placeholder="Email" th:value="${param.email}" type="Email"/>
+                    <i class="fas fa-user"></i> <input name="mail" placeholder="Email"
+                                                       required th:value="${param.email}" type="Email"/>
                 </div>
                 <div class="input-field">
-                    <i class="fas fa-lock"></i> <input name="password"
+                    <i class="fas fa-lock"></i> <input name="password" required
                                                        th:placeholder="Password"
                                                        type="password"/>
                 </div>
@@ -79,15 +79,15 @@
                     <p style="color : red; text-align: center" th:text="${mess}"></p>
                 </div>
                 <div class="input-field">
-                    <i class="fas fa-user"></i> <input name="name"
+                    <i class="fas fa-user"></i> <input name="name" required
                                                        th:field="*{name}" th:placeholder="#{fullName}" type="text"/>
                 </div>
                 <div class="input-field">
-                    <i class="fas fa-envelope"></i> <input name="mail"
-                                                           placeholder="Email" th:field="*{mail}" type="Email"/>
+                    <i class="fas fa-envelope"></i> <input name="mail" placeholder="Email"
+                                                           required th:field="*{mail}" type="Email"/>
                 </div>
                 <div class="input-field">
-                    <i class="fas fa-lock"></i> <input name="password"
+                    <i class="fas fa-lock"></i> <input name="password" required
                                                        th:field="*{password}" th:placeholder="#{password}"
                                                        type="password"/>
                 </div>

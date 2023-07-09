@@ -7,8 +7,6 @@
 </head>
 
 <body class="animsition">
-<h1 th:text="${'Xin chào, ' + name}"></h1>
-
     <div style="margin:0px;padding:0px;color:rgb(32,32,32);font-size:14px;font-weight:normal;font-family:Helvetica,Arial,sans-serif!important;line-height:150%!important">
         <div class="m_-4387865266345144637main-content" align="center">
             <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width:730px">
@@ -23,36 +21,29 @@
                     <td bgcolor="#D1D1D1" width="1px"></td>
                     <td>
                         <div class="m_-4387865266345144637section">
-                            <div class="m_-4387865266345144637section-header m_-4387865266345144637section-header--deliveredTo">Cảm ơn bạn đã mua hàng, dưới đây là hóa đơn của bạn</div>
+                            <div class="m_-4387865266345144637section-header m_-4387865266345144637section-header--deliveredTo" th:text="${'Xin chào ' + name + '. Cảm ơn bạn đã mua hàng, dưới đây là hóa đơn của bạn'}"></div>
                             <div class="m_-4387865266345144637section-content">
 
                                 <table cellpadding="2" cellspacing="0" width="100%">
                                     <tbody>
                                     <tr>
-                                        <td width="25%" valign="top" style="color:#0f146d;font-weight:bold">Tên:</td>
+                                        <td width="25%" valign="top" style="font-weight:bold">Tên người nhận:</td>
                                         <td width="75%" valign="top" th:text="${name}"></td>
                                     </tr>
 
                                     <tr>
-                                        <td valign="top" style="color:#0f146d;font-weight:bold">Email:</td>
-                                        <td valign="top"><a href="" target="_blank" th:text="${email}"></a></td>
+                                        <td valign="top" style="font-weight:bold">Số điện thoại:</td>
+                                        <td valign="top"><a href="" target="_blank" th:text="${phone}"></a></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td valign="top" style="font-weight:bold">Địa chỉ nhận:</td>
+                                        <td valign="top"><a href="" target="_blank" th:text="${address}"></a></td>
                                     </tr>
                                     </tbody>
                                 </table>
                             </div>
-
                         </div>
-
-
-                        <div class="m_-4387865266345144637section" style="padding-bottom:0px">
-
-                            <div class="m_-4387865266345144637section-content">
-
-                                <div class="m_-4387865266345144637section-header ">Kiện Hàng </div>
-
-                            </div>
-                        </div>
-
                         <br>
                         <div class="m_-4387865266345144637section" style="padding-top:0px">
                             <div class="m_-4387865266345144637section-content">
@@ -116,20 +107,20 @@
                                             <tbody>
 
                                             <tr>
-                                                <td valign="top" style="color:#585858;width:98%">Thành tiền:</td>
+                                                <td valign="top" style="font-weight:bold;width:98%">Thành tiền:</td>
                                                 <td align="right" valign="top" th:text="'$' + ${totalPrice}"></td>
                                             </tr>
-                                            <tr>
-                                                <td valign="top" style="color:#585858">Phí vận chuyển:</td>
-                                                <td align="right" valign="top">Free</td>
-                                            </tr>
                                             <tr th:if = "${discount!=null}">
-                                                <td valign="top" style="color:#585858">Giảm giá:</td>
+                                                <td valign="top" style="font-weight:bold">Giảm giá:</td>
                                                 <td align="right" valign="top" th:text="${discount} + '%'"></td>
                                             </tr>
                                             <tr>
-                                                <td valign="top" style="color:#585858">Tổng cộng sau khi giảm giá:</td>
-                                                <td align="right" valign="top"><div style="color:#f27c24;font-weight:bold" th:text="'$' + (${totalPriceAfterApplyCoupon != null} ? ${totalPriceAfterApplyCoupon} : ${totalPrice})"></div></td>
+                                                <td valign="top" style="font-weight:bold">Phí vận chuyển:</td>
+                                                <td align="right" valign="top">Free</td>
+                                            </tr>
+                                            <tr>
+                                                <td valign="top" style="font-weight:bold">Tổng cộng:</td>
+                                                <td align="right" valign="top"><div style="font-weight:bold" th:text="'$' + ${totalPrice}"></div></td>
                                             </tr>
 
                                             </tbody></table>

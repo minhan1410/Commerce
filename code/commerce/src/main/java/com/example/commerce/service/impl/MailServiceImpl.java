@@ -2,6 +2,7 @@ package com.example.commerce.service.impl;
 
 import com.example.commerce.model.dto.CartItemDTO;
 import com.example.commerce.model.dto.UserDTO;
+import com.example.commerce.model.entity.Bill;
 import com.example.commerce.service.MailService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -32,17 +33,19 @@ public class MailServiceImpl extends QuartzJobBean implements MailService {
 
     @SneakyThrows
     @Override
-    public void sendMailCart(Map<Long, CartItemDTO> map, Integer totalOfCart, Double totalPrice, Double totalPriceAfterApplyCoupon, String discount, UserDTO currentUser) {
+    public void sendMailCart(Map<Long, CartItemDTO> map, Bill bill, UserDTO currentUser, String discount) {
         JobDataMap jobDataMap = new JobDataMap();
         jobDataMap.put("executeInternal", 2);
 
         jobDataMap.put("cart", map);
-        jobDataMap.put("totalOfCart", totalOfCart);
-        jobDataMap.put("totalPrice", totalPrice);
+        jobDataMap.put("totalOfCart", bill.getTotalCart());
+        jobDataMap.put("totalPrice", bill.getTotalPrice());
         jobDataMap.put("discount", discount);
-        jobDataMap.put("totalPriceAfterApplyCoupon", totalPriceAfterApplyCoupon);
+        jobDataMap.put("totalPriceAfterApplyCoupon", bill.getPriceTotal());
+        jobDataMap.put("name", bill.getReceiverName());
+        jobDataMap.put("phone", bill.getPhoneNumber());
+        jobDataMap.put("address", bill.getShippingAddress());
         jobDataMap.put("email", currentUser.getMail());
-        jobDataMap.put("name", currentUser.getName());
 
         JobDetail jobDetail = JobBuilder.newJob(MailServiceImpl.class)
                 .withIdentity(UUID.randomUUID().toString(), "jobDetail-cart")
