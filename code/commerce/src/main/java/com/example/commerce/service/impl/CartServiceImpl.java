@@ -146,6 +146,11 @@ public class CartServiceImpl implements CartService {
         Collection<CartItemDTO> cartItemDTOS = map.values();
         List<ProductDTO> productCartItem = productService.getByListId(cartItemDTOS.stream().map(cartItemDTO -> cartItemDTO.getProduct().getId()).toList());
 
+        if (cartItemDTOS.size() == 0) {
+            redirectAttributes.addFlashAttribute("err", "Your cart is empty");
+            return "redirect:/cart";
+        }
+
 //        Check quantity cartItems
         if (cartItemDTOS.stream()
                 .peek(cartItemDTO -> {

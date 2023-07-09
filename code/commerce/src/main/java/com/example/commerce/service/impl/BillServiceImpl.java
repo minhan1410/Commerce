@@ -96,7 +96,7 @@ public class BillServiceImpl implements BillService {
 
     @Override
     public void export(HttpServletResponse response) throws IOException {
-        String fileName = "test.xlsx";
+        String fileName = "data.xlsx";
         List<RenderBill> data = mapExcel();
 
         try (Workbook workbook = new XSSFWorkbook()) {

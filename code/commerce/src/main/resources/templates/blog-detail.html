@@ -99,13 +99,7 @@
 							<h4 class="ltext-109 cl2 p-b-28" th:text="${blog.title}">
 							</h4>
 
-							<p class="stext-117 cl6 p-b-26">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sit amet est vel orci luctus sollicitudin. Duis eleifend vestibulum justo, varius semper lacus condimentum dictum. Donec pulvinar a magna ut malesuada. In posuere felis diam, vel sodales metus accumsan in. Duis viverra dui eu pharetra pellentesque. Donec a eros leo. Quisque sed ligula vitae lorem efficitur faucibus. Praesent sit amet imperdiet ante. Nulla id tellus auctor, dictum libero a, malesuada nisi. Nulla in porta nibh, id vestibulum ipsum. Praesent dapibus tempus erat quis aliquet. Donec ac purus id sapien condimentum feugiat.
-							</p>
-
-							<p class="stext-117 cl6 p-b-26">
-								Praesent vel mi bibendum, finibus leo ac, condimentum arcu. Pellentesque sem ex, tristique sit amet suscipit in, mattis imperdiet enim. Integer tempus justo nec velit fringilla, eget eleifend neque blandit. Sed tempor magna sed congue auctor. Mauris eu turpis eget tortor ultricies elementum. Phasellus vel placerat orci, a venenatis justo. Phasellus faucibus venenatis nisl vitae vestibulum. Praesent id nibh arcu. Vivamus sagittis accumsan felis, quis vulputate
-							</p>
+							<p class="stext-117 cl6 p-b-26" th:text="${blog.content}"></p>
 						</div>
 
 						<div class="flex-w flex-t p-t-16">
@@ -188,12 +182,14 @@
 
 							<ul>
 								<li class="bor18">
-								<a  class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4" th:href="@{/blog}">All</a>
+									<a class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4"
+									   th:href="@{/blog}">All</a>
 								</li>
-
-								<th:block th:each = "categoryForBlog : ${categoryForBlog}">
+								<th:block th:each="categoryForBlog : ${categoryForBlog}">
 									<li class="bor18">
-										<a th:href="@{'/blog?category=' + ${categoryForBlog.type}}" class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4" th:text="${categoryForBlog.type}">
+										<a class="dis-block stext-115 cl6 hov-cl1 trans-04 p-tb-8 p-lr-4"
+										   th:href="@{'/blog?category=' + ${categoryForBlog.type}}"
+										   th:text="${categoryForBlog.type}">
 											Fashion
 										</a>
 									</li>
@@ -207,53 +203,25 @@
 							</h4>
 
 							<ul>
-								<li class="flex-w flex-t p-b-30">
-									<a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-										<img src="images/product-min-01.jpg" alt="PRODUCT">
-									</a>
-
-									<div class="size-215 flex-col-t p-t-8">
-										<a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-											White Shirt With Pleat Detail Back
+								<th:block th:each="p : ${products}">
+									<li class="flex-w flex-t p-b-30">
+										<a class="wrao-pic-w size-214 hov-ovelay1 m-r-20"
+										   th:href="@{'/product-detail?id=' + ${p.id}}">
+											<img alt="PRODUCT" style="width: 100px" th:src="@{${p.imgMain}}">
 										</a>
 
-										<span class="stext-116 cl6 p-t-20">
+										<div class="size-215 flex-col-t p-t-8">
+											<a class="stext-116 cl8 hov-cl1 trans-04"
+											   th:href="@{'/product-detail?id=' + ${p.id}}" th:text="${p.name}">
+												White Shirt With Pleat Detail Back
+											</a>
+
+											<span class="stext-116 cl6 p-t-20" th:text="'$' + ${p.price}">
 											$19.00
 										</span>
-									</div>
-								</li>
-
-								<li class="flex-w flex-t p-b-30">
-									<a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-										<img src="images/product-min-02.jpg" alt="PRODUCT">
-									</a>
-
-									<div class="size-215 flex-col-t p-t-8">
-										<a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-											Converse All Star Hi Black Canvas
-										</a>
-
-										<span class="stext-116 cl6 p-t-20">
-											$39.00
-										</span>
-									</div>
-								</li>
-
-								<li class="flex-w flex-t p-b-30">
-									<a href="#" class="wrao-pic-w size-214 hov-ovelay1 m-r-20">
-										<img src="images/product-min-03.jpg" alt="PRODUCT">
-									</a>
-
-									<div class="size-215 flex-col-t p-t-8">
-										<a href="#" class="stext-116 cl8 hov-cl1 trans-04">
-											Nixon Porter Leather Watch In Tan
-										</a>
-
-										<span class="stext-116 cl6 p-t-20">
-											$17.00
-										</span>
-									</div>
-								</li>
+										</div>
+									</li>
+								</th:block>
 							</ul>
 						</div>
 
@@ -263,125 +231,124 @@
 							</h4>
 
 							<ul>
-							
 								<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
+
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=&category=' + ${category}">
 										<span>
 											All
 										</span>
-
-										<span th:text = "'(' + ${totalBlog} + ')'">	
-										</span>
 									</a>
 								</li>
-								
-								<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=July&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											July 2021
-										</span>
 
+								<li class="p-b-7">
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=January&category=' + ${category}">
 										<span>
-											(9)
+											January
 										</span>
 									</a>
 								</li>
 
 								<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=June&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=February&category=' + ${category}">
 										<span>
-											June 2021
-										</span>
-
-										<span>
-											(39)
+											February
 										</span>
 									</a>
 								</li>
 
 								<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=May&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=March&category=' + ${category}">
 										<span>
-											May 2021
-										</span>
-
-										<span>
-											(29)
+											March
 										</span>
 									</a>
 								</li>
 
 								<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=Apr&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											April  2021
-										</span>
-
-										<span>
-											(35)
-										</span>
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=April&category=' + ${category}">
+                            										<span>
+                            											April
+                            										</span>
 									</a>
 								</li>
 
 								<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=Mar&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											March 2021
-										</span>
-
-										<span>
-											(22)
-										</span>
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=May&category=' + ${category}">
+                            										<span>
+                            											May
+                            										</span>
 									</a>
 								</li>
 
 								<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=Feb&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											February 2021
-										</span>
-
-										<span>
-											(32)
-										</span>
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=June&category=' + ${category}">
+                            										<span>
+                            											June
+                            										</span>
 									</a>
 								</li>
 
 								<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=Jan&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											January 2021
-										</span>
-
-										<span>
-											(21)
-										</span>
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=July&category=' + ${category}">
+                            										<span>
+                            											July
+                            										</span>
 									</a>
 								</li>
 
 								<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=Dec&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											December 2021
-										</span>
-
-										<span>
-											(26)
-										</span>
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=August&category=' + ${category}">
+                            										<span>
+                            											August
+                            										</span>
 									</a>
 								</li>
-								
-									<li class="p-b-7">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=Sep&category=' + ${category}}" class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2">
-										<span>
-											September 2021
-										</span>
 
-										<span>
-											(26)
-										</span>
+								<li class="p-b-7">
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=September&category=' + ${category}">
+                            										<span>
+                            											September
+                            										</span>
 									</a>
 								</li>
+
+								<li class="p-b-7">
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=October&category=' + ${category}">
+                            										<span>
+                            											October
+                            										</span>
+									</a>
+								</li>
+
+								<li class="p-b-7">
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=November&category=' + ${category}">
+                            										<span>
+                            											November
+                            										</span>
+									</a>
+								</li>
+
+								<li class="p-b-7">
+									<a class="flex-w flex-sb-m stext-115 cl6 hov-cl1 trans-04 p-tb-2"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword}} + '&month=December&category=' + ${category}">
+                            										<span>
+                            											December
+                            										</span>
+									</a>
+								</li>
+
 							</ul>
 						</div>
 
@@ -392,7 +359,9 @@
 
 							<div class="flex-w m-r--5">
 								<th:block th:each="tags : ${tags}">
-									<a th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=' + ${month} + '&category=' + ${category} + '&tag=' + ${tags.type}}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5" th:text="${tags.type}">
+									<a class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5"
+									   th:href="@{'/blog?page=0' +'&size=4&keyword=' + ${keyword} + '&month=' + ${month} + '&category=' + ${category} + '&tag=' + ${tags.type}}"
+									   th:text="${tags.type}">
 									</a>
 								</th:block>
 							</div>

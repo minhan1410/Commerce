@@ -20,7 +20,7 @@ public class UserDTO {
     private String role;
     private Byte enabled;
     private String authProvider;
-    private Integer postalCode;
+    private String postalCode;
     private String avatar;
     private MultipartFile image;
     private String oneTimePassword;

@@ -1,5 +1,6 @@
 package com.example.commerce.controller.purchaseHistory;
 
+import com.example.commerce.model.dto.BillDTO;
 import com.example.commerce.service.BillService;
 import com.example.commerce.service.CategoriesService;
 import com.example.commerce.service.CouponService;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.Objects;
 
 @Controller
 @RequiredArgsConstructor
@@ -31,9 +34,13 @@ public class PurchaseHistoryUserController {
 
     @GetMapping("/{id}")
     public String billDetail(@PathVariable(name = "id") Long id, Model model) {
+        BillDTO billDTO = billService.getById(id);
+        if (Objects.isNull(billDTO)) {
+            return "error/notFound";
+        }
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
-        model.addAttribute("bill", billService.getById(id));
+        model.addAttribute("bill", billDTO);
         model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
         return "purchase-history-info";
     }

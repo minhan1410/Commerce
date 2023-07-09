@@ -31,8 +31,6 @@ public class User {
     private String state;
     @Column(name = "city")
     private String city;
-    @Column(name = "created_time")
-    private Date createdTime;
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
@@ -42,7 +40,7 @@ public class User {
     @Column(name = "auth_provider")
     private Provider authProvider;
     @Column(name = "postal_code")
-    private Integer postalCode;
+    private String postalCode;
     @Column(name = "avatar")
     private String avatar;
     @Column(name = "verification_code")

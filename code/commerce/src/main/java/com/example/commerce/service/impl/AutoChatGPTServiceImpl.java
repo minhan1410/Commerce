@@ -37,14 +37,14 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
     private static JSONArray cachedTrainData;
     private final ProductService productService;
     private final BillService billService;
-    @Value("${openai.api.key}")
-    private String apiKey;
-    @Value("${path.file.train}")
-    private String pathFile;
     private final Cache<String, String> cache = CacheBuilder.newBuilder()
             .maximumSize(100) // Số lượng mục tối đa trong cache
             .expireAfterWrite(10, TimeUnit.MINUTES) // Thời gian tồn tại của mỗi mục trong cache
             .build();
+    @Value("${openai.api.key}")
+    private String apiKey;
+    @Value("${path.file.train}")
+    private String pathFile;
 
     @PostConstruct
     public void init() {
@@ -75,7 +75,7 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
     @Override
     public String chat(String message) throws IOException {
 //        Check trong cache
-        if(cache.asMap().containsKey(message)){
+        if (cache.asMap().containsKey(message)) {
             return cache.getIfPresent(message);
         }
 
@@ -121,7 +121,7 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
         Request request = createRequest(requestBody);
 
 //        Gửi request đến api
-        OkHttpClient client = new OkHttpClient.Builder().readTimeout(2, TimeUnit.MINUTES).build(); // Thiết lập timeout 2 phút
+        OkHttpClient client = new OkHttpClient.Builder().readTimeout(3, TimeUnit.MINUTES).build(); // Thiết lập timeout 3 phút
 
         // Gửi yêu cầu và nhận phản hồi
         Response response = client.newCall(request).execute();
@@ -133,7 +133,7 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
             return result;
         }
 
-        return "Request failed: " + response.code();
+        return "The system is overloaded. Please try again later.";
     }
 
     private List<ProductDTO> containsProductName(String message) {

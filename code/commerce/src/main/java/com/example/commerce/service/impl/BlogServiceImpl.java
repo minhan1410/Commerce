@@ -204,6 +204,7 @@ public class BlogServiceImpl implements BlogService {
         model.addAttribute("tags", tagService.getAll());
         model.addAttribute("comments", comment);
         model.addAttribute("commentTotal", comment.stream().count());
+        model.addAttribute("products", productService.topFeaturedProducts(3));
         return "blog-detail";
     }
 }
