@@ -70,12 +70,12 @@ public class HomeAdminController {
     @GetMapping("/view-noti/{id}")
     public String viewNoti(@PathVariable Long id, HttpServletRequest request) {
         notificationService.viewMessage(id);
-        return "redirect:" + request.getHeader("referer").replace(" http://localhost:8080//admin", "");
+        return "redirect:" + request.getHeader("referer").replace(request.getContextPath(), "");
     }
 
     @GetMapping("/view-all")
     public String viewAll(HttpServletRequest request) {
         notificationService.viewAll();
-        return "redirect:" + request.getHeader("referer").replace(" http://localhost:8080//admin", "");
+        return "redirect:" + request.getHeader("referer").replace(request.getContextPath(), "");
     }
 }
