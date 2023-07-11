@@ -25,7 +25,7 @@ public class BlogUserController {
     public String blog(Model model, HttpServletRequest request) {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
-        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+        model.addAttribute("cate", categoriesService.getAll());
         return blogService.getBlogForBlogPage(model, request);
     }
 
@@ -34,7 +34,7 @@ public class BlogUserController {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
         model.addAttribute("userService", userService);
-        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+        model.addAttribute("cate", categoriesService.getAll());
         return blogService.blogDetail(id, model, request);
     }
 
@@ -43,7 +43,7 @@ public class BlogUserController {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
         commentBlogService.add(commentBlogDTO, model);
-        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+        model.addAttribute("cate", categoriesService.getAll());
         return "redirect:/blog-detail?id=" + commentBlogDTO.getBlogId();
     }
 }

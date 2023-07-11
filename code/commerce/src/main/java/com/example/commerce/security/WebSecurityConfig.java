@@ -29,7 +29,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth)
             throws Exception {
-        auth.userDetailsService(userService)
+        // Cấu hình AuthenticationManagerBuilder
+        auth.eraseCredentials(false) // Ngăn Spring Security xoá thông tin đăng nhập khi kết thúc phiên làm việc
+                .userDetailsService(userService)
                 .passwordEncoder(passwordEncoder);
     }
 
@@ -69,7 +71,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public RememberMeConfigurer persistentTokenRememberMeConfigurer() {
         RememberMeConfigurer rememberMeConfigurer = new RememberMeConfigurer();
         rememberMeConfigurer.tokenRepository(persistentTokenRepository());
-        rememberMeConfigurer.tokenValiditySeconds(108_000); // Số giây trong 1 thang
+        rememberMeConfigurer.tokenValiditySeconds(2_592_000); // Thời gian hiệu lực của cookie Remember Me (30 ngày)
         rememberMeConfigurer.useSecureCookie(false); // Có thể điều chỉnh theo nhu cầu
         return rememberMeConfigurer;
     }

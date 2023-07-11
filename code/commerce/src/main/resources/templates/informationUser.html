@@ -62,7 +62,7 @@
                 <label class="col-form-label col-sm-4" for="1">Full name:</label>
                 <div class="col-sm-8">
                     <input class="form-control mb-2 mr-sm-2" id="1" pattern="[a-zA-ZÀ-ỹ ]{8,50}"
-                           placeholder="Nhập tên sản phẩm" th:field="*{name}" type="text">
+                           placeholder="Nhập tên" th:field="*{name}" type="text">
                 </div>
             </div>
 
@@ -70,7 +70,7 @@
                 <label class="col-form-label col-sm-4" for="2">Mail:</label>
                 <div class="col-sm-8">
                     <input class="form-control mb-2 mr-sm-2" disabled id="2"
-                           placeholder="Nhập tên giá phẩm" th:field="*{mail}" type="email">
+                           placeholder="Nhập mail" th:field="*{mail}" type="email">
                 </div>
             </div>
 
@@ -118,13 +118,58 @@
             </div>
 
             <div class="text-center p-3">
-                <button class="btn btn-primary mb-2" style="height: 38px;"
-                        type="submit">Save
+                <button class="btn btn-primary mb-2 m-l-80" style="height: 38px;" type="submit">Save</button>
+
+                <!-- Button to trigger the modal -->
+                <button class="btn btn-primary mb-2 m-l-40" data-target="#changePasswordModal" data-toggle="modal"
+                        style="height: 38px;" type="button">Change password
                 </button>
             </div>
         </div>
     </form>
 </div>
+
+<!-- Modal -->
+<div aria-hidden="true" aria-labelledby="changePasswordModalLabel" class="modal fade" id="changePasswordModal"
+     role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="changePasswordModalLabel">Change Password</h5>
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="changePasswordForm" method="post" th:action="@{/member/user/change-password}">
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="currentPassword">Current password:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="currentPassword" name="currentPassword" required
+                                   type="password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="newPassword">New password:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="newPassword" name="newPassword" required type="password">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-4 col-form-label" for="confirmPassword">Confirm password:</label>
+                        <div class="col-sm-8">
+                            <input class="form-control" id="confirmPassword" required type="password">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="submit">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div th:replace="footer :: footer"></div>
 
 <!-- Back to top -->
@@ -208,10 +253,31 @@
 </script>
 <script th:inline="javascript">
     /* Gán giá trị thuộc tính err vào biến JavaScript */
-    var errMessage = [[${apply}]];
+    var errMessage = [[${noti}]];
     if (errMessage != null) {
         alert(errMessage);
     }
+</script>
+
+<script th:inline="javascript">
+    document.getElementById("changePasswordForm").addEventListener("submit", function (event) {
+        event.preventDefault(); // Prevent form submission
+
+        // Get input values
+        var currentPassword = document.getElementById("currentPassword").value;
+        var newPassword = document.getElementById("newPassword").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+
+        // Check if new password and confirm password match
+        if (newPassword !== confirmPassword) {
+            alert("New password and confirm password do not match");
+        } else if (currentPassword === newPassword) {
+            alert("New password must be different from current password");
+        } else {
+            document.getElementById("changePasswordForm").submit();
+        }
+    });
+
 </script>
 </body>
 </html>

@@ -28,7 +28,7 @@ public class PurchaseHistoryUserController {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
         model.addAttribute("bills", billService.getAllByCurrentUser());
-        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+        model.addAttribute("cate", categoriesService.getAll());
         return "purchase-history";
     }
 
@@ -41,7 +41,7 @@ public class PurchaseHistoryUserController {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
         model.addAttribute("bill", billDTO);
-        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+        model.addAttribute("cate", categoriesService.getAll());
         return "purchase-history-info";
     }
 }

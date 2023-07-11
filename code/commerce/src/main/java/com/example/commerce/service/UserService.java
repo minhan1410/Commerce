@@ -31,4 +31,6 @@ public interface UserService extends UserDetailsService {
     List<UserDTO> getAllUsers();
 
     List<UserDTO> getAllAdmin();
+
+    void changePassword(String currentPassword, String newPassword, RedirectAttributes redirectAttributes);
 }

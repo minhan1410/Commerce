@@ -157,4 +157,17 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     public List<UserDTO> getAllAdmin() {
         return userRepository.getByRoleAndDeletedFalse(Role.ADMIN).stream().map(user -> mapper.map(user, UserDTO.class)).toList();
     }
+
+    @Override
+    public void changePassword(String currentPassword, String newPassword, RedirectAttributes redirectAttributes) {
+        UserDTO currentUser = getCurrentUser();
+        if (!passwordEncoder.matches(currentPassword, currentUser.getPassword())) {
+            redirectAttributes.addFlashAttribute("noti", "Current password is incorrect");
+            return;
+        }
+        User user = mapper.map(currentUser, User.class);
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        redirectAttributes.addFlashAttribute("noti", "Logout to apply changes");
+    }
 }

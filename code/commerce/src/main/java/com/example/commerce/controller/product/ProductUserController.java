@@ -57,7 +57,7 @@ public class ProductUserController {
         model.addAttribute("related", related);
         model.addAttribute("isOrder", billRepository.hasCartItems((Long) model.getAttribute("id"), id));
         model.addAttribute("averageRating", Math.round(reviews.stream().mapToDouble(ReviewDTO::getStarNumber).average().orElse(0)));
-        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+        model.addAttribute("cate", categoriesService.getAll());
 
         return "product-detail";
     }
@@ -78,7 +78,7 @@ public class ProductUserController {
         couponService.getByDiscountMax(model);
         model.addAttribute("cate", categoriesService.getAll());
         model.addAttribute("categoriesService", categoriesService);
-        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+        model.addAttribute("cate", categoriesService.getAll());
 
         return productService.getAllProductForProductPage(model, request);
     }

@@ -7,16 +7,13 @@ import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/member/user")
-public class ProfileController {
+public class ProfileUserController {
     private final UserService userService;
     private final CouponService couponService;
     private final CategoriesService categoriesService;
@@ -24,7 +21,7 @@ public class ProfileController {
     @GetMapping()
     public String info(Model model) {
         model.addAttribute("user", userService.getCurrentUser());
-        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+        model.addAttribute("cate", categoriesService.getAll());
         couponService.getByDiscountMax(model);
         return "informationUser";
     }
@@ -37,7 +34,13 @@ public class ProfileController {
 //        Authentication authentication = new UsernamePasswordAuthenticationToken(principal, principal.getPassword(), principal.getAuthorities());
 //        SecurityContextHolder.getContext().setAuthentication(authentication);
         userService.updateMember(userDTO);
-        redirectAttributes.addFlashAttribute("apply", "Logout to apply changes");
+        redirectAttributes.addFlashAttribute("noti", "Logout to apply changes");
+        return "redirect:/member/user";
+    }
+
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam(name = "currentPassword") String currentPassword, @RequestParam(name = "newPassword") String newPassword, RedirectAttributes redirectAttributes) {
+        userService.changePassword(currentPassword, newPassword, redirectAttributes);
         return "redirect:/member/user";
     }
 }

@@ -19,7 +19,7 @@ public class AboutController {
     public String aboutUs(Model model) {
         userService.getCurrentUser(model);
         couponService.getByDiscountMax(model);
-        model.addAttribute("cate", categoriesService.getAll().stream().limit(5).toList());
+        model.addAttribute("cate", categoriesService.getAll());
 
         return "about";
     }
