@@ -10,7 +10,11 @@
     <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
           type="text/css">
     <!--===============================================================================================-->
-    <link rel="stylesheet" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}"
+    <link rel="stylesheet" th:href="@{/fonts/font-awesome-4.7.0/css/font-awesome.min.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css}"
+          type="text/css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/material-design-iconic-font/2.2.0/css/material-design-iconic-font.min.css"
+          rel="stylesheet"
           type="text/css">
     <!--===============================================================================================-->
     <link rel="stylesheet" th:href="@{/fonts/iconic/css/material-design-iconic-font.min.css}"
@@ -62,7 +66,7 @@
 
 
 <!-- Shoping CartItem -->
-<form class="bg0 p-t-75 p-b-75" method="post" th:action="@{/checkout}">
+<form class="bg0 p-t-75 p-b-75" id="checkout" method="post" th:action="@{/checkout}">
     <div class="container">
         <div class="row">
             <div class="col-lg-10 col-xl-7 m-lr-auto m-b-50">
@@ -228,8 +232,9 @@
                                 <div class="bor8 bg0 m-b-12">
                                     <input class="stext-111 cl8 plh3 size-111 p-lr-15" id="phoneNumber"
                                            name="phoneNumber"
-                                           pattern="^(09|03)\d{8}$" required th:value="${user.phone}"
-                                           title="Invalid phone number"
+                                           pattern="^(09|03)\d{8}$" placeholder="Phone number" required
+                                           th:value="${user.phone}"
+                                           title="The phone number must start with 09 or 03 and have a length of 10 characters"
                                            type="tel">
                                 </div>
                             </div>
@@ -247,7 +252,17 @@
                         </div>
                     </div>
 
-                    <div class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer"
+                    <div class="m-b-15">
+                        <input name='amount'
+                               th:value='${session.totalPriceAfterApplyCoupon != null ? session.totalPriceAfterApplyCoupon : session.totalPrice}'
+                               type='hidden'/>
+                        <div class="flex-c-m stext-101 cl0 size-116 bg1 bor14 hov-btn3 p-lr-15 trans-04 pointer"
+                             id="card" th:if="${session.cart != null}">
+                            Pay with card
+                        </div>
+                    </div>
+
+                    <div class="flex-c-m stext-101 cl0 size-116 bg3 bor14 p-lr-15 trans-04 pointer"
                          data-mdb-target="#exampleModal"
                          data-mdb-toggle="modal" th:if="${session.cart != null}">
                         Proceed to Checkout
@@ -385,6 +400,66 @@
     if (errMessage != null) {
         alert(errMessage);
     }
+</script>
+
+<script src="https://checkout.stripe.com/checkout.js"></script>
+<script th:inline="javascript">
+    var form = document.getElementById('checkout');
+    var trackOrderButton = document.getElementById('trackOrder');
+    var cardButton = document.getElementById('card');
+
+    trackOrderButton.addEventListener('click', function () {
+        form.action = '/checkout';
+    });
+
+    cardButton.addEventListener('click', function () {
+        form.action = '/checkout-card';
+    });
+
+
+    var handler = StripeCheckout.configure({
+        key: [[${stripePublicKey}]],
+        image: 'https://www.baeldung.com/wp-content/themes/baeldung/favicon/android-chrome-192x192.png',
+        locale: 'auto',
+        email: [[${user.mail}]],
+        token: function (token) {
+            // You can access the token ID with `token.id`.
+            // Get the token ID to your server-side code for use.
+
+            // Add the token ID as a hidden field to the form payment-form
+            var inputToken = document.createElement("input");
+            inputToken.setAttribute('type', "hidden");
+            inputToken.setAttribute('name', "stripeToken");
+            inputToken.setAttribute('value', token.id);
+            form.appendChild(inputToken);
+
+            // Add the email as a hidden field to the form
+            var inputEmail = document.createElement("input");
+            inputEmail.setAttribute('type', "hidden");
+            inputEmail.setAttribute('name', "stripeEmail");
+            inputEmail.setAttribute('value', token.email);
+            form.appendChild(inputEmail);
+
+            form.submit();
+        }
+    });
+
+    document.getElementById('card').addEventListener('click', function (e) {
+        // Open Checkout with further options:
+        handler.open({
+            name: 'Commerce',
+            description: 'Product checkout',
+            zipCode: false,
+            currency: [[${currency}]],
+            amount: [[${amount}]]
+        });
+        e.preventDefault();
+    });
+
+    // Close Checkout on page navigation:
+    window.addEventListener('popstate', function () {
+        handler.close();
+    });
 </script>
 
 </body>

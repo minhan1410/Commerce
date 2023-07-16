@@ -2,6 +2,7 @@ package com.example.commerce.service.impl;
 
 import com.example.commerce.constants.BillStatus;
 import com.example.commerce.constants.TelegramNotificationType;
+import com.example.commerce.model.ChargeRequest;
 import com.example.commerce.model.dto.*;
 import com.example.commerce.model.entity.Bill;
 import com.example.commerce.model.entity.Cart;
@@ -12,6 +13,7 @@ import com.example.commerce.repository.CartItemRepository;
 import com.example.commerce.repository.CartRepository;
 import com.example.commerce.repository.MessageRepository;
 import com.example.commerce.service.*;
+import com.stripe.exception.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.Strings;
 import org.modelmapper.ModelMapper;
@@ -40,6 +42,7 @@ public class CartServiceImpl implements CartService {
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final MessageRepository messageRepository;
     private final TelegramNotificationServiceImpl telegramNotificationService;
+    private final StripeServiceImpl paymentsService;
 
     @Override
     @Transactional
@@ -207,6 +210,102 @@ public class CartServiceImpl implements CartService {
 
 //        Xoa session
         session.invalidate();
+
+//        Gui thong bao den admin
+        NotificationDTO notificationDTO = NotificationDTO.builder()
+                .fromUser(currentUser.getId())
+                .fromUserDTO(currentUser)
+                .message(currentUser.getName() + " placed an order")
+                .createdAt(LocalDateTime.now())
+                .isSeen(false)
+                .build();
+        Notification notification = messageRepository.save(NotificationDTO.mapperEntity(notificationDTO));
+        notificationDTO.setId(notification.getId());
+        simpMessagingTemplate.convertAndSend("/notification", notificationDTO);
+
+//        Gui thong tin mua hang thanh cong ve mail
+        mailService.sendMailCart(map, bill, currentUser, discount);
+
+//        Thong bao mua hang thanh cong telegram
+        telegramNotificationService.sendMessage(TelegramNotificationType.ORDER, "New order from " + currentUser.getName() + " with total price: " + price);
+
+//        Chuyen toi trang lich su mua hang
+        return "redirect:/purchase-history";
+    }
+
+    @Override
+    public String checkoutWithCard(String receiverName, String shippingAddress, String phoneNumber, ChargeRequest chargeRequest, HttpServletRequest request, RedirectAttributes redirectAttributes) throws APIConnectionException, APIException, AuthenticationException, InvalidRequestException, CardException {
+        chargeRequest.setDescription("Example charge");
+        chargeRequest.setCurrency(ChargeRequest.Currency.EUR);
+
+        HttpSession session = request.getSession();
+        Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
+        Collection<CartItemDTO> cartItemDTOS = map.values();
+        List<ProductDTO> productCartItem = productService.getByListId(cartItemDTOS.stream().map(cartItemDTO -> cartItemDTO.getProduct().getId()).toList());
+
+        if (cartItemDTOS.size() == 0) {
+            redirectAttributes.addFlashAttribute("err", "Your cart is empty");
+            return "redirect:/cart";
+        }
+
+//        Check quantity cartItems
+        if (cartItemDTOS.stream()
+                .peek(cartItemDTO -> {
+                    ProductDTO product = productCartItem.stream().filter(productDTO -> productDTO.getId().equals(cartItemDTO.getProduct().getId())).findFirst().orElseThrow();
+                    if (product.getQuantity() - cartItemDTO.getQuantity() < 0) {
+                        cartItemDTO.setProduct(product);
+                        redirectAttributes.addFlashAttribute("err", String.format("The remaining quantity of product %s is %s", product.getName(), product.getQuantity()));
+                    }
+                })
+                .anyMatch(cartItemDTO -> cartItemDTO.getProduct().getQuantity() - cartItemDTO.getQuantity() < 0)) {
+            return "redirect:/cart";
+        }
+
+        Integer totalOfCart = (Integer) session.getAttribute("totalOfCart");
+        Long coupon = (Long) session.getAttribute("coupon");
+        Double totalPrice = (Double) session.getAttribute("totalPrice");
+        Double totalPriceAfterApplyCoupon = (Double) session.getAttribute("totalPriceAfterApplyCoupon");
+        Double price = coupon == null ? totalPrice : totalPriceAfterApplyCoupon;
+        Object discountNumber = session.getAttribute("discount");
+        String discount = Optional.ofNullable(discountNumber).map(d -> String.valueOf(d)).orElse(null);
+
+        UserDTO currentUser = userService.getCurrentUser();
+
+        Cart cart = cartRepository.save(Cart.builder()
+                .userId(currentUser.getId())
+                .deleted(false)
+                .build());
+
+        cartItemDTOS.forEach(cartItemDTO -> {
+            ProductDTO product = productCartItem.stream().filter(productDTO -> productDTO.getId().equals(cartItemDTO.getProduct().getId())).findFirst().orElseThrow();
+            product.setQuantity(product.getQuantity() - cartItemDTO.getQuantity());
+            cartItemDTO.setProduct(product);
+            cartItemDTO.setCartId(cart.getId());
+        });
+        List<CartItem> cartItems = cartItemDTOS.stream().map(CartItem::mapper).toList();
+        cartItemRepository.saveAll(cartItems);
+        productService.saveAll(productCartItem);
+        Bill bill = billRepository.save(Bill.builder()
+                .userId(currentUser.getId())
+                .cartId(cart.getId())
+                .couponId(coupon)
+                .totalCart(totalOfCart)
+                .totalPrice(totalPrice)
+                .totalPriceAfterApplyCoupon(totalPriceAfterApplyCoupon)
+                .priceTotal(price)
+                .receiverName(receiverName)
+                .shippingAddress(shippingAddress)
+                .phoneNumber(phoneNumber)
+                .createTime(new Date())
+                .status(BillStatus.WAIT)
+                .deleted(false)
+                .build());
+
+//        Xoa session
+        session.invalidate();
+
+//        pay with card
+        paymentsService.charge(chargeRequest);
 
 //        Gui thong bao den admin
         NotificationDTO notificationDTO = NotificationDTO.builder()

@@ -87,8 +87,10 @@
                                                            required th:field="*{mail}" type="Email"/>
                 </div>
                 <div class="input-field">
-                    <i class="fas fa-lock"></i> <input name="password" required
-                                                       th:field="*{password}" th:placeholder="#{password}"
+                    <i class="fas fa-lock"></i> <input name="password" pattern=".{6,}"
+                                                       required th:field="*{password}"
+                                                       th:placeholder="#{password}"
+                                                       title="Password must be longer than 6 characters"
                                                        type="password"/>
                 </div>
                 <input class="btn" th:value="#{signUp}" type="submit"/>

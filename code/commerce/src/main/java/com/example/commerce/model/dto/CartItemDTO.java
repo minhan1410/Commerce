@@ -10,5 +10,6 @@ public class CartItemDTO {
     private ProductDTO product;
     private Long cartId;
     private int quantity;
+    @Builder.Default
     private Boolean deleted = false;
 }

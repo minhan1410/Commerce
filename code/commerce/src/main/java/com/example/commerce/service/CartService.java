@@ -1,6 +1,8 @@
 package com.example.commerce.service;
 
+import com.example.commerce.model.ChargeRequest;
 import com.example.commerce.model.dto.CartDTO;
+import com.stripe.exception.*;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -15,6 +17,8 @@ public interface CartService {
     String deleteToCart(Long id, HttpServletRequest req);
 
     String checkout(String receiverName, String shippingAddress, String phoneNumber, HttpServletRequest request, RedirectAttributes redirectAttributes);
+
+    String checkoutWithCard(String receiverName, String shippingAddress, String phoneNumber, ChargeRequest chargeRequest, HttpServletRequest request, RedirectAttributes redirectAttributes) throws APIConnectionException, APIException, AuthenticationException, InvalidRequestException, CardException;
 
     CartDTO getById(Long id);
 }
