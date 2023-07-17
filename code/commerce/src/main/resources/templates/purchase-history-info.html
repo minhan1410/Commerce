@@ -266,26 +266,26 @@
                                     <img alt="image"
                                          class="img-fluid rounded avatar-50 mr-3"
                                          style="height:80px; width:80px;object-fit: cover;"
-                                         th:src="@{${ci.product.imgMain}}">
+                                         th:src="@{${ci.previousProductImgMain}}">
                                     <div>
-                                        <b class="name" th:text="${ci.product.name}"></b>
+                                        <b class="name" th:text="${ci.previousProductName}"></b>
                                         <p class="mb-0">
-                                            <small th:text="${'Size: ' + ci.product.size}"></small>
+                                            <small th:text="${'Size: ' + ci.previousProductSize}"></small>
                                         </p>
                                         <p class="mb-0">
-                                            <small th:text="${'Color: ' + ci.product.color}"></small>
+                                            <small th:text="${'Color: ' + ci.previousProductColor}"></small>
                                         </p>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-sm-3 d-flex align-items-center justify-content-center">
-                                <div class="text-center" th:text="${'$ '+ ci.product.price}"></div>
+                                <div class="text-center" th:text="${'$ '+ ci.previousProductPrice}"></div>
                             </div>
                             <div class="col-sm-3 d-flex align-items-center justify-content-center">
                                 <div class="text-center" th:text="${'x '+ ci.quantity}"></div>
                             </div>
                             <div class="col-sm-3 d-flex align-items-center justify-content-center">
-                                <div class="text-center" th:text="${'$ '+ ci.product.price * ci.quantity}"></div>
+                                <div class="text-center" th:text="${'$ '+ ci.previousProductPrice * ci.quantity}"></div>
                             </div>
                         </div>
                     </div>

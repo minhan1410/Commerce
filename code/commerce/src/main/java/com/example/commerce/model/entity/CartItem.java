@@ -26,6 +26,21 @@ public class CartItem {
     @Column(name = "product_id")
     private Long productId;
 
+    @Column(name = "previous_product_name")
+    private String previousProductName;
+
+    @Column(name = "previous_product_price")
+    private Long previousProductPrice;
+
+    @Column(name = "previous_product_img_main")
+    private String previousProductImgMain;
+
+    @Column(name = "previous_product_color")
+    private String previousProductColor;
+
+    @Column(name = "previous_product_size")
+    private String previousProductSize;
+
     @Column(name = "quantity")
     private Integer quantity;
 

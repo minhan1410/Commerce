@@ -196,6 +196,11 @@ public class CartServiceImpl implements CartService {
             ProductDTO product = productCartItem.stream().filter(productDTO -> productDTO.getId().equals(cartItemDTO.getProduct().getId())).findFirst().orElseThrow();
             product.setQuantity(product.getQuantity() - cartItemDTO.getQuantity());
             cartItemDTO.setProduct(product);
+            cartItemDTO.setPreviousProductImgMain(product.getImgMain());
+            cartItemDTO.setPreviousProductName(product.getName());
+            cartItemDTO.setPreviousProductPrice(product.getPrice());
+            cartItemDTO.setPreviousProductColor(product.getColor());
+            cartItemDTO.setPreviousProductSize(product.getSize());
             cartItemDTO.setCartId(cart.getId());
         });
         List<CartItem> cartItems = cartItemDTOS.stream().map(CartItem::mapper).toList();
@@ -295,6 +300,11 @@ public class CartServiceImpl implements CartService {
             ProductDTO product = productCartItem.stream().filter(productDTO -> productDTO.getId().equals(cartItemDTO.getProduct().getId())).findFirst().orElseThrow();
             product.setQuantity(product.getQuantity() - cartItemDTO.getQuantity());
             cartItemDTO.setProduct(product);
+            cartItemDTO.setPreviousProductImgMain(product.getImgMain());
+            cartItemDTO.setPreviousProductName(product.getName());
+            cartItemDTO.setPreviousProductPrice(product.getPrice());
+            cartItemDTO.setPreviousProductColor(product.getColor());
+            cartItemDTO.setPreviousProductSize(product.getSize());
             cartItemDTO.setCartId(cart.getId());
         });
         List<CartItem> cartItems = cartItemDTOS.stream().map(CartItem::mapper).toList();

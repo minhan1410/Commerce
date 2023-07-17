@@ -75,7 +75,17 @@ public class BillServiceImpl implements BillService {
     @Override
     public List<CartItemDTO> getCartItemById(Long id) {
         return billRepository.getByCartItemId(id).stream().map(cartItem -> {
-            CartItemDTO cartItemDTO = CartItemDTO.builder().id(cartItem.getId()).cartId(cartItem.getCartId()).quantity(cartItem.getQuantity()).product(productService.getById(cartItem.getProductId())).deleted(cartItem.getDeleted()).build();
+            CartItemDTO cartItemDTO = CartItemDTO.builder()
+                    .id(cartItem.getId())
+                    .cartId(cartItem.getCartId())
+                    .quantity(cartItem.getQuantity())
+                    .product(productService.getById(cartItem.getProductId()))
+                    .previousProductImgMain(cartItem.getPreviousProductImgMain())
+                    .previousProductName(cartItem.getPreviousProductName())
+                    .previousProductPrice(cartItem.getPreviousProductPrice())
+                    .previousProductColor(cartItem.getPreviousProductColor())
+                    .previousProductSize(cartItem.getPreviousProductSize())
+                    .deleted(cartItem.getDeleted()).build();
             return cartItemDTO;
         }).toList();
     }
