@@ -154,7 +154,8 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public String checkout(String receiverName, String shippingAddress, String phoneNumber, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        HttpSession session = request.getSession();
+        UserDTO currentUser = userService.getCurrentUser();
+        HttpSession session = cartCache.getCache().getIfPresent(currentUser.getId());
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
         Collection<CartItemDTO> cartItemDTOS = map.values();
         List<ProductDTO> productCartItem = productService.getByListId(cartItemDTOS.stream().map(cartItemDTO -> cartItemDTO.getProduct().getId()).toList());
@@ -185,8 +186,6 @@ public class CartServiceImpl implements CartService {
         Double price = coupon == null ? totalPrice : totalPriceAfterApplyCoupon;
         Object discountNumber = session.getAttribute("discount");
         String discount = Optional.ofNullable(discountNumber).map(d -> String.valueOf(d)).orElse(null);
-
-        UserDTO currentUser = userService.getCurrentUser();
 
         Cart cart = cartRepository.save(Cart.builder()
                 .userId(currentUser.getId())
@@ -255,7 +254,8 @@ public class CartServiceImpl implements CartService {
         chargeRequest.setDescription("Example charge");
         chargeRequest.setCurrency(ChargeRequest.Currency.EUR);
 
-        HttpSession session = request.getSession();
+        UserDTO currentUser = userService.getCurrentUser();
+        HttpSession session = cartCache.getCache().getIfPresent(currentUser.getId());
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
         Collection<CartItemDTO> cartItemDTOS = map.values();
         List<ProductDTO> productCartItem = productService.getByListId(cartItemDTOS.stream().map(cartItemDTO -> cartItemDTO.getProduct().getId()).toList());
@@ -285,8 +285,6 @@ public class CartServiceImpl implements CartService {
         Double price = coupon == null ? totalPrice : totalPriceAfterApplyCoupon;
         Object discountNumber = session.getAttribute("discount");
         String discount = Optional.ofNullable(discountNumber).map(d -> String.valueOf(d)).orElse(null);
-
-        UserDTO currentUser = userService.getCurrentUser();
 
         Cart cart = cartRepository.save(Cart.builder()
                 .userId(currentUser.getId())
