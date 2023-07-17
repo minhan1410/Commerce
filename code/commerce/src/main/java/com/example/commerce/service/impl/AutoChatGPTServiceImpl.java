@@ -8,8 +8,6 @@ import com.example.commerce.service.BillService;
 import com.example.commerce.service.ProductService;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheBuilder;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
@@ -37,10 +35,7 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
     private static JSONArray cachedTrainData;
     private final ProductService productService;
     private final BillService billService;
-    private final Cache<String, String> cache = CacheBuilder.newBuilder()
-            .maximumSize(100) // Số lượng mục tối đa trong cache
-            .expireAfterWrite(10, TimeUnit.MINUTES) // Thời gian tồn tại của mỗi mục trong cache
-            .build();
+    private final CacheStore<String, String> autoChatGPTCache;
     @Value("${openai.api.key}")
     private String apiKey;
     @Value("${path.file.train}")
@@ -75,8 +70,8 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
     @Override
     public String chat(String message) throws IOException {
 //        Check trong cache
-        if (cache.asMap().containsKey(message)) {
-            return cache.getIfPresent(message);
+        if (autoChatGPTCache.getCache().asMap().containsKey(message)) {
+            return autoChatGPTCache.getCache().getIfPresent(message);
         }
 
 //        Check xem trong message có chưa tên sản phẩm không?
@@ -95,13 +90,13 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
                     .entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(5)
                     .map(Map.Entry::getKey).toList().forEach(p -> mess.append(p.getName().concat(", ")));
             result = mess.toString();
-            cache.put(message, result);
+            autoChatGPTCache.getCache().put(message, result);
             return result;
         }
 
         if (checkProduct) {
             result = "Nhập đầy đủ tên của sản phẩm";
-            cache.put(message, result);
+            autoChatGPTCache.getCache().put(message, result);
             return result;
         }
 
@@ -110,7 +105,7 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
             StringBuilder mess = new StringBuilder(String.format("Sản phẩm %s($%d): ", product.getName(), product.getPrice()));
             productService.getRelatedByName(product.getName()).forEach(p -> mess.append(String.format(" size %s color %s còn lại %d sản phẩm,", p.getSize(), p.getColor(), p.getQuantity())));
             result = mess.toString();
-            cache.put(message, result);
+            autoChatGPTCache.getCache().put(message, result);
             return result;
         }
 
@@ -129,7 +124,7 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
             String body = response.body().string();
             JsonObject jsonObject = new Gson().fromJson(body, JsonObject.class);
             result = jsonObject.get("choices").getAsJsonArray().get(0).getAsJsonObject().getAsJsonObject("message").get("content").getAsString();
-            cache.put(message, result);
+            autoChatGPTCache.getCache().put(message, result);
             return result;
         }
 

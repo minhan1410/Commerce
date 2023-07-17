@@ -9,6 +9,7 @@ import com.example.commerce.service.TagService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,11 +37,13 @@ public class BlogTagServiceImpl implements BlogTagService {
     }
 
     @Override
+    @Transactional
     public void add(BlogTagDTO dto) {
         blogTagRepository.save(mapper.map(dto, BlogTag.class));
     }
 
     @Override
+    @Transactional
     public void delete(Long blogId, Long tagId) {
         BlogTag get = blogTagRepository.getByBlogIdAndTagIdAndDeletedFalse(blogId, tagId);
         get.setDeleted(true);

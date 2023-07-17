@@ -38,6 +38,7 @@ public class CommentBlogServiceImpl implements CommentBlogService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         CommentBlog byId = commentBlogRepository.getById(id);
         byId.setDeleted(true);

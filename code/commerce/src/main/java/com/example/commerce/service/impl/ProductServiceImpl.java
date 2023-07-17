@@ -1,8 +1,10 @@
 package com.example.commerce.service.impl;
 
+import com.example.commerce.model.dto.CartItemDTO;
+import com.example.commerce.model.dto.CategoriesDTO;
 import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.model.entity.Product;
-import com.example.commerce.repository.BillRepository;
+import com.example.commerce.repository.CategoriesRepository;
 import com.example.commerce.repository.ProductRepository;
 import com.example.commerce.service.CloudinaryService;
 import com.example.commerce.service.ProductService;
@@ -16,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -29,7 +32,8 @@ public class ProductServiceImpl implements ProductService {
     private final ModelMapper mapper;
     private final CloudinaryService cloudinaryService;
     private final UserService userService;
-    private final BillRepository billRepository;
+    private final CategoriesRepository categoriesRepository;
+    private final CacheStore<Long, HttpSession> cartCache;
 
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
         Set<Object> seen = ConcurrentHashMap.newKeySet();
@@ -131,6 +135,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public String duplicate(ProductDTO productDTO) {
         if (!productDTO.getImageMain().isEmpty() || !productDTO.getImageSub().isEmpty() || !productDTO.getImageHover().isEmpty()) {
             cloudinaryService.uploadImageProduct(productDTO);
@@ -149,7 +154,34 @@ public class ProductServiceImpl implements ProductService {
         }
         cloudinaryService.deleteImageProduct(productDTO, getById);
         cloudinaryService.uploadImageProduct(productDTO);
-        productRepository.save(mapper.map(getById, Product.class).update(productDTO));
+        Product save = productRepository.save(mapper.map(getById, Product.class).update(productDTO));
+
+//        Update cart session
+        cartCache.getCache().asMap().values().stream().filter(session -> Objects.nonNull(session.getAttribute("cart")))
+                .forEach(session -> {
+                    Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
+
+                    Collection<CartItemDTO> cartItemDTOS = map.values();
+                    Optional<ProductDTO> optionalProduct = cartItemDTOS.stream().map(CartItemDTO::getProduct).filter(productS -> productS.getId().equals(getById.getId())).findFirst();
+
+                    if (optionalProduct.isPresent()) {
+                        ProductDTO productSession = optionalProduct.get().update(save);
+                        productSession.setCategories(mapper.map(categoriesRepository.getById(save.getCategoriesId()), CategoriesDTO.class));
+                        Double totalPrice = 0d, totalPriceAfterApplyCoupon = 0d;
+                        Integer discount = (Integer) session.getAttribute("discount");
+
+                        for (CartItemDTO ci : cartItemDTOS) {
+                            totalPrice += ci.getProduct().getPrice() * ci.getQuantity();
+                        }
+
+                        if (Objects.nonNull(discount) && discount > 0) {
+                            totalPriceAfterApplyCoupon = totalPrice - (totalPrice * discount / 100);
+                        }
+                        session.setAttribute("totalPrice", totalPrice);
+                        session.setAttribute("totalPriceAfterApplyCoupon", totalPriceAfterApplyCoupon);
+                    }
+                });
+
         return "redirect:/admin/product";
     }
 
@@ -159,6 +191,30 @@ public class ProductServiceImpl implements ProductService {
         Product getId = getId(id);
         if (getId != null) {
             productRepository.save(mapper.map(getId, Product.class).delete());
+
+//            Update cart session
+            cartCache.getCache().asMap().values().stream().filter(session -> Objects.nonNull(session.getAttribute("cart")))
+                    .forEach(session -> {
+                        Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
+                        Collection<CartItemDTO> cartItemDTOS = map.values();
+
+                        if (Objects.nonNull(map.remove(id))) {
+                            Double totalPrice = 0d, totalPriceAfterApplyCoupon = 0d;
+                            Integer discount = (Integer) session.getAttribute("discount"), totalOfCart = 0;
+
+                            for (CartItemDTO ci : cartItemDTOS) {
+                                totalOfCart += ci.getQuantity();
+                                totalPrice += ci.getProduct().getPrice() * ci.getQuantity();
+                            }
+
+                            if (Objects.nonNull(discount) && discount > 0) {
+                                totalPriceAfterApplyCoupon = totalPrice - (totalPrice * discount / 100);
+                            }
+                            session.setAttribute("totalOfCart", totalOfCart);
+                            session.setAttribute("totalPrice", totalPrice);
+                            session.setAttribute("totalPriceAfterApplyCoupon", totalPriceAfterApplyCoupon);
+                        }
+                    });
         }
         return "redirect:/admin/product";
     }
@@ -250,6 +306,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public void saveAll(List<ProductDTO> productDTOS) {
         productRepository.saveAll(productDTOS.stream().map(productDTO -> mapper.map(productDTO, Product.class)).toList());
     }

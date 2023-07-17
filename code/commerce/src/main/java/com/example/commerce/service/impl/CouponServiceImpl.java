@@ -72,6 +72,7 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    @Transactional
     public void update(CouponDTO dto, Model model) {
         Optional<Coupon> optional = couponRepository.findByCodeAndDeleted(dto.getCode(), false);
         if (optional.isPresent() && !optional.get().getId().equals(dto.getId())) {
@@ -84,6 +85,7 @@ public class CouponServiceImpl implements CouponService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
         Optional<Coupon> byId = couponRepository.findByIdAndDeletedFalse(id);
         byId.get().setDeleted(true);

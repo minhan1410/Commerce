@@ -139,6 +139,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     }
 
     @Override
+    @Transactional
     public User updateMember(UserDTO dto) {
         UserDTO currentUser = getById(dto.getId());
         cloudinaryService.deleteImageMember(dto, currentUser);
@@ -159,6 +160,7 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
     }
 
     @Override
+    @Transactional
     public void changePassword(String currentPassword, String newPassword, RedirectAttributes redirectAttributes) {
         UserDTO currentUser = getCurrentUser();
         if (!passwordEncoder.matches(currentPassword, currentUser.getPassword())) {

@@ -43,16 +43,22 @@ public class CartServiceImpl implements CartService {
     private final MessageRepository messageRepository;
     private final TelegramNotificationServiceImpl telegramNotificationService;
     private final StripeServiceImpl paymentsService;
+    private final CacheStore<Long, HttpSession> cartCache;
 
     @Override
     @Transactional
     public String addToCart(Long id, String size, int numberProducts, HttpSession session, Model model) {
+        UserDTO currentUser = userService.getCurrentUser();
         ProductDTO byIdAndSize = productService.getByIdAndSize(id, size);
         if (Objects.isNull(byIdAndSize)) {
             return "error/notFound";
         }
 
         Long currentProductId = byIdAndSize.getId();
+
+        HttpSession sessionValue = cartCache.getCache().getIfPresent(currentUser.getId());
+        if (Objects.isNull(sessionValue)) cartCache.getCache().put(currentUser.getId(), session);
+
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart"); //lay session neu co , neu chua co tao 1 session moi la cart
         Integer totalOfCart = (Integer) session.getAttribute("totalOfCart");
         Double totalPrice = (Double) session.getAttribute("totalPrice");
@@ -89,7 +95,9 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public String updateCart(Long id, int quantity, String coupon, HttpServletRequest request, RedirectAttributes redirectAttributes) {
-        HttpSession session = request.getSession();
+        UserDTO currentUser = userService.getCurrentUser();
+        HttpSession session = cartCache.getCache().getIfPresent(currentUser.getId());
+
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
         Integer totalOfCart = (Integer) session.getAttribute("totalOfCart");
         Double totalPrice = (Double) session.getAttribute("totalPrice");
@@ -110,7 +118,7 @@ public class CartServiceImpl implements CartService {
             CouponDTO couponDTO = couponService.findCode(coupon, redirectAttributes);
             if (Objects.isNull(couponDTO)) return "redirect:/cart";
 
-            double totalPriceAfterApplyCoupon = totalPrice - (totalPrice * couponDTO.getDiscount() / 100);
+            Double totalPriceAfterApplyCoupon = totalPrice - (totalPrice * couponDTO.getDiscount() / 100);
             session.setAttribute("totalPriceAfterApplyCoupon", totalPriceAfterApplyCoupon);
             session.setAttribute("totalPrice", totalPrice);
             session.setAttribute("coupon", couponDTO.getId());
@@ -122,7 +130,9 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public String deleteToCart(Long id, HttpServletRequest req) {
-        HttpSession session = req.getSession();
+        UserDTO currentUser = userService.getCurrentUser();
+        HttpSession session = cartCache.getCache().getIfPresent(currentUser.getId());
+
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
         Integer totalOfCart = (Integer) session.getAttribute("totalOfCart");
         Double totalPrice = (Double) session.getAttribute("totalPrice");
@@ -209,7 +219,13 @@ public class CartServiceImpl implements CartService {
                 .build());
 
 //        Xoa session
-        session.invalidate();
+        session.removeAttribute("cart");
+        session.removeAttribute("totalOfCart");
+        session.removeAttribute("coupon");
+        session.removeAttribute("totalPrice");
+        session.removeAttribute("totalPriceAfterApplyCoupon");
+        session.removeAttribute("discount");
+        cartCache.getCache().invalidate(currentUser.getId());
 
 //        Gui thong bao den admin
         NotificationDTO notificationDTO = NotificationDTO.builder()
@@ -234,6 +250,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    @Transactional
     public String checkoutWithCard(String receiverName, String shippingAddress, String phoneNumber, ChargeRequest chargeRequest, HttpServletRequest request, RedirectAttributes redirectAttributes) throws APIConnectionException, APIException, AuthenticationException, InvalidRequestException, CardException {
         chargeRequest.setDescription("Example charge");
         chargeRequest.setCurrency(ChargeRequest.Currency.EUR);
@@ -302,7 +319,13 @@ public class CartServiceImpl implements CartService {
                 .build());
 
 //        Xoa session
-        session.invalidate();
+        session.removeAttribute("cart");
+        session.removeAttribute("totalOfCart");
+        session.removeAttribute("coupon");
+        session.removeAttribute("totalPrice");
+        session.removeAttribute("totalPriceAfterApplyCoupon");
+        session.removeAttribute("discount");
+        cartCache.getCache().invalidate(currentUser.getId());
 
 //        pay with card
         paymentsService.charge(chargeRequest);
