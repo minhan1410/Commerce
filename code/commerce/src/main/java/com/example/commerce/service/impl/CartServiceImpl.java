@@ -196,6 +196,7 @@ public class CartServiceImpl implements CartService {
             ProductDTO product = productCartItem.stream().filter(productDTO -> productDTO.getId().equals(cartItemDTO.getProduct().getId())).findFirst().orElseThrow();
             product.setQuantity(product.getQuantity() - cartItemDTO.getQuantity());
             cartItemDTO.setProduct(product);
+            cartItemDTO.setProductId(product.getId());
             cartItemDTO.setPreviousProductImgMain(product.getImgMain());
             cartItemDTO.setPreviousProductName(product.getName());
             cartItemDTO.setPreviousProductPrice(product.getPrice());
@@ -203,7 +204,7 @@ public class CartServiceImpl implements CartService {
             cartItemDTO.setPreviousProductSize(product.getSize());
             cartItemDTO.setCartId(cart.getId());
         });
-        List<CartItem> cartItems = cartItemDTOS.stream().map(CartItem::mapper).toList();
+        List<CartItem> cartItems = cartItemDTOS.stream().map(cartItemDTO -> mapper.map(cartItemDTO, CartItem.class)).toList();
         cartItemRepository.saveAll(cartItems);
         productService.saveAll(productCartItem);
         Bill bill = billRepository.save(Bill.builder()
@@ -300,6 +301,7 @@ public class CartServiceImpl implements CartService {
             ProductDTO product = productCartItem.stream().filter(productDTO -> productDTO.getId().equals(cartItemDTO.getProduct().getId())).findFirst().orElseThrow();
             product.setQuantity(product.getQuantity() - cartItemDTO.getQuantity());
             cartItemDTO.setProduct(product);
+            cartItemDTO.setProductId(product.getId());
             cartItemDTO.setPreviousProductImgMain(product.getImgMain());
             cartItemDTO.setPreviousProductName(product.getName());
             cartItemDTO.setPreviousProductPrice(product.getPrice());
@@ -307,7 +309,7 @@ public class CartServiceImpl implements CartService {
             cartItemDTO.setPreviousProductSize(product.getSize());
             cartItemDTO.setCartId(cart.getId());
         });
-        List<CartItem> cartItems = cartItemDTOS.stream().map(CartItem::mapper).toList();
+        List<CartItem> cartItems = cartItemDTOS.stream().map(cartItemDTO -> mapper.map(cartItemDTO, CartItem.class)).toList();
         cartItemRepository.saveAll(cartItems);
         productService.saveAll(productCartItem);
         Bill bill = billRepository.save(Bill.builder()

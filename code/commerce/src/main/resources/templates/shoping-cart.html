@@ -211,7 +211,8 @@
                                 <span class="stext-112 cl8"> Receiver name </span>
 
                                 <div class="bor8 bg0 m-b-12">
-                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" name="receiverName"
+                                    <input class="stext-111 cl8 plh3 size-111 p-lr-15" id="receiverName"
+                                           name="receiverName"
                                            required th:value="${user.name}" type="text">
                                 </div>
                             </div>
@@ -413,52 +414,58 @@
     });
 
     cardButton.addEventListener('click', function () {
-        form.action = '/checkout-card';
-    });
+        var receiverName = document.getElementById('receiverName').value;
+        var shippingAddress = document.getElementById('shippingAddress').value;
+        var phoneNumber = document.getElementById('phoneNumber').value;
 
+        if (!receiverName || !shippingAddress || !phoneNumber) {
+            alert('Please fill in all required fields.');
+        } else {
+            form.action = '/checkout-card';
+            var handler = StripeCheckout.configure({
+                key: [[${stripePublicKey}]],
+                image: 'https://www.baeldung.com/wp-content/themes/baeldung/favicon/android-chrome-192x192.png',
+                locale: 'auto',
+                email: [[${user.mail}]],
+                token: function (token) {
+                    // You can access the token ID with `token.id`.
+                    // Get the token ID to your server-side code for use.
 
-    var handler = StripeCheckout.configure({
-        key: [[${stripePublicKey}]],
-        image: 'https://www.baeldung.com/wp-content/themes/baeldung/favicon/android-chrome-192x192.png',
-        locale: 'auto',
-        email: [[${user.mail}]],
-        token: function (token) {
-            // You can access the token ID with `token.id`.
-            // Get the token ID to your server-side code for use.
+                    // Add the token ID as a hidden field to the form payment-form
+                    var inputToken = document.createElement("input");
+                    inputToken.setAttribute('type', "hidden");
+                    inputToken.setAttribute('name', "stripeToken");
+                    inputToken.setAttribute('value', token.id);
+                    form.appendChild(inputToken);
 
-            // Add the token ID as a hidden field to the form payment-form
-            var inputToken = document.createElement("input");
-            inputToken.setAttribute('type', "hidden");
-            inputToken.setAttribute('name', "stripeToken");
-            inputToken.setAttribute('value', token.id);
-            form.appendChild(inputToken);
+                    // Add the email as a hidden field to the form
+                    var inputEmail = document.createElement("input");
+                    inputEmail.setAttribute('type', "hidden");
+                    inputEmail.setAttribute('name', "stripeEmail");
+                    inputEmail.setAttribute('value', token.email);
+                    form.appendChild(inputEmail);
 
-            // Add the email as a hidden field to the form
-            var inputEmail = document.createElement("input");
-            inputEmail.setAttribute('type', "hidden");
-            inputEmail.setAttribute('name', "stripeEmail");
-            inputEmail.setAttribute('value', token.email);
-            form.appendChild(inputEmail);
+                    form.submit();
+                }
+            });
 
-            form.submit();
+            document.getElementById('card').addEventListener('click', function (e) {
+                // Open Checkout with further options:
+                handler.open({
+                    name: 'Commerce',
+                    description: 'Product checkout',
+                    zipCode: false,
+                    currency: [[${currency}]],
+                    amount: [[${amount}]]
+                });
+                e.preventDefault();
+            });
+
+            // Close Checkout on page navigation:
+            window.addEventListener('popstate', function () {
+                handler.close();
+            });
         }
-    });
-
-    document.getElementById('card').addEventListener('click', function (e) {
-        // Open Checkout with further options:
-        handler.open({
-            name: 'Commerce',
-            description: 'Product checkout',
-            zipCode: false,
-            currency: [[${currency}]],
-            amount: [[${amount}]]
-        });
-        e.preventDefault();
-    });
-
-    // Close Checkout on page navigation:
-    window.addEventListener('popstate', function () {
-        handler.close();
     });
 </script>
 

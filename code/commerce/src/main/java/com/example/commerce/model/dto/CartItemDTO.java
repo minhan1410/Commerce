@@ -8,6 +8,7 @@ import lombok.Data;
 public class CartItemDTO {
     private Long id;
     private ProductDTO product;
+    private Long productId;
     private Long cartId;
     private int quantity;
     private String previousProductImgMain;

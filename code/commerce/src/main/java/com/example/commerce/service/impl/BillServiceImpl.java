@@ -2,10 +2,7 @@ package com.example.commerce.service.impl;
 
 import com.cloudinary.utils.StringUtils;
 import com.example.commerce.constants.BillStatus;
-import com.example.commerce.model.dto.BillDTO;
-import com.example.commerce.model.dto.CartDTO;
-import com.example.commerce.model.dto.CartItemDTO;
-import com.example.commerce.model.dto.CouponDTO;
+import com.example.commerce.model.dto.*;
 import com.example.commerce.model.entity.Bill;
 import com.example.commerce.model.excel.RenderBill;
 import com.example.commerce.repository.BillRepository;
@@ -24,6 +21,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -75,11 +73,13 @@ public class BillServiceImpl implements BillService {
     @Override
     public List<CartItemDTO> getCartItemById(Long id) {
         return billRepository.getByCartItemId(id).stream().map(cartItem -> {
+            ProductDTO productDTO = productService.getById(cartItem.getProductId());
             CartItemDTO cartItemDTO = CartItemDTO.builder()
                     .id(cartItem.getId())
                     .cartId(cartItem.getCartId())
                     .quantity(cartItem.getQuantity())
-                    .product(productService.getById(cartItem.getProductId()))
+                    .product(productDTO)
+                    .productId(productDTO.getId())
                     .previousProductImgMain(cartItem.getPreviousProductImgMain())
                     .previousProductName(cartItem.getPreviousProductName())
                     .previousProductPrice(cartItem.getPreviousProductPrice())
@@ -98,8 +98,15 @@ public class BillServiceImpl implements BillService {
         billDTO.setStatus(status);
         switch (status) {
             case CONFIRM -> billDTO.setConfirmTime(date);
-            case DELIVERY -> billDTO.setDeliveryTime(date);
-            case RECEIVED -> billDTO.setReceivedTime(date);
+            case DELIVERY -> {
+                if (Objects.isNull(billDTO.getConfirmTime())) billDTO.setConfirmTime(date);
+                billDTO.setDeliveryTime(date);
+            }
+            case RECEIVED -> {
+                if (Objects.isNull(billDTO.getConfirmTime())) billDTO.setConfirmTime(date);
+                if (Objects.isNull(billDTO.getDeliveryTime())) billDTO.setDeliveryTime(date);
+                billDTO.setReceivedTime(date);
+            }
         }
         billRepository.save(mapper.map(billDTO, Bill.class));
     }
