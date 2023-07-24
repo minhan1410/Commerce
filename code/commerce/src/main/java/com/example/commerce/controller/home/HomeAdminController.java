@@ -48,10 +48,13 @@ public class HomeAdminController {
                 });
 
         List<Map.Entry<ProductDTO, Integer>> topBestSeller = bills.stream().map(BillDTO::getCartItem).flatMap(List::stream)
+                .filter(cartItemDTO -> Objects.nonNull(cartItemDTO.getProduct()))
                 .collect(Collectors.groupingBy(cartItemDTO -> cartItemDTO.getProduct(), Collectors.summingInt(CartItemDTO::getQuantity)))
                 .entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(10).toList();
 
-        List<Map.Entry<UserDTO, Double>> topPotentialCustomer = bills.stream().collect(Collectors.groupingBy(billDTO -> billDTO.getUser(), Collectors.summingDouble(BillDTO::getPriceTotal)))
+        List<Map.Entry<UserDTO, Double>> topPotentialCustomer = bills.stream()
+                .filter(billDTO -> Objects.nonNull(billDTO.getUserId()))
+                .collect(Collectors.groupingBy(billDTO -> billDTO.getUser(), Collectors.summingDouble(BillDTO::getPriceTotal)))
                 .entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(10).toList();
 
         userService.getCurrentUser(model);

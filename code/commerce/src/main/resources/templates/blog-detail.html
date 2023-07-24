@@ -4,7 +4,7 @@
 	<title>Contact</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="icon" type="image/png" href="images/icons/favicon.png"/>
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" th:href="@{vendor/bootstrap/css/bootstrap.min.css}">
@@ -16,7 +16,7 @@
 	<link rel="stylesheet" type="text/css" th:href="@{fonts/linearicons-v1.0.0/icon-font.min.css}">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" th:href="@{/vendor/animate/animate.css}">
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" th:href="@{/vendor/css-hamburgers/hamburgers.min.css}">
 <!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" th:href="@{/vendor/animsition/css/animsition.min.css}">
@@ -30,7 +30,7 @@
 <!--===============================================================================================-->
 </head>
 <body class="animsition">
-	
+
 	<div th:replace="header :: header"></div>
 
 	<div th:replace="cart-mini :: cart-mini"></div>
@@ -99,16 +99,16 @@
 							<h4 class="ltext-109 cl2 p-b-28" th:text="${blog.title}">
 							</h4>
 
-							<p class="stext-117 cl6 p-b-26" th:text="${blog.content}"></p>
+							<p class="stext-117 cl6 p-b-26" id="blogContent"></p>
 						</div>
 
 						<div class="flex-w flex-t p-t-16">
 							<span class="size-216 stext-116 cl8 p-t-4"  >
 								Tags
 							</span>
-							
+
 							<div class="flex-w size-217">
-								
+
 								<th:block th:each="tag : ${blog.tags}">
 									<a th:href="@{'/blog?tag=' + ${tag.type}}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
 										[[${tag.type}]]
@@ -116,7 +116,7 @@
 								</th:block>
 							</div>
 						</div>
-						
+
 						<!-- Comment -->
 						<th:block th:each="c : ${comments}">
 							<br>
@@ -124,12 +124,12 @@
 									<div class="wrap-pic-s size-109 bor0 of-hidden m-r-18 m-t-6">
 										<img th:src="@{${userService.getById(c.reviewerId).getAvatar()}}" alt="AVATAR">
 									</div>
-		
+
 									<div class="size-207">
 										<div class="flex-w flex-sb-m p-b-17">
 											<span class="mtext-107 cl2 p-r-20" th:text="${userService.getById(c.reviewerId).getName()}"></span>
 										</div>
-		
+
 										<p class="stext-102 cl6" th:text="${c.comment}">
 											Quod autem in homine praestantissimum atque optimum est, id deseruit. Apud ceteros autem philosophos
 										</p>
@@ -137,7 +137,7 @@
 								</div>
 							</br>
 						</th:block>
-						
+
 						<!--  -->
 						<div class="p-t-40">
 							<h5 class="mtext-113 cl2 p-b-12">
@@ -149,9 +149,9 @@
 							</p>
 
 							<form th:action="@{/blog-detail/review}" method="post">
-							
+
 								<input type="hidden" name="blogId" th:value="${blog.id}">
-								
+
 								<div class="bor19 m-b-20">
 									<textarea class="stext-111 cl2 plh3 size-124 p-lr-18 p-tb-15" name="comment" placeholder="Comment..."></textarea>
 								</div>
@@ -169,7 +169,7 @@
 						<form th:action="@{/blog}">
 							<div class="bor17 of-hidden pos-relative">
 								<input class="stext-103 cl2 plh4 size-116 p-l-28 p-r-55" type="text" name="keyword" th:value="${keyword}" placeholder="Search">
-	
+
 								<button class="flex-c-m size-122 ab-t-r fs-18 cl4 hov-cl1 trans-04">
 									<i class="zmdi zmdi-search"></i>
 								</button>
@@ -370,8 +370,8 @@
 				</div>
 			</div>
 		</div>
-	</section>	
-	
+	</section>
+
 	<div th:replace="footer :: footer"></div>
 
 	<!-- Back to top -->
@@ -381,7 +381,7 @@
 		</span>
 	</div>
 
-<!--===============================================================================================-->	
+<!--===============================================================================================-->
 	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/animsition/js/animsition.min.js"></script>
@@ -402,7 +402,7 @@
 	<script src="vendor/MagnificPopup/jquery.magnific-popup.min.js"></script>
 <!--===============================================================================================-->
 	<script src="vendor/perfect-scrollbar/perfect-scrollbar.min.js"></script>
-	<script>
+	<script  th:inline="javascript">
 		$('.js-pscroll').each(function(){
 			$(this).css('position','relative');
 			$(this).css('overflow','hidden');
@@ -416,6 +416,7 @@
 				ps.update();
 			})
 		});
+		document.getElementById("blogContent").innerHTML = [[${blog.content}]];
 	</script>
 <!--===============================================================================================-->
 	<script src="js/main.js"></script>

@@ -79,7 +79,7 @@ public class BillServiceImpl implements BillService {
                     .cartId(cartItem.getCartId())
                     .quantity(cartItem.getQuantity())
                     .product(productDTO)
-                    .productId(productDTO.getId())
+                    .productId(cartItem.getProductId())
                     .previousProductImgMain(cartItem.getPreviousProductImgMain())
                     .previousProductName(cartItem.getPreviousProductName())
                     .previousProductPrice(cartItem.getPreviousProductPrice())

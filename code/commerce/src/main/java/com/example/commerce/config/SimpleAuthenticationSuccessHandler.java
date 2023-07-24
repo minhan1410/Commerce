@@ -1,8 +1,8 @@
 package com.example.commerce.config;
 
 import com.example.commerce.constants.Role;
-import com.example.commerce.model.custom.CustomOAuth2User;
-import com.example.commerce.model.custom.CustomUserDetails;
+import com.example.commerce.model.oauth2.CustomOAuth2User;
+import com.example.commerce.model.oauth2.CustomUserDetails;
 import com.example.commerce.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

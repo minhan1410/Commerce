@@ -1,4 +1,4 @@
-package com.example.commerce.model.custom;
+package com.example.commerce.model.oauth2;
 
 import com.example.commerce.constants.Role;
 import com.example.commerce.model.entity.User;

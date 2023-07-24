@@ -2,8 +2,8 @@ package com.example.commerce.model.entity;
 
 import com.example.commerce.constants.Provider;
 import com.example.commerce.constants.Role;
-import com.example.commerce.model.custom.CustomOAuth2User;
 import com.example.commerce.model.dto.UserDTO;
+import com.example.commerce.model.oauth2.CustomOAuth2User;
 import lombok.Data;
 
 import javax.persistence.*;

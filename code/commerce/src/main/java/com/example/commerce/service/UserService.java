@@ -1,8 +1,8 @@
 package com.example.commerce.service;
 
-import com.example.commerce.model.custom.CustomOAuth2User;
 import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.model.entity.User;
+import com.example.commerce.model.oauth2.CustomOAuth2User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;

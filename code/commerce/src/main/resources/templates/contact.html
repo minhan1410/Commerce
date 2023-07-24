@@ -54,7 +54,7 @@
                     <div class="bor8 m-b-20 how-pos4-parent">
                         <input class="stext-111 cl2 plh3 size-116 p-l-62 p-r-30" id="email" name="email"
                                placeholder="Your Email Address"
-                               type="email">
+                               th:value="${user.mail}" type="email">
                         <img alt="ICON" class="how-pos4 pointer-none" src="images/icons/icon-email.png">
                     </div>
 
@@ -168,10 +168,6 @@
     });
 </script>
 <!--===============================================================================================-->
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQ_n9vfp0ljM1lnBelnt0orxIYKVB4QyY&callback=initMap"></script>
-<script th:src="@{/js/map-custom.js}"></script>
-<!--===============================================================================================-->
 <script th:src="@{/js/main.js}"></script>
 <script>
     $(document).ready(function () {
@@ -189,10 +185,11 @@
                 type: 'POST',
                 data: {email: email, mess: message},
                 success: function (response) {
-                    console.log('Help request sent successfully!');
+                    $('#mess').val('');
+                    alert("We will contact you as soon as possible via email or phone number");
                 },
                 error: function () {
-                    alert('An error occurred while sending the help request.');
+                    alert('An error occurred while sending the help request');
                 }
             });
         });

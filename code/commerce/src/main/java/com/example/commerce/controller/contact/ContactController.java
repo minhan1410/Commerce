@@ -1,6 +1,7 @@
 package com.example.commerce.controller.contact;
 
 import com.example.commerce.constants.TelegramNotificationType;
+import com.example.commerce.model.dto.UserDTO;
 import com.example.commerce.service.CategoriesService;
 import com.example.commerce.service.CouponService;
 import com.example.commerce.service.TelegramNotificationService;
@@ -31,7 +32,8 @@ public class ContactController {
 
     @PostMapping("/send-help")
     public String sendHelp(@RequestParam(name = "email") String email, @RequestParam(name = "mess") String message) {
-        telegramService.sendMessage(TelegramNotificationType.CONTACT, String.format("EMAIL: %s\nMESSAGE:\n%s", email, message));
+        UserDTO currentUser = userService.getCurrentUser();
+        telegramService.sendMessage(TelegramNotificationType.CONTACT, String.format("Name: %s\nEmail: %s\nPhone: %s\nMessage:\n%s", currentUser.getName(), email, currentUser.getPhone(), message));
         return "redirect:/contact";
     }
 }

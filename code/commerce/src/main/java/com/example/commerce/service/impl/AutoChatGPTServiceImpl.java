@@ -167,7 +167,7 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
 
     private JSONArray messagesJson(boolean productExist, String message) {
         JSONArray messagesJson = new JSONArray();
-        messagesJson.put(AutoChatGPTService.createMessage("system", "Hãy đóng giả làm nhân viên tư vấn cho website bán quần áo và anh Minh An chủ shop và là người thuê bạn làm việc"));
+        messagesJson.put(AutoChatGPTService.createMessage("system", "Hãy đóng giả làm nhân viên tư vấn cho website bán hàng thời trang và anh Minh An chủ shop và là người thuê bạn làm việc"));
         if (!productExist) messagesJson.putAll(cachedTrainData);
         messagesJson.put(AutoChatGPTService.createMessage("user", message));
         return messagesJson;
