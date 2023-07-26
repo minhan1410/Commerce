@@ -257,9 +257,6 @@ public class CartServiceImpl implements CartService {
     @Override
     @Transactional
     public String checkoutWithCard(String receiverName, String shippingAddress, String phoneNumber, ChargeRequest chargeRequest, HttpServletRequest request, RedirectAttributes redirectAttributes) throws APIConnectionException, APIException, AuthenticationException, InvalidRequestException, CardException {
-        chargeRequest.setDescription("Example charge");
-        chargeRequest.setCurrency(ChargeRequest.Currency.EUR);
-
         UserDTO currentUser = userService.getCurrentUser();
         HttpSession session = cartCache.getCache().getIfPresent(currentUser.getId());
         Map<Long, CartItemDTO> map = (Map<Long, CartItemDTO>) session.getAttribute("cart");
@@ -338,6 +335,8 @@ public class CartServiceImpl implements CartService {
         cartCache.getCache().invalidate(currentUser.getId());
 
 //        pay with card
+        chargeRequest.setDescription(currentUser.getName() + " placed an order");
+        chargeRequest.setCurrency(ChargeRequest.Currency.VND);
         paymentsService.charge(chargeRequest);
 
 //        Gui thong bao den admin

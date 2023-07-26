@@ -26,7 +26,7 @@ public class StripeServiceImpl {
             throws AuthenticationException, InvalidRequestException,
             APIConnectionException, CardException, APIException {
         Map<String, Object> chargeParams = new HashMap<>();
-        chargeParams.put("amount", (int) Math.round(chargeRequest.getAmount() * 100)); // chuyen sang EUR
+        chargeParams.put("amount", (int) Math.round(chargeRequest.getAmount() * 23_000)); // chuyen sang VND
         chargeParams.put("currency", chargeRequest.getCurrency());
         chargeParams.put("description", chargeRequest.getDescription());
         chargeParams.put("source", chargeRequest.getStripeToken());

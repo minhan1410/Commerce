@@ -36,7 +36,7 @@ public class CartUserController {
         couponService.getByDiscountMax(model);
         model.addAttribute("cate", categoriesService.getAll());
         model.addAttribute("stripePublicKey", stripePublicKey);
-        model.addAttribute("currency", ChargeRequest.Currency.EUR);
+        model.addAttribute("currency", ChargeRequest.Currency.VND);
         return "shoping-cart";
     }
 

@@ -41,10 +41,8 @@ public class BillServiceImpl implements BillService {
 
             List<BillStatus> statusList = new ArrayList<>();
             if (billDTO.getStatus().equals(BillStatus.WAIT)) statusList.add(BillStatus.CONFIRM);
-            if (billDTO.getStatus().equals(BillStatus.WAIT) || billDTO.getStatus().equals(BillStatus.CONFIRM))
-                statusList.add(BillStatus.DELIVERY);
-            if (billDTO.getStatus().equals(BillStatus.WAIT) || billDTO.getStatus().equals(BillStatus.CONFIRM) || billDTO.getStatus().equals(BillStatus.DELIVERY))
-                statusList.add(BillStatus.RECEIVED);
+            else if (billDTO.getStatus().equals(BillStatus.CONFIRM)) statusList.add(BillStatus.DELIVERY);
+            else if (billDTO.getStatus().equals(BillStatus.DELIVERY)) statusList.add(BillStatus.RECEIVED);
 
             billDTO.setUser(userService.getById(billDTO.getUserId()));
             billDTO.setCart(cartDTO);
