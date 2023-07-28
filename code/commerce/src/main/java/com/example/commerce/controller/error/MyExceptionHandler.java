@@ -18,8 +18,7 @@ public class MyExceptionHandler {
     }
 
     @ExceptionHandler(value = {Exception.class})
-    public String exceptionHandler(Exception e) {
+    public void exceptionHandler(Exception e) {
         telegramNotificationService.sendMessage(TelegramNotificationType.ERROR, e.getMessage());
-        return "/error/notFound";
     }
 }
