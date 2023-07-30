@@ -172,4 +172,9 @@ public class UserServiceImpl extends DefaultOAuth2UserService implements UserSer
         userRepository.save(user);
         redirectAttributes.addFlashAttribute("noti", "Logout to apply changes");
     }
+
+    @Override
+    public Optional<User> findUserByMail(String mail) {
+        return userRepository.findByMail(mail);
+    }
 }

@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/admin/**").hasAuthority(Role.ADMIN.name())
                 .anyRequest().authenticated()
 
-                .and().formLogin().loginPage("/login").usernameParameter("mail").successHandler(successHandler).failureHandler(new CustomAuthenticationFailureHandler())
+                .and().formLogin().loginPage("/login").usernameParameter("mail").successHandler(successHandler).failureHandler(new CustomAuthenticationFailureHandler(userService))
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/login").deleteCookies("remember-me")
 
                 .and().oauth2Login().loginPage("/login")

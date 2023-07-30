@@ -9,6 +9,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 public interface UserService extends UserDetailsService {
     void signUp(UserDTO userDTO, Model model, Locale locale, String url);
@@ -33,4 +34,6 @@ public interface UserService extends UserDetailsService {
     List<UserDTO> getAllAdmin();
 
     void changePassword(String currentPassword, String newPassword, RedirectAttributes redirectAttributes);
+
+    Optional<User> findUserByMail(String mail);
 }

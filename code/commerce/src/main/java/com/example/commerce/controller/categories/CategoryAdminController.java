@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller()
 @RequestMapping("/admin")
@@ -37,11 +36,11 @@ public class CategoryAdminController {
     }
 
     @PostMapping("categories/new")
-    public String addCategoriesNew(@ModelAttribute("category") CategoriesDTO dto, Model model, RedirectAttributes redirectAttributes) {
+    public String addCategoriesNew(@ModelAttribute("category") CategoriesDTO dto, Model model) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("categories", categoriesService.getAll());
-        return categoriesService.add(dto, redirectAttributes);
+        return categoriesService.add(dto, model);
     }
 
     @GetMapping("categories/update/{id}")
@@ -53,18 +52,18 @@ public class CategoryAdminController {
     }
 
     @PostMapping("categories/update")
-    public String editCatePost(@RequestParam("type") String type, @RequestParam("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String editCatePost(@RequestParam("type") String type, @RequestParam("id") Long id, Model model) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("categories", categoriesService.getAll());
-        return categoriesService.update(CategoriesDTO.builder().id(id).type(type).deleted(false).build(), redirectAttributes);
+        return categoriesService.update(CategoriesDTO.builder().id(id).type(type).deleted(false).build(), model);
     }
 
     @GetMapping("categories/delete/{id}")
-    public String deleteCategory(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String deleteCategory(@PathVariable("id") Long id, Model model) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
-        return categoriesService.delete(id, redirectAttributes);
+        return categoriesService.delete(id, model);
     }
 
     //

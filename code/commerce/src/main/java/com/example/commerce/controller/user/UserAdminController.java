@@ -50,6 +50,7 @@ public class UserAdminController {
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         User user = userRepository.getById(id);
         user.setDeleted(true);
+        user.setEnabled(false);
         userRepository.save(user);
         return "redirect:/admin/user";
     }
