@@ -623,6 +623,11 @@
 
 <!--Chat-->
 <script>
+    var cardBody = document.querySelector(".card-body");
+    if(localStorage.getItem("chatHistory") === null){
+        localStorage.setItem("chatHistory", "[]");
+    }
+
     function sendMessage(event){
         event.preventDefault(); // Ngăn chặn gửi biểu mẫu mặc định
 
@@ -630,8 +635,6 @@
         var messElement = document.getElementById("messageInput");
         var message = messElement.value;
         messElement.value = "";
-        var chatPopup = document.getElementById("chat2");
-        var cardBody = chatPopup.querySelector(".card-body");
 
         var sendElement = document.createElement("div");
         sendElement.innerHTML = `<div class="d-flex flex-row justify-content-end">
@@ -662,22 +665,43 @@
                 var response = xhr.responseText; // Thay thế ký tự \n bằng thẻ <br> để tạo dòng mới
 
                 // Xử lý phản hồi từ API chat ở đây, ví dụ: thêm tin nhắn vào giao diện
-                var messageElement = document.createElement("div");
-                messageElement.innerHTML = '<div class="d-flex flex-row justify-content-start mb-4">' +
+                var botElement = document.createElement("div");
+                botElement.innerHTML = '<div class="d-flex flex-row justify-content-start mb-4">' +
                     '<img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava6-bg.webp" alt="avatar 1" style="width: 45px; height: 100%;">' +
                     '<div>' +
                     '<p class="small p-2 ms-3 mb-1 rounded-3" style="background-color: #f5f6f7;">' + response.replace(/\n/g, "<br>") + '</p>' +
                     '</div>' +
                     '</div>';
-                cardBody.appendChild(messageElement);
+                cardBody.appendChild(botElement);
 
                 // Cuộn xuống dưới
                 cardBody.lastElementChild.scrollIntoView({ behavior: "smooth", block: "end" });
+
+                // Lưu lịch sử chat vào local storage
+                var chatHistory = JSON.parse(localStorage.getItem("chatHistory")) || [];
+                chatHistory.push({user: sendElement.innerHTML, bot:  botElement.innerHTML});
+                localStorage.setItem("chatHistory", JSON.stringify(chatHistory));
             }
         };
         xhr.send("message=" + encodeURIComponent(message));
     }
 
+    function displayChatHistory(){
+        if (JSON.parse(localStorage.getItem("chatHistory")).length >= 20){
+            localStorage.setItem("chatHistory", "[]" );
+        }
+        JSON.parse(localStorage.getItem("chatHistory")).forEach(c => {
+            console.log(c.user)
+            let userElement = document.createElement("div");
+            userElement.innerHTML = c.user;
+            let botElement = document.createElement("div");
+            botElement.innerHTML = c.bot;
+            cardBody.appendChild(userElement);
+            cardBody.appendChild(botElement);
+        });
+    }
+
+    displayChatHistory();
     document.getElementById("chatBtn").addEventListener("click", (event) =>  sendMessage(event));
     document.getElementById("messageInput").addEventListener("keydown", function(event) {
         if (event.keyCode === 13 && !event.shiftKey) { // Kiểm tra nếu phím nhấn là Enter
