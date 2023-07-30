@@ -47,8 +47,15 @@ public class CommentBlogServiceImpl implements CommentBlogService {
 
     @Override
     public void deleteByReviewerId(Long reviewerId) {
-        List<CommentBlog> getReviewId = commentBlogRepository.getByReviewerIdAndDeletedFalse(reviewerId);
-        getReviewId.forEach(commentBlog -> commentBlog.setDeleted(true));
-        commentBlogRepository.saveAll(getReviewId);
+        List<CommentBlog> getReviewIds = commentBlogRepository.getByReviewerIdAndDeletedFalse(reviewerId);
+        getReviewIds.forEach(commentBlog -> commentBlog.setDeleted(true));
+        commentBlogRepository.saveAll(getReviewIds);
+    }
+
+    @Override
+    public void deleteByBlogId(Long blogId) {
+        List<CommentBlog> getBlogIds = commentBlogRepository.getByBlogIdAndDeletedFalse(blogId);
+        getBlogIds.forEach(commentBlog -> commentBlog.setDeleted(true));
+        commentBlogRepository.saveAll(getBlogIds);
     }
 }

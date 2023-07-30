@@ -15,4 +15,6 @@ public interface CommentBlogService {
     void delete(Long id);
 
     void deleteByReviewerId(Long reviewerId);
+
+    void deleteByBlogId(Long blogId);
 }
