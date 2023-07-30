@@ -1,7 +1,7 @@
 package com.example.commerce.service;
 
 import com.example.commerce.model.dto.CategoriesDTO;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -11,13 +11,13 @@ public interface CategoriesService {
 
     CategoriesDTO getById(Long id);
 
-    CategoriesDTO getByType(String type, RedirectAttributes redirectAttributes);
+    CategoriesDTO getByType(String type, Model model);
 
-    String add(CategoriesDTO categoriesDTO, RedirectAttributes redirectAttributes);
+    String add(CategoriesDTO categoriesDTO, Model model);
 
-    String update(CategoriesDTO categoriesDTO, RedirectAttributes redirectAttributes);
+    String update(CategoriesDTO categoriesDTO, Model model);
 
-    String delete(Long id, RedirectAttributes redirectAttributes);
+    String delete(Long id, Model model);
 
     Long getIdByType(String type);
 }

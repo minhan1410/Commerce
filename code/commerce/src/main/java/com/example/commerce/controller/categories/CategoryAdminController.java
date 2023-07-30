@@ -45,7 +45,7 @@ public class CategoryAdminController {
     }
 
     @GetMapping("categories/update/{id}")
-    public String editCateGet(@PathVariable(name = "id") Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String editCateGet(@PathVariable(name = "id") Long id, Model model) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         model.addAttribute("categories", categoriesService.getById(id));

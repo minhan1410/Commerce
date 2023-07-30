@@ -15,7 +15,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -123,11 +122,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public String add(ProductDTO productDTO, RedirectAttributes redirectAttributes) {
+    public String add(ProductDTO productDTO, Model model) {
         ProductDTO getByName = getByName(productDTO.getName());
         if (getByName != null) {
-            redirectAttributes.addFlashAttribute("err", "The product name already exists");
-            return "/admin/addProduct";
+            model.addAttribute("err", "The product name already exists");
+            return "/admin/product/add-product";
         }
         cloudinaryService.uploadImageProduct(productDTO);
         productRepository.save(mapper.map(productDTO, Product.class));
@@ -146,11 +145,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public String update(ProductDTO productDTO, RedirectAttributes redirectAttributes) {
+    public String update(ProductDTO productDTO, Model model) {
         ProductDTO getById = getById(productDTO.getId());
         if (getById == null) {
-            redirectAttributes.addFlashAttribute("err", "Product not found");
-            return "/admin/editProduct";
+            model.addAttribute("err", "Product not found");
+            return "/admin/product/edit-product";
         }
         cloudinaryService.deleteImageProduct(productDTO, getById);
         cloudinaryService.uploadImageProduct(productDTO);
@@ -187,7 +186,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public String delete(Long id, RedirectAttributes redirectAttributes) {
+    public String delete(Long id, Model model) {
         Product getId = getId(id);
         if (getId != null) {
             productRepository.save(mapper.map(getId, Product.class).delete());
@@ -221,8 +220,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     @Transactional
-    public void deletes(List<ProductDTO> productDTOS, RedirectAttributes redirectAttributes) {
-        productDTOS.forEach(productDTO -> delete(productDTO.getId(), redirectAttributes));
+    public void deletes(List<ProductDTO> productDTOS, Model model) {
+        productDTOS.forEach(productDTO -> delete(productDTO.getId(), model));
     }
 
     @Override

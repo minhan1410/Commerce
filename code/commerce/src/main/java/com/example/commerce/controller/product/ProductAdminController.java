@@ -7,7 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -42,11 +41,11 @@ public class ProductAdminController {
     }
 
     @PostMapping("/add")
-    public String addProductNew(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+    public String addProductNew(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
         userService.getCurrentUser(model);
-        redirectAttributes.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
-        redirectAttributes.addAttribute("listCategories", categoriesService.getAll());
-        return result.hasErrors() ? "/admin/product/add-product" : productService.add(dto, redirectAttributes);
+        model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
+        model.addAttribute("listCategories", categoriesService.getAll());
+        return result.hasErrors() ? "/admin/product/add-product" : productService.add(dto, model);
     }
 
     @GetMapping("/update/{id}")
@@ -63,10 +62,10 @@ public class ProductAdminController {
     }
 
     @PostMapping("/update")
-    public String updatePost(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model, RedirectAttributes redirectAttributes) {
+    public String updatePost(@Valid @ModelAttribute("product") ProductDTO dto, BindingResult result, Model model) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
-        return result.hasErrors() ? "/admin/product/edit-product" : productService.update(dto, redirectAttributes);
+        return result.hasErrors() ? "/admin/product/edit-product" : productService.update(dto, model);
     }
 
     @GetMapping("/duplicate/{id}")
@@ -90,10 +89,10 @@ public class ProductAdminController {
     }
 
     @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable("id") Long id, Model model, RedirectAttributes redirectAttributes) {
+    public String deleteProduct(@PathVariable("id") Long id, Model model) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         reviewService.deleteByProduct(id);
-        return productService.delete(id, redirectAttributes);
+        return productService.delete(id, model);
     }
 }

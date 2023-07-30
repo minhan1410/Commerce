@@ -38,6 +38,7 @@
                                             <input accept="image/png,image/jpeg/webp" class="form-control image-file"
                                                    id="fileImage1"
                                                    name="primaryImage"
+                                                   required
                                                    th:field="*{imageMain}"
                                                    type="file">
                                             <p><img alt="Image Preview" id="thumbnail1"
@@ -52,6 +53,7 @@
                                             <input accept="image/png,image/jpeg/webp" class="form-control image-file"
                                                    id="fileImage2"
                                                    name="primaryImage"
+                                                   required
                                                    th:field="*{imageHover}"
                                                    type="file">
                                             <p><img alt="Image Preview" id="thumbnail2"
@@ -66,6 +68,7 @@
                                             <input accept="image/png,image/jpeg/webp" class="form-control image-file"
                                                    id="fileImage3"
                                                    name="primaryImage"
+                                                   required
                                                    th:field="*{imageSub}"
                                                    type="file">
                                             <p><img alt="Image Preview" id="thumbnail3"
@@ -147,7 +150,7 @@
                                     <div class="col-md-12">
                                         <div class="form-group">
                                             <label>Description / Product Details</label>
-                                            <textarea class="form-control" rows="4"
+                                            <textarea class="form-control" required rows="4"
                                                       th:field="*{description}"></textarea>
                                         </div>
                                     </div>
