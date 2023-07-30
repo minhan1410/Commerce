@@ -3,7 +3,9 @@ package com.example.commerce.controller.user;
 import com.example.commerce.constants.Role;
 import com.example.commerce.model.entity.User;
 import com.example.commerce.repository.UserRepository;
+import com.example.commerce.service.CommentBlogService;
 import com.example.commerce.service.NotificationService;
+import com.example.commerce.service.ReviewService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserAdminController {
     private final UserService userService;
     private final UserRepository userRepository;
+    private final ReviewService reviewService;
+    private final CommentBlogService commentBlogService;
     private final NotificationService notificationService;
 
     @GetMapping("/user")
@@ -52,6 +56,10 @@ public class UserAdminController {
         user.setDeleted(true);
         user.setEnabled(false);
         userRepository.save(user);
+        // delete review product, comment, notification
+        reviewService.deleteByReviewerId(id);
+        commentBlogService.deleteByReviewerId(id);
+        notificationService.deleteByUser(id);
         return "redirect:/admin/user";
     }
 }

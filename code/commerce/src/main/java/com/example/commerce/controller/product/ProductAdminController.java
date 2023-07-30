@@ -1,7 +1,10 @@
 package com.example.commerce.controller.product;
 
 import com.example.commerce.model.dto.ProductDTO;
-import com.example.commerce.service.*;
+import com.example.commerce.service.CategoriesService;
+import com.example.commerce.service.NotificationService;
+import com.example.commerce.service.ProductService;
+import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,7 +19,6 @@ import javax.validation.Valid;
 public class ProductAdminController {
     private final ProductService productService;
     private final CategoriesService categoriesService;
-    private final ReviewService reviewService;
     private final UserService userService;
     private final NotificationService notificationService;
 
@@ -92,7 +94,6 @@ public class ProductAdminController {
     public String deleteProduct(@PathVariable("id") Long id, Model model) {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
-        reviewService.deleteByProduct(id);
         return productService.delete(id, model);
     }
 }

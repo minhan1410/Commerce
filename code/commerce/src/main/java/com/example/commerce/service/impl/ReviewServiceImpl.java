@@ -108,4 +108,15 @@ public class ReviewServiceImpl implements ReviewService {
         reviewRepository.saveAll(getAll);
     }
 
+    @Override
+    public void deleteByReviewerId(Long reviewerId) {
+        List<Review> getAll = reviewRepository.getByDeleted(false);
+        getAll.forEach(r -> {
+            if (r.getReviewerId().equals(reviewerId)) {
+                r.setDeleted(true);
+            }
+        });
+        reviewRepository.saveAll(getAll);
+    }
+
 }

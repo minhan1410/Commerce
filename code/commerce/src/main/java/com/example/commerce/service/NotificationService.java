@@ -10,4 +10,6 @@ public interface NotificationService {
     void viewMessage(Long id);
 
     void viewAll();
+
+    void deleteByUser(Long id);
 }

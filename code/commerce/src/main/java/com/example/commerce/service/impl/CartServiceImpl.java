@@ -11,7 +11,7 @@ import com.example.commerce.model.entity.Notification;
 import com.example.commerce.repository.BillRepository;
 import com.example.commerce.repository.CartItemRepository;
 import com.example.commerce.repository.CartRepository;
-import com.example.commerce.repository.MessageRepository;
+import com.example.commerce.repository.NotificationRepository;
 import com.example.commerce.service.*;
 import com.stripe.exception.*;
 import lombok.RequiredArgsConstructor;
@@ -40,7 +40,7 @@ public class CartServiceImpl implements CartService {
     private final BillRepository billRepository;
     private final MailService mailService;
     private final SimpMessagingTemplate simpMessagingTemplate;
-    private final MessageRepository messageRepository;
+    private final NotificationRepository notificationRepository;
     private final TelegramNotificationServiceImpl telegramNotificationService;
     private final StripeServiceImpl paymentsService;
     private final CacheStore<Long, HttpSession> cartCache;
@@ -240,7 +240,7 @@ public class CartServiceImpl implements CartService {
                 .createdAt(LocalDateTime.now())
                 .isSeen(false)
                 .build();
-        Notification notification = messageRepository.save(NotificationDTO.mapperEntity(notificationDTO));
+        Notification notification = notificationRepository.save(NotificationDTO.mapperEntity(notificationDTO));
         notificationDTO.setId(notification.getId());
         simpMessagingTemplate.convertAndSend("/notification", notificationDTO);
 
@@ -347,7 +347,7 @@ public class CartServiceImpl implements CartService {
                 .createdAt(LocalDateTime.now())
                 .isSeen(false)
                 .build();
-        Notification notification = messageRepository.save(NotificationDTO.mapperEntity(notificationDTO));
+        Notification notification = notificationRepository.save(NotificationDTO.mapperEntity(notificationDTO));
         notificationDTO.setId(notification.getId());
         simpMessagingTemplate.convertAndSend("/notification", notificationDTO);
 

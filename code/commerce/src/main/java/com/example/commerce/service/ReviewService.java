@@ -24,4 +24,6 @@ public interface ReviewService {
     String delete(Long id);
 
     void deleteByProduct(Long productId);
+
+    void deleteByReviewerId(Long reviewerId);
 }

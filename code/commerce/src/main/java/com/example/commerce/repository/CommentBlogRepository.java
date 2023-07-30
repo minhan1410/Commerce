@@ -12,4 +12,7 @@ public interface CommentBlogRepository extends JpaRepository<CommentBlog, Long> 
 
     List<CommentBlog> getByDeletedFalse();
 
+    List<CommentBlog> getByReviewerIdAndDeletedFalse(Long reviewerId);
+
+
 }

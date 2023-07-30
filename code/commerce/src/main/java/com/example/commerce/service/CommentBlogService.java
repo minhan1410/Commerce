@@ -13,4 +13,6 @@ public interface CommentBlogService {
     List<CommentBlogDTO> getAll();
 
     void delete(Long id);
+
+    void deleteByReviewerId(Long reviewerId);
 }

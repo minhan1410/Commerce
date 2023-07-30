@@ -1,7 +1,8 @@
 package com.example.commerce.service.impl;
 
 import com.example.commerce.model.dto.NotificationDTO;
-import com.example.commerce.repository.MessageRepository;
+import com.example.commerce.model.entity.Notification;
+import com.example.commerce.repository.NotificationRepository;
 import com.example.commerce.service.NotificationService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -15,12 +16,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class NotificationServiceImpl implements NotificationService {
     private final UserService userService;
-    private final MessageRepository messageRepository;
+    private final NotificationRepository notificationRepository;
     private final ModelMapper mapper;
 
     @Override
     public List<NotificationDTO> getAllMessageIsSeenFalse() {
-        return messageRepository.getByIsSeenFalseOrderByCreatedAtDesc().stream().map(message -> {
+        return notificationRepository.getByIsSeenFalseOrderByCreatedAtDesc().stream().map(message -> {
             NotificationDTO map = mapper.map(message, NotificationDTO.class);
             map.setFromUserDTO(userService.getById(message.getFromUser()));
             return map;
@@ -30,18 +31,25 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     @Transactional
     public void viewMessage(Long id) {
-        messageRepository.findById(id).ifPresent(message -> {
+        notificationRepository.findById(id).ifPresent(message -> {
             message.setIsSeen(true);
-            messageRepository.save(message);
+            notificationRepository.save(message);
         });
     }
 
     @Override
     @Transactional
     public void viewAll() {
-        messageRepository.getByIsSeenFalseOrderByCreatedAtDesc().forEach(message -> {
+        notificationRepository.getByIsSeenFalseOrderByCreatedAtDesc().forEach(message -> {
             message.setIsSeen(true);
-            messageRepository.save(message);
+            notificationRepository.save(message);
         });
+    }
+
+    @Override
+    public void deleteByUser(Long id) {
+        List<Notification> getUser = notificationRepository.getByIsSeenFalseOrderByCreatedAtDesc();
+        getUser.forEach(notification -> notification.setIsSeen(true));
+        notificationRepository.saveAll(getUser);
     }
 }

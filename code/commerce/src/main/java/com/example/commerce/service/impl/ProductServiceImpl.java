@@ -4,8 +4,10 @@ import com.example.commerce.model.dto.CartItemDTO;
 import com.example.commerce.model.dto.CategoriesDTO;
 import com.example.commerce.model.dto.ProductDTO;
 import com.example.commerce.model.entity.Product;
+import com.example.commerce.model.entity.Review;
 import com.example.commerce.repository.CategoriesRepository;
 import com.example.commerce.repository.ProductRepository;
+import com.example.commerce.repository.ReviewRepository;
 import com.example.commerce.service.CloudinaryService;
 import com.example.commerce.service.ProductService;
 import com.example.commerce.service.UserService;
@@ -32,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
     private final CloudinaryService cloudinaryService;
     private final UserService userService;
     private final CategoriesRepository categoriesRepository;
+    private final ReviewRepository reviewRepository;
     private final CacheStore<Long, HttpSession> cartCache;
 
     public static <T> Predicate<T> distinctByKey(Function<? super T, ?> keyExtractor) {
@@ -190,6 +193,9 @@ public class ProductServiceImpl implements ProductService {
         Product getId = getId(id);
         if (getId != null) {
             productRepository.save(mapper.map(getId, Product.class).delete());
+            List<Review> getReviewProduct = reviewRepository.getByProductIdAndDeleted(id, false);
+            getReviewProduct.forEach(review -> review.setDeleted(true));
+            reviewRepository.saveAll(getReviewProduct);
 
 //            Update cart session
             cartCache.getCache().asMap().values().stream().filter(session -> Objects.nonNull(session.getAttribute("cart")))
