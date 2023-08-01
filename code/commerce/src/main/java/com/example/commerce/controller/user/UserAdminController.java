@@ -8,6 +8,7 @@ import com.example.commerce.service.NotificationService;
 import com.example.commerce.service.ReviewService;
 import com.example.commerce.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,7 @@ public class UserAdminController {
     private final ReviewService reviewService;
     private final CommentBlogService commentBlogService;
     private final NotificationService notificationService;
+    private final PersistentTokenRepository persistentTokenRepository;
 
     @GetMapping("/user")
     public String getAllRoleIsUser(Model model) {
@@ -56,10 +58,13 @@ public class UserAdminController {
         user.setDeleted(true);
         user.setEnabled(false);
         userRepository.save(user);
-        // delete review product, comment, notification
+
+        // delete review product, comment, notification, remember me
         reviewService.deleteByReviewerId(id);
         commentBlogService.deleteByReviewerId(id);
         notificationService.deleteByUser(id);
+        persistentTokenRepository.removeUserTokens(user.getMail());
+
         return "redirect:/admin/user";
     }
 }

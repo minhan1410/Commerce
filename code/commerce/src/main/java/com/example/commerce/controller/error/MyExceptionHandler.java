@@ -19,6 +19,8 @@ public class MyExceptionHandler {
 
     @ExceptionHandler(value = {Exception.class})
     public void exceptionHandler(Exception e) {
-        telegramNotificationService.sendMessage(TelegramNotificationType.ERROR, e.getMessage());
+        String exceptionName = e.getClass().getSimpleName();
+        String errorMessage = e.getMessage();
+        telegramNotificationService.sendMessage(TelegramNotificationType.ERROR, "Exception: " + exceptionName + "\nMessage: " + errorMessage);
     }
 }

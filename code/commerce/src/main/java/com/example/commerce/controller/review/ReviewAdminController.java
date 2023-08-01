@@ -69,6 +69,6 @@ public class ReviewAdminController {
         userService.getCurrentUser(model);
         model.addAttribute("noti", notificationService.getAllMessageIsSeenFalse());
         commentBlogService.delete(id);
-        return "redirect:/admin/review";
+        return "redirect:/admin/review/blog";
     }
 }

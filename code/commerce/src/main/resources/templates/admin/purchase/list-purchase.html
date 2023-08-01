@@ -102,7 +102,7 @@
                                     <td class="align-middle text-center"
                                         th:attr="rowspan=${ i.index == 0 ? bill.cartItem.size()  : ''}"
                                         th:if="${i.index == 0}"><b
-                                            th:text="${bill.couponId != null ? bill.coupon.discount : 0} + '%'"></b>
+                                            th:text="${bill.couponId != null ? bill.previousDiscount : 0} + '%'"></b>
                                     </td>
 
                                     <td class="align-middle text-center"

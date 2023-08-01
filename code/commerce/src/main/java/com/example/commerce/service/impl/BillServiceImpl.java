@@ -47,7 +47,6 @@ public class BillServiceImpl implements BillService {
             billDTO.setUser(userService.getById(billDTO.getUserId()));
             billDTO.setCart(cartDTO);
             billDTO.setCartItem(getCartItemById(billDTO.getId()));
-            billDTO.setCoupon(couponService.getById(billDTO.getCouponId()));
             billDTO.setStatusNext(statusList);
             return billDTO;
         }).toList();

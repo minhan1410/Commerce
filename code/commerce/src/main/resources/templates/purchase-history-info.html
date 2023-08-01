@@ -302,7 +302,7 @@
                 <div class="d-flex justify-content-between"
                      th:if="${bill.couponId != null}">
                     <p>Discount</p>
-                    <p th:text="${bill.coupon.discount} + '%'">
+                    <p th:text="${bill.previousDiscount} + '%'">
                         $1750.00</p>
                 </div>
 

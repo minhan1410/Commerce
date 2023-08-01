@@ -104,7 +104,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form th:action="@{/admin/review/delete}">
+            <form th:action="@{/admin/review/delete/blog}">
                 <div class="modal-footer">
                     <button class="btn btn-secondary" data-dismiss="modal" type="button">Close</button>
                     <button class="btn btn-primary" type="submit">Save changes</button>
@@ -127,7 +127,7 @@
     $(document).ready(function () {
         $(".tbl-server-info").on("click", ".bg-warning", function () {
             var id = $(this).closest("tr").find("td:eq(0)").text();
-            $("#deleteModal form").attr("action", "/admin/review/delete/" + id);
+            $("#deleteModal form").attr("action", "/admin/review/delete/blog/" + id);
             $("#deleteModal input[name='id']").val(id);
         });
 

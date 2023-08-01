@@ -30,6 +30,9 @@ public class Bill {
     @Column(name = "coupon_id")
     private Long couponId;
 
+    @Column(name = "previous_discount")
+    private String previousDiscount;
+
     @Column(name = "total_cart")
     private Integer totalCart;
 

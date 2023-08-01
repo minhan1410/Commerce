@@ -15,6 +15,7 @@ public class BillDTO {
     private CartDTO cart;
     private List<CartItemDTO> cartItem;
     private Long couponId;
+    private String previousDiscount;
     private CouponDTO coupon;
     private Integer totalCart;
     private Double totalPrice;

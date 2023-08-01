@@ -107,8 +107,8 @@ public class BlogServiceImpl implements BlogService {
         BlogDTO getId = getById(id, model);
         if (getId != null) {
             // xoa blog_tag, comment
-            blogTagService.getByBlogId(id).stream().map(BlogTagDTO::getTagId).toList()
-                    .forEach(tId -> blogTagService.delete(id, tId));
+//            blogTagService.getByBlogId(id).stream().map(BlogTagDTO::getTagId).toList()
+//                    .forEach(tId -> blogTagService.delete(id, tId));
             commentBlogService.deleteByBlogId(id);
             getId.setDeleted(true);
             blogRepository.save(mapper.map(getId, Blog.class));
