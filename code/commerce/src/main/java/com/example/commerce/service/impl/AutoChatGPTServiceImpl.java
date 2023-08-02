@@ -84,11 +84,11 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
         String result = null;
 
         if (containsSelling(message)) {
-            StringBuilder mess = new StringBuilder("Chúng tôi chỉ cung cấp cho bạn/nTop 5 sản phẩm bán chạy nhất: ");
+            StringBuilder mess = new StringBuilder("Chúng tôi sẽ cung cấp cho bạn top 5 sản phẩm bán chạy nhất: ");
             billService.getAll().stream().map(BillDTO::getCartItem).flatMap(List::stream)
                     .collect(Collectors.groupingBy(cartItemDTO -> cartItemDTO.getProduct(), Collectors.summingInt(CartItemDTO::getQuantity)))
                     .entrySet().stream().sorted(Map.Entry.comparingByValue(Comparator.reverseOrder())).limit(5)
-                    .map(Map.Entry::getKey).toList().forEach(p -> mess.append(p.getName().concat(", ")));
+                    .forEach(entry -> mess.append(String.format("%s: %d, ", entry.getKey().getName(), entry.getValue())));
             result = mess.toString();
             autoChatGPTCache.getCache().put(message, result);
             return result;
@@ -167,7 +167,7 @@ public class AutoChatGPTServiceImpl implements AutoChatGPTService {
 
     private JSONArray messagesJson(boolean productExist, String message) {
         JSONArray messagesJson = new JSONArray();
-        messagesJson.put(AutoChatGPTService.createMessage("system", "Hãy đóng giả làm nhân viên tư vấn cho website bán hàng thời trang và anh Minh An chủ shop và là người thuê bạn làm việc"));
+        messagesJson.put(AutoChatGPTService.createMessage("system", "Hãy đóng vai làm nhân viên tư vấn cho website bán hàng thời trang và anh Minh An chủ shop và là người thuê bạn làm việc"));
         if (!productExist) messagesJson.putAll(cachedTrainData);
         messagesJson.put(AutoChatGPTService.createMessage("user", message));
         return messagesJson;
